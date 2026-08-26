@@ -1,0 +1,96 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes pop {
+  0% { transform: scale(0.96); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.animate-fade-up { animation: fadeUp 0.6s ease-out both; }
+.animate-fade-in { animation: fadeIn 0.8s ease-out both; }
+.animate-pop { animation: pop 0.35s ease-out both; }
+
+/* Scroll-reveal: hidden until .is-visible is toggled by the Reveal component */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+  will-change: opacity, transform;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .animate-fade-up, .animate-fade-in, .animate-pop { animation: none; }
+}
+
+/* Subtle interactive lift for cards */
+.hover-lift {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px -12px rgba(30, 58, 35, 0.35);
+}
+
+
+body {
+  @apply bg-white text-brand-950 antialiased;
+}
+
+.container-page {
+  @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
+}
+
+.btn {
+  @apply inline-flex items-center justify-center gap-2 rounded-md px-5 py-2.5 text-sm font-semibold transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-50;
+}
+.btn-primary {
+  @apply btn bg-brand-600 text-white hover:bg-brand-700 focus-visible:outline-brand-700;
+}
+.btn-secondary {
+  @apply btn border border-brand-300 bg-white text-brand-800 hover:bg-brand-50 focus-visible:outline-brand-600;
+}
+.btn-whatsapp {
+  @apply btn bg-green-600 text-white hover:bg-green-700 focus-visible:outline-green-700;
+}
+
+.input {
+  @apply w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500;
+}
+.label {
+  @apply mb-1 block text-sm font-medium text-brand-900;
+}
+.field-error {
+  @apply mt-1 text-xs text-red-600;
+}
+
+.card {
+  @apply rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden;
+}
+
+.prose-content h2 { @apply mt-8 text-2xl font-bold; }
+.prose-content h3 { @apply mt-6 text-xl font-semibold; }
+.prose-content p { @apply my-4 leading-relaxed; }
+.prose-content ul { @apply my-4 list-disc pl-6; }
+.prose-content a { @apply text-brand-700 underline; }
+
+:focus-visible {
+  @apply outline-brand-600;
+}
