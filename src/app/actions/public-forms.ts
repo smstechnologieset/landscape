@@ -32,13 +32,29 @@ export async function submitContact(_prev: FormState, formData: FormData): Promi
   const parsed = contactSchema.safeParse(Object.fromEntries(formData));
   if (!parsed.success) return { ok: false, error: firstIssueMessage(parsed.error) };
 
+  const { organization, service_of_interest, ...dbFields } = parsed.data;
+  const combinedSubject = [
+    parsed.data.subject,
+    service_of_interest ? `[Service: ${service_of_interest}]` : "",
+    organization ? `[Org: ${organization}]` : ""
+  ]
+    .filter(Boolean)
+    .join(" ")
+    .slice(0, 200) || "General Inquiry";
+
   const supabase = createClient();
-  const { error } = await supabase.from("contact_inquiries").insert(parsed.data);
+  const { error } = await supabase.from("contact_inquiries").insert({
+    ...dbFields,
+    subject: combinedSubject
+  });
   if (error) return { ok: false, error: "Submission failed. Please try again." };
 
   await notifyEmail(
-    `New contact inquiry from ${parsed.data.full_name}`,
-    `<p><strong>${escapeHtml(parsed.data.full_name)}</strong> (${escapeHtml(parsed.data.email)})</p><p>${escapeHtml(parsed.data.message)}</p>`
+    `New inquiry from ${parsed.data.full_name} ${organization ? `(${organization})` : ""}`,
+    `<p><strong>${escapeHtml(parsed.data.full_name)}</strong> (${escapeHtml(parsed.data.email)})</p>` +
+      (organization ? `<p><strong>Organization:</strong> ${escapeHtml(organization)}</p>` : "") +
+      (service_of_interest ? `<p><strong>Service of Interest:</strong> ${escapeHtml(service_of_interest)}</p>` : "") +
+      `<p>${escapeHtml(parsed.data.message)}</p>`
   );
   return { ok: true };
 }

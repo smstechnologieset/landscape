@@ -4,6 +4,8 @@ export const contactSchema = z.object({
   full_name: z.string().trim().min(2, "Please enter your full name"),
   email: z.string().trim().email("Invalid email address"),
   phone: z.string().trim().max(30).optional().default(""),
+  organization: z.string().trim().max(200).optional().default(""),
+  service_of_interest: z.string().trim().max(200).optional().default(""),
   subject: z.string().trim().max(200).optional().default(""),
   message: z.string().trim().min(10, "Message must be at least 10 characters").max(5000)
 });

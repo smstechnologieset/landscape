@@ -6,17 +6,29 @@ const config: Config = {
     extend: {
       colors: {
         brand: {
-          50: "#f2f8f2",
-          100: "#e0efe0",
-          200: "#c2dfc3",
-          300: "#97c79a",
-          400: "#68a96d",
-          500: "#478c4d",
-          600: "#357039",
-          700: "#2b5930",
-          800: "#244729",
-          900: "#1e3a23",
-          950: "#0f2012"
+          50: "#f3f8f3",
+          100: "#e3f0e3",
+          200: "#c7e1c8",
+          300: "#9ecca1",
+          400: "#6eaf72",
+          500: "#49934e",
+          600: "#36763b",
+          700: "#2d5e31",
+          800: "#264b2a",
+          900: "#1a391e",
+          950: "#0c1f10"
+        },
+        sprout: {
+          400: "#86c944",
+          500: "#70b232",
+          600: "#589123"
+        },
+        earth: {
+          50: "#faf9f6",
+          100: "#f2efe9",
+          200: "#e5ded3",
+          700: "#5c5549",
+          900: "#2c2822"
         },
         accent: {
           400: "#d9b34a",
@@ -25,7 +37,8 @@ const config: Config = {
         }
       },
       fontFamily: {
-        sans: ["var(--font-inter)", "system-ui", "sans-serif"]
+        sans: ["var(--font-inter)", "system-ui", "-apple-system", "sans-serif"],
+        serif: ["var(--font-serif)", "Playfair Display", "Georgia", "serif"]
       }
     }
   },

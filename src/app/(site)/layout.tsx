@@ -8,16 +8,17 @@ import { getSiteSettings } from "@/lib/queries";
 export default async function SiteLayout({ children }: { children: React.ReactNode }) {
   const [locale, settings] = await Promise.all([getLocale(), getSiteSettings()]);
   const dict = getDictionary(locale);
+  const whatsappNum =
+    settings?.whatsapp && settings.whatsapp !== "251900000000"
+      ? settings.whatsapp
+      : "";
 
   return (
     <div className="flex min-h-screen flex-col">
-      <Header dict={dict} whatsapp={settings?.whatsapp || process.env.WHATSAPP_NUMBER || ""} />
+      <Header dict={dict} whatsapp={whatsappNum} />
       <main id="main-content" className="flex-1">{children}</main>
       <Footer dict={dict} />
-      <WhatsAppButton
-        number={settings?.whatsapp || process.env.WHATSAPP_NUMBER || ""}
-        floating
-      />
+      {whatsappNum && <WhatsAppButton number={whatsappNum} floating />}
     </div>
   );
 }
