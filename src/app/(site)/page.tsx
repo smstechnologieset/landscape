@@ -104,7 +104,7 @@ export default async function HomePage() {
             </div>
 
             {/* Right Column: Architectural Visual Frame */}
-            <div className="lg:col-span-6 xl:col-span-6">
+            <div className="lg:col-span-6 xl:col-span-6 overflow-hidden">
               <div className="relative">
                 {/* Architectural Outer Frame with Corner Crosshairs */}
                 <div className="relative rounded-2xl overflow-hidden border border-emerald-800/50 shadow-2xl shadow-black/80 bg-brand-900/30 group">

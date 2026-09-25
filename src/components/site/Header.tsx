@@ -45,7 +45,7 @@ export default function Header({ dict }: { dict: Dictionary; whatsapp?: string }
         {/* Official Brand Logo */}
         <Link
           href="/"
-          className="group flex items-center py-2 transition-transform duration-200 hover:opacity-95"
+          className="group flex items-center py-2 transition-transform duration-200 hover:opacity-95 flex-shrink-0"
           aria-label="Landscape Solution PLC Home"
         >
           <div className="relative h-12 w-36 sm:h-14 sm:w-44">
@@ -87,34 +87,34 @@ export default function Header({ dict }: { dict: Dictionary; whatsapp?: string }
         </nav>
 
         {/* Right Action Cluster */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
           {/* Language Switcher */}
           <button
             onClick={switchLocale}
-            className="flex items-center gap-1.5 rounded-full border border-brand-200 bg-brand-50/60 px-3 py-1.5 text-xs font-semibold tracking-wider text-brand-900 transition hover:border-brand-300 hover:bg-brand-100/70"
+            className="flex items-center gap-1 sm:gap-1.5 rounded-full border border-brand-200 bg-brand-50/60 px-2.5 sm:px-3 py-1 sm:py-1.5 text-xs font-semibold tracking-wider text-brand-900 transition hover:border-brand-300 hover:bg-brand-100/70"
             aria-label={dict.common.language}
           >
             <span className="text-[11px] text-gray-500">🌐</span>
             <span>{locale === "am" ? "ENGLISH" : "አማርኛ"}</span>
           </button>
 
-          {/* Primary CTA */}
+          {/* Primary CTA — desktop only (xl+), on smaller screens lives inside the hamburger drawer */}
           <Link
             href="/contact"
-            className="btn-primary hidden text-xs uppercase tracking-wider sm:inline-flex"
+            className="btn-primary !hidden xl:!inline-flex text-xs uppercase tracking-wider"
           >
             {dict.cta.contactUs}
           </Link>
 
           {/* Mobile hamburger menu */}
           <button
-            className="rounded-lg p-2 text-brand-900 transition hover:bg-brand-50 xl:hidden"
+            className="flex items-center justify-center rounded-lg p-2 text-brand-900 transition hover:bg-brand-50 focus:outline-none focus:ring-2 focus:ring-brand-700 xl:hidden"
             onClick={() => setOpen(!open)}
             aria-expanded={open}
             aria-controls="mobile-nav"
             aria-label="Toggle menu"
           >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
               {open ? (
                 <path d="M18 6L6 18M6 6l12 12" />
               ) : (
@@ -157,7 +157,7 @@ export default function Header({ dict }: { dict: Dictionary; whatsapp?: string }
             <div className="mt-4 pt-3 border-t border-gray-100 flex flex-col gap-2">
               <Link
                 href="/contact"
-                className="btn-primary w-full text-center"
+                className="btn-primary w-full text-center py-3 text-sm font-semibold tracking-wide uppercase"
                 onClick={() => setOpen(false)}
               >
                 {dict.cta.contactUs}

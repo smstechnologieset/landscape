@@ -14,9 +14,9 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
       : "";
 
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex min-h-screen flex-col overflow-x-hidden">
       <Header dict={dict} whatsapp={whatsappNum} />
-      <main id="main-content" className="flex-1">{children}</main>
+      <main id="main-content" className="flex-1 overflow-x-hidden">{children}</main>
       <Footer dict={dict} />
       {whatsappNum && <WhatsAppButton number={whatsappNum} floating />}
     </div>
