@@ -14,9 +14,9 @@ export default async function HomePage() {
   const locale = await getLocale();
   const dict = getDictionary(locale);
 
-  // Group services
+  // Group services (Show only the first 4 on the homepage)
   const featuredService = OFFICIAL_SERVICES[0];
-  const supportingServices = OFFICIAL_SERVICES.slice(1);
+  const supportingServices = OFFICIAL_SERVICES.slice(1, 4);
 
   return (
     <>

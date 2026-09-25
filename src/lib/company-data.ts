@@ -922,3 +922,879 @@ export const BLOG_THEMATIC_TOPICS = [
     image: "/images/service_plant_id.jpg"
   }
 ];
+
+export const MOCK_PORTFOLIO_PROJECTS = [
+  {
+    id: "bole-commercial-biophilic-plaza",
+    title: {
+      en: "Bole Commercial Plaza & Biophilic Terraces",
+      am: "የቦሌ የንግድ ማዕከልና የተፈጥሮ መልክአ ምድር"
+    },
+    category: {
+      en: "Landscape Architecture & Master Planning",
+      am: "የመልክአ ምድር አርክቴክቸር"
+    },
+    location: "Addis Ababa, Ethiopia",
+    year: "2026",
+    description: {
+      en: "Multi-tiered commercial rooftop garden terraces featuring indigenous flowering flora, custom natural stone pathways, and sustainable micro-climate cooling for corporate headquarters.",
+      am: "አገር በቀል የውበት እፅዋትን፣ የተፈጥሮ ድንጋይ ንጣፍን እና ተፈጥሯዊ ቅዝቃዜን የያዘ ዘመናዊ የንግድ ማዕከል እርከን መልክአ ምድር።"
+    },
+    coverImage: "/images/hero_landscape.jpg",
+    galleryImages: [
+      {
+        url: "/images/hero_landscape.jpg",
+        caption: {
+          en: "Completed biophilic garden terraces with native canopy and modern architectural integration.",
+          am: "የተጠናቀቀው የተፈጥሮ መልክአ ምድር ከዘመናዊው ህንፃ ጋር የተዋሃደ ውብ እይታ።"
+        }
+      },
+      {
+        url: "/images/service_planning.jpg",
+        caption: {
+          en: "Architectural 3D master planning and grading blueprints created during the design phase.",
+          am: "በዲዛይን ወቅት የተዘጋጀ የ3ዲ ማስተር ፕላን እና የቴክኒክ ንድፍ።"
+        }
+      },
+      {
+        url: "/images/service_construction.jpg",
+        caption: {
+          en: "Precision hardscape installation and cut-stone masonry paving along perimeter walkways.",
+          am: "የመተላለፊያ መንገዶች የድንጋይ ንጣፍ እና የመሬት ዝግጅት ግንባታ።"
+        }
+      }
+    ]
+  },
+  {
+    id: "addis-green-corridor-beautification",
+    title: {
+      en: "Addis Ababa Urban Green Corridor & Pedestrian Boulevard",
+      am: "የአዲስ አበባ አረንጓዴ ኮሪደር እና የመንገድ ዳርቻ ልማት"
+    },
+    category: {
+      en: "Urban Greening & Environmental Services",
+      am: "የከተማ አረንጓዴ ልማት"
+    },
+    location: "Addis Ababa, Ethiopia",
+    year: "2026",
+    description: {
+      en: "Urban roadside beautification incorporating shaded pedestrian walkways, dedicated bike paths, flowering median buffers, and drought-tolerant ground cover.",
+      am: "የመንገድ ዳርቻ ዛፎች ተከላ፣ የብስክሌትና የእግር መንገድ ውበት እንዲሁም የአየር ንብረት ተስማሚ እፅዋት ልማት።"
+    },
+    coverImage: "/images/service_urban_greening.jpg",
+    galleryImages: [
+      {
+        url: "/images/service_urban_greening.jpg",
+        caption: {
+          en: "Active urban boulevard greening with shade trees and flowering median dividers.",
+          am: "በከተማው ዋና መንገድ ዳርቻ የተተከሉ የጥላ ዛፎች እና አረንጓዴ ቀበቶዎች።"
+        }
+      },
+      {
+        url: "/images/who_we_are.jpg",
+        caption: {
+          en: "Landscape engineering field team conducting on-site supervisory alignment.",
+          am: "የባለሙያዎች ቡድን በቦታው ተገኝቶ የስራውን ጥራት ሲቆጣጠር።"
+        }
+      },
+      {
+        url: "/images/service_maintenance.jpg",
+        caption: {
+          en: "Post-installation horticultural trimming and edge maintenance regimen.",
+          am: "የተተከሉ እፅዋትና ቁጥቋጦዎች ቀጣይነት ያለው እንክብካቤ እና ቅርጽ ማስተካከል።"
+        }
+      }
+    ]
+  },
+  {
+    id: "highland-botanical-arboretum",
+    title: {
+      en: "Highland Living Botanical Garden & Educational Reserve",
+      am: "የደጋማው አካባቢ ህያው የዕፅዋት መናፈሻ ማዕከል"
+    },
+    category: {
+      en: "Botanic Garden Development",
+      am: "ቦታኒካል ጋርደን"
+    },
+    location: "Oromia / Addis Ababa Ridge",
+    year: "2026",
+    description: {
+      en: "Comprehensive botanical garden layout featuring labeled living collections of endangered Ethiopian flora, meandering stone paths, and water lily conservation ponds.",
+      am: "ብርቅዬ የሀገራችንን እፅዋት ስብስብ የያዘ፣ የተፈጥሮ የእግር ጉዞ መንገዶች እና የውሃ ገንዳዎች ያሉት ህያው መናፈሻ።"
+    },
+    coverImage: "/images/service_botanic.jpg",
+    galleryImages: [
+      {
+        url: "/images/service_botanic.jpg",
+        caption: {
+          en: "Meandering visitor stone pathway and natural lily pond framed by jacaranda canopy.",
+          am: "የእግር ጉዞ የተፈጥሮ ድንጋይ መንገድ እና የውሃ ገንዳ በጃካራንዳ ዛፎች ጥላ ስር።"
+        }
+      },
+      {
+        url: "/images/service_plant_id.jpg",
+        caption: {
+          en: "Botanist cataloging native endemic plant specimens with taxonomy markers.",
+          am: "የእፅዋት ተመራማሪ አገር በቀል ዝርያዎችን ሳይንሳዊ ልየታ ሲያካሂዱ።"
+        }
+      },
+      {
+        url: "/images/service_nursery.jpg",
+        caption: {
+          en: "Propagation facility cultivating replacement botanical seedlings under controlled misting.",
+          am: "ለቦታኒካል ጋርደኑ የሚያስፈልጉ ችግኞች የሚራቡበት የግሪንሃውስ ማዕከል።"
+        }
+      }
+    ]
+  },
+  {
+    id: "commercial-seedling-propagation-center",
+    title: {
+      en: "Indigenous Seedling Propagation & Greenhouse Facility",
+      am: "ዘመናዊ የግሪንሃውስ የችግኝ ማፍያ ማዕከል"
+    },
+    category: {
+      en: "Nursery Development & Plant Production",
+      am: "የችግኝ ጣቢያ ልማት"
+    },
+    location: "Debre Zeit / Bishoftu",
+    year: "2026",
+    description: {
+      en: "High-capacity commercial nursery greenhouse with automated micro-misting systems, producing thousands of native tree saplings and ornamental flowers.",
+      am: "አውቶማቲክ የጭጋግ መስኖ የተገጠመለት፣ በሺዎች የሚቆጠሩ አገር በቀል የደንና የውበት ችግኞችን የሚያመርት ማዕከል።"
+    },
+    coverImage: "/images/service_nursery.jpg",
+    galleryImages: [
+      {
+        url: "/images/service_nursery.jpg",
+        caption: {
+          en: "Greenhouse interior showcasing orderly rows of acclimatized potted seedlings.",
+          am: "በግሪንሃውስ ውስጥ በረድፍ የተደረደሩ ጤናማ የደንና የውበት ችግኞች።"
+        }
+      },
+      {
+        url: "/images/service_compost.jpg",
+        caption: {
+          en: "Nutrient-dense organic soil substrate prepared on-site for seedling potting.",
+          am: "ለችግኝ ማፍያነት የተዘጋጀ ከፍተኛ ጥራት ያለው ኦርጋኒክ ማዳበሪያና አፈር።"
+        }
+      },
+      {
+        url: "/images/service_plant_id.jpg",
+        caption: {
+          en: "Quality inspection verifying root health and specimen genetics prior to dispatch.",
+          am: "ችግኞቹ ከመሰራጨታቸው በፊት የሚደረግ የጤናና የዝርያ ቁጥጥር።"
+        }
+      }
+    ]
+  },
+  {
+    id: "smart-turf-irrigation-estate",
+    title: {
+      en: "Automated Precision Lawn & Garden Irrigation Network",
+      am: "ዘመናዊ አውቶማቲክ የመስኖ ስርዓት ዝርጋታ"
+    },
+    category: {
+      en: "Irrigation & Water Management",
+      am: "ዘመናዊ የመስኖ ስርዓት"
+    },
+    location: "Addis Ababa, Ethiopia",
+    year: "2026",
+    description: {
+      en: "Engineered underground pop-up sprinkler installation and micro-drip networks with automated weather-adjusted timing controllers for commercial lawns.",
+      am: "የውሃ ብክነትን እስከ 50% የሚቆጥብ አውቶማቲክ ስፕሪንክለር እና የጠብታ መስኖ ዝርጋታ።"
+    },
+    coverImage: "/images/service_irrigation.jpg",
+    galleryImages: [
+      {
+        url: "/images/service_irrigation.jpg",
+        caption: {
+          en: "High-efficiency rotary sprinkler arc covering manicured turf at dawn.",
+          am: "በማለዳ ሳሩን የሚያረሰርስ ዘመናዊ የርጭት ስፕሪንክለር አሰራር።"
+        }
+      },
+      {
+        url: "/images/service_construction.jpg",
+        caption: {
+          en: "Subsurface piping trenching and turf reinstatement during construction.",
+          am: "የመስኖ ቱቦዎች ቅበራና የመሬት መልሶ ማስተካከል ስራ።"
+        }
+      },
+      {
+        url: "/images/hero_landscape.jpg",
+        caption: {
+          en: "Vibrant and uniformly hydrated commercial estate lawn following system launch.",
+          am: "በመስኖው አማካኝነት ሁልጊዜም ለምለም ሆኖ የሚታይ ውብ ግቢ።"
+        }
+      }
+    ]
+  },
+  {
+    id: "watershed-rehabilitation-hillside",
+    title: {
+      en: "Hillside Watershed Rehabilitation & Bio-Terracing",
+      am: "የተራቆተ ተፋሰስ ስነ-ምህዳራዊ መልሶ ማቋቋም"
+    },
+    category: {
+      en: "Environmental Restoration & Reforestation",
+      am: "የአካባቢ መልሶ ማቋቋም"
+    },
+    location: "Ethiopian Highlands",
+    year: "2026",
+    description: {
+      en: "Bio-engineered stone check-dams, vegetative contour hedgerows, and indigenous pioneer tree plantings restoring severely eroded highland watershed slopes.",
+      am: "የተራቆቱ ተራራማ አካባቢዎችን የአፈር መሸርሸር በመከላከልና አገር በቀል ዛፎችን በመትከል መልሶ የማልማት ፕሮጀክት።"
+    },
+    coverImage: "/images/service_restoration.jpg",
+    galleryImages: [
+      {
+        url: "/images/service_restoration.jpg",
+        caption: {
+          en: "Terraced hillside contours with stone bunds and newly anchored indigenous tree saplings.",
+          am: "የድንጋይ እርከን ስራዎች እና የተተከሉ አገር በቀል ችግኞች በተራራው ተፋሰስ ላይ።"
+        }
+      },
+      {
+        url: "/images/service_compost.jpg",
+        caption: {
+          en: "Soil enrichment with organic amendments restoring microbial biology in depleted earth.",
+          am: "የተጎዳውን አፈር ለምነት ለመመለስ የተደረገ የተፈጥሮ ማዳበሪያ አጠቃቀም።"
+        }
+      },
+      {
+        url: "/images/who_we_are.jpg",
+        caption: {
+          en: "Ecological monitoring team reviewing slope stability metrics on-site.",
+          am: "የአካባቢ ጥበቃ ባለሙያዎች የተፋሰሱን ደህንነት ሲገመግሙ።"
+        }
+      }
+    ]
+  }
+];
+
+export const MOCK_BLOG_POSTS = [
+  {
+    id: "biophilic-urbanism-ethiopia",
+    slug: "biophilic-urbanism-ethiopia",
+    title: {
+      en: "The Science of Biophilic Urbanism: Designing Cooler Cities in Ethiopia",
+      am: "የከተሞች የተፈጥሮ አርክቴክቸር፡ የኢትዮጵያ ከተሞችን ሙቀት መቀነስ"
+    },
+    category: {
+      en: "Urban Greening & Living Cities",
+      am: "የከተማ አረንጓዴ ልማት"
+    },
+    date: "September 2026",
+    readTime: "5 min read",
+    author: "Landscape Solution Technical Team",
+    image: "/images/service_urban_greening.jpg",
+    excerpt: {
+      en: "How continuous tree canopies, green corridors, and permeable groundcovers mitigate urban heat island effects and clean urban air in rapidly growing Ethiopian cities.",
+      am: "ቀጣይነት ያለው የዛፍ ጥላ ሽፋን እና አረንጓዴ ኮሪደሮች የከተሞቻችንን ሙቀትና አቧራ እንዴት እንደሚቀንሱ።"
+    },
+    content: {
+      en: {
+        paragraphs: [
+          "Rapid urbanization across Addis Ababa and regional Ethiopian metropolitan centers has increased impervious concrete and asphalt surfaces, leading to pronounced urban heat island effects. During dry seasons, ambient urban temperatures can exceed surrounding rural areas by 3°C to 5°C.",
+          "Biophilic urban design counters this by integrating green corridors, roadside vegetative buffers, and pocket parks directly into civic master planning. High-canopy native shade trees act as natural evaporative cooling towers, providing immediate thermal comfort for pedestrians while capturing fine particulate dust.",
+          "At Landscape Solution PLC, our urban greening frameworks prioritize multi-tier planting: combining deep-rooting indigenous shade trees with drought-tolerant perennial shrub understories that maximize biological cooling without straining municipal water reserves."
+        ],
+        takeaways: [
+          "Urban tree canopies reduce localized surface temperatures by up to 8°C through transpiration.",
+          "Continuous green corridors serve as wildlife conduits for native pollinators and bird species.",
+          "Integrating bioswales along road medians captures seasonal stormwater runoff, preventing flash flooding."
+        ]
+      },
+      am: {
+        paragraphs: [
+          "በአዲስ አበባ እና በሌሎች የክልል ከተሞች ፈጣን እድገት ምክንያት የተገነቡ ህንፃዎችና የአስፋልት መንገዶች መብዛት የከተማን ሙቀት በከፍተኛ ሁኔታ እንዲጨምር አድርጓል።",
+          "ይህንን ችግር ለመቅረፍ በመንገድ ዳርቻዎች እና በመኖሪያ መንደሮች ውስጥ አረንጓዴ ኮሪደሮችንና የጥላ ዛፎችን ማልማት ወሳኝ መፍትሄ ነው። ትላልቅ አገር በቀል የጥላ ዛፎች የከተማን አየር ከማቀዝቀዝ ባለፈ አቧራን በማጣራት ጤናማ አካባቢን ይፈጥራሉ።",
+          "ላንድስኬፕ ሶሉሽን ኃ.የተ.የግ.ማህበር ጥልቅ ስር ያላቸውንና አነስተኛ ውሃ የሚፈልጉ አገር በቀል ዛፎችን በመትከል ለከተሞቻችን ውበትና ዘላቂ ቅዝቃዜን የሚያጎናጽፉ የመልክአ ምድር ስራዎችን ያከናውናል።"
+        ],
+        takeaways: [
+          "የዛፍ ጥላ ሽፋን የከተማን ሙቀት እስከ 8 ዲግሪ ሴንቲግሬድ ይቀንሳል።",
+          "አረንጓዴ መንገዶች ለአካባቢ ንጽህና እና ለነዋሪዎች የአእምሮ እረፍት ከፍተኛ አስተዋጽኦ ያበረክታሉ።",
+          "የመንገድ ዳርቻ እፅዋት በክረምት ወቅት የሚፈጠረውን የጎርፍ አደጋ በከፍተኛ ደረጃ ይከላከላሉ።"
+        ]
+      }
+    }
+  },
+  {
+    id: "indigenous-flora-conservation",
+    slug: "indigenous-flora-conservation",
+    title: {
+      en: "Conserving Indigenous Ethiopian Flora: Why Native Species Outperform Exotics",
+      am: "አገር በቀል የኢትዮጵያ እፅዋት ጥበቃ፡ ለምን ከአዳዲስ ዝርያዎች ይመረጣሉ?"
+    },
+    category: {
+      en: "Biodiversity & Native Flora",
+      am: "ብዝሃ-ሕይወትና አገር በቀል እፅዋት"
+    },
+    date: "September 2026",
+    readTime: "6 min read",
+    author: "Botanical Research Division",
+    image: "/images/service_plant_id.jpg",
+    excerpt: {
+      en: "A comparative botanical analysis of why indigenous Ethiopian trees and shrubs demonstrate superior disease resistance, minimal water demand, and vital pollinator support compared to imported exotics.",
+      am: "አገር በቀል የኢትዮጵያ ዛፎችና ቁጥቋጦዎች በሽታን በመቋቋም፣ ውሃ ባለመፍጀት እና ለአካባቢ ስነ-ምህዳር ያላቸው ከፍተኛ ፋይዳ።"
+    },
+    content: {
+      en: {
+        paragraphs: [
+          "For decades, commercial landscaping projects in East Africa frequently relied on fast-growing imported exotic plants. However, long-term empirical evidence shows these species often demand excessive irrigation, deplete soil nutrients, and remain vulnerable to local pests.",
+          "In contrast, Ethiopia's indigenous flora—such as Juniperus procera (Tid), Olea europaea subsp. cuspidata (Weyra), Cordia africana (Wanza), and Acacia abyssinica—have co-evolved over millennia with local soil microbiology and climate fluctuations.",
+          "Our botanical surveys demonstrate that indigenous plants achieve over 95% post-transplant survival when properly acclimatized in nursery conditions. They require zero synthetic pesticides and develop symbiotic mycorrhizal root associations that stabilize the soil."
+        ],
+        takeaways: [
+          "Native species consume up to 60% less supplemental irrigation once established.",
+          "Indigenous trees support hundreds of specialized local pollinators, birds, and beneficial insects.",
+          "Preserving native genetic varieties safeguards Ethiopia's botanical heritage against global biodiversity decline."
+        ]
+      },
+      am: {
+        paragraphs: [
+          "ለበርካታ ዓመታት በመልክአ ምድር ስራዎች ላይ ከውጭ የሚገቡ የዛፍ ዝርያዎች በስፋት ጥቅም ላይ ሲውሉ ቆይተዋል። ነገር ግን እነዚህ እፅዋት ከፍተኛ ውሃ የሚፈልጉና በሽታን የመቋቋም አቅማቸው ዝቅተኛ መሆኑ ተረጋግጧል።",
+          "በተቃራኒው እንደ ጽድ (Juniperus procera)፣ ወይራ (Olea europaea)፣ ዋንዛ (Cordia africana) እና ግራር (Acacia) የመሳሰሉት አገር በቀል ዛፎቻችን ከኢትዮጵያ አፈርና አየር ንብረት ጋር ለዘመናት የተላመዱ በመሆናቸው እጅግ ጠንካራ ናቸው።",
+          "ላንድስኬፕ ሶሉሽን እነዚህን ብርቅዬ አገር በቀል እፅዋት በዘመናዊ የችግኝ ማፍያ ማዕከሉ በማባዛት በመላ ሀገሪቱ በሚከናወኑ ፕሮጀክቶች ውስጥ ቅድሚያ ሰጥቶ ይተገብራል።"
+        ],
+        takeaways: [
+          "አገር በቀል እፅዋት ከውጭ ከሚገቡት ጋር ሲነፃፀሩ እስከ 60% ያነሰ ውሃ ይፈልጋሉ።",
+          "የአካባቢያችንን አፈር ለምነት ለመጠበቅና ለአእዋፋት ምቹ መኖሪያ ለመፍጠር ተወዳዳሪ የላቸውም።",
+          "የሀገራችንን የተፈጥሮ ቅርስ ለቀጣዩ ትውልድ ለማስተላለፍ አገር በቀል ዛፎችን መትከል የግድ ነው።"
+        ]
+      }
+    }
+  },
+  {
+    id: "smart-water-stewardship",
+    slug: "smart-water-stewardship",
+    title: {
+      en: "Smart Water Stewardship: Cutting Landscape Water Use by 50% with Micro-Drip",
+      am: "ዘመናዊ የውሃ አጠቃቀም ሳይንስ፡ የመስኖ ውሃን በ50% የመቆጠብ ዘዴ"
+    },
+    category: {
+      en: "Irrigation & Water Stewardship",
+      am: "የውሃ ቁጠባና የመስኖ ሳይንስ"
+    },
+    date: "August 2026",
+    readTime: "4 min read",
+    author: "Irrigation Engineering Team",
+    image: "/images/service_irrigation.jpg",
+    excerpt: {
+      en: "Moving from wasteful overhead flooding to precision subsurface micro-drip networks, weather-responsive smart sensors, and automated irrigation zoning.",
+      am: "ውሃን በከንቱ ከማፍሰስ ወደ ዘመናዊ የጠብታ መስኖ፣ የስፕሪንክለር ስርዓት እና አውቶማቲክ ተቆጣጣሪዎች የመሸጋገር ፋይዳ።"
+    },
+    content: {
+      en: {
+        paragraphs: [
+          "Traditional manual landscape watering through handheld hoses or non-regulated broadcast sprinklers wastes up to 60% of applied water through wind drift, surface runoff, and midday evaporation.",
+          "Modern irrigation engineering replaces this with zoned sub-surface drip irrigation and pressure-compensating rotary pop-up sprinklers. By targeting water delivery directly to root zones at pre-dawn hours, water loss is virtually eliminated.",
+          "Landscape Solution PLC integrates automated multi-station controllers equipped with rain and soil-moisture cutoffs. When seasonal rains arrive in Ethiopia, the irrigation network automatically suspends operation, conserving thousands of liters of municipal water."
+        ],
+        takeaways: [
+          "Precision micro-drip delivers moisture with over 90% application efficiency directly at the root zone.",
+          "Automated smart timers eliminate the risk of overwatering, root rot, and wasteful runoff.",
+          "Substantial reduction in commercial utility bills, typically yielding system ROI within 18 months."
+        ]
+      },
+      am: {
+        paragraphs: [
+          "በተለመደው መንገድ በጎማ ወይም ውሃን በማፍሰስ የሚደረግ የአትክልት ውሃ ማጠጣት እስከ 60% የሚሆነውን ውሃ በከንቱ እንዲባክን ያደርጋል።",
+          "ዘመናዊ የመስኖ ቴክኖሎጂ ይህንን ችግር የሚቀርፈው ውሃ በቀጥታ ወደ እፅዋቱ ስር እንዲደርስ በሚያደርግ የጠብታ መስኖ እና በራስ ሰር በሚሰሩ አውቶማቲክ ስፕሪንክለሮች ነው።",
+          "ላንድስኬፕ ሶሉሽን የሚዘረጋቸው የመስኖ ስርዓቶች የዝናብ ዳሳሾች የተገጠመላቸው በመሆናቸው በክረምት ወቅት በራሳቸው ጊዜ ውሃ ማጠጣት በማቆም ከፍተኛ የውሃ ወጪን ይቆጥባሉ።"
+        ],
+        takeaways: [
+          "የጠብታ መስኖ ከ90% በላይ የሚሆነውን ውሃ በቀጥታ ለእፅዋቱ ስር ያደርሳል።",
+          "አውቶማቲክ ተቆጣጣሪዎች እፅዋቱ ተመጣጣኝ ውሃ እንዲያገኙ በማድረግ ከመበስበስ ይጠብቃሉ።",
+          "የተቋማትንና የመኖሪያ ቤቶችን የውሃ ክፍያ በከፍተኛ ደረጃ ይቀንሳል።"
+        ]
+      }
+    }
+  },
+  {
+    id: "hillside-watershed-restoration",
+    slug: "hillside-watershed-restoration",
+    title: {
+      en: "Restoring Degraded Highland Slopes: Bio-Engineering & Watershed Contouring",
+      am: "የተራቆቱ ተራራማ ተፋሰሶችን በባዮ-ኢንጂነሪንግ መልሶ ማቋቋም"
+    },
+    category: {
+      en: "Environmental Restoration",
+      am: "የአካባቢ መልሶ ማቋቋም"
+    },
+    date: "August 2026",
+    readTime: "7 min read",
+    author: "Restoration & Soil Ecology Team",
+    image: "/images/service_restoration.jpg",
+    excerpt: {
+      en: "Deploying vegetative contour hedgerows, stone check-dams, and native deep-root pioneer species to permanently halt gully erosion and restore water tables in degraded landscapes.",
+      am: "የድንጋይ እርከኖችንና አገር በቀል ዛፎችን በመትከል ገደሎችንና የተራቆቱ መሬቶችን ከአፈር መሸርሸር የመጠበቅ ስራ።"
+    },
+    content: {
+      en: {
+        paragraphs: [
+          "Highland topography in Ethiopia combined with intense seasonal rainfall makes sloped terrains highly vulnerable to devastating gully erosion and topsoil loss when vegetative cover is removed.",
+          "Mechanical earth-moving alone rarely provides lasting stability on steep gradients. Instead, Landscape Solution PLC deploys biological engineering methods: pairing physical stone contour bunds with deep-rooting native grasses and nitrogen-fixing pioneer trees.",
+          "As these vegetative barriers mature, they slow surface runoff, trap fertile sediment, and facilitate deep groundwater infiltration. Within two seasons, barren slopes regenerate into thriving biological micro-catchments."
+        ],
+        takeaways: [
+          "Bio-engineering vegetative barriers permanently halt topsoil erosion and gully widening.",
+          "Rehabilitated watersheds raise local groundwater tables, sustaining perennial stream flows.",
+          "Local community engagement provides sustainable green stewardship and long-term land security."
+        ]
+      },
+      am: {
+        paragraphs: [
+          "በኢትዮጵያ ደጋማ አካባቢዎች የሚገኙ ተራራማ መሬቶች በክረምት ወቅት በሚዘንበው ከባድ ዝናብ ምክንያት ለአፈር መሸርሸርና ለገደል መፈጠር የተጋለጡ ናቸው።",
+          "ይህንን ችግር ለመፍታት የድንጋይ እርከን ስራዎችን ጥልቅ ስር ካላቸው አገር በቀል ዛፎችና ሳሮች ጋር በማጣመር የተራቆተውን መሬት መልሶ ማቋቋም ተመራጭ መንገድ ነው።",
+          "ላንድስኬፕ ሶሉሽን የተራቆቱ ተፋሰሶችን ወደ ቀድሞ ለምነታቸው በመመለስ የአካባቢው የከርሰ ምድር ውሃ እንዲጨምርና ተፈጥሮ እንድታገግም ያደርጋል።"
+        ],
+        takeaways: [
+          "የተፈጥሮ እርከንና ተከላ ስራዎች የአፈር መሸርሸርን በዘላቂነት ያስቆማሉ።",
+          "የተፋሰስ መልሶ ማልማት የውሃ ምንጮች እንዳይደርቁ ያደርጋል።",
+          "ማህበረሰቡን ባሳተፈ መንገድ የሚሰራ ስራ ዘላቂ ውጤት ያስገኛል።"
+        ]
+      }
+    }
+  },
+  {
+    id: "modern-nursery-seedling-protocols",
+    slug: "modern-nursery-seedling-protocols",
+    title: {
+      en: "Modern Plant Nursery Protocols: Maximizing Seedling Survival from Greenhouse to Ground",
+      am: "ዘመናዊ የችግኝ ማፍያ ስነ-ዘዴ፡ የችግኞች የመጽደቅ ምጣኔን ማሳደግ"
+    },
+    category: {
+      en: "Nursery Science & Propagation",
+      am: "የችግኝ ጣቢያ ሳይንስ"
+    },
+    date: "July 2026",
+    readTime: "5 min read",
+    author: "Horticultural Nursery Specialists",
+    image: "/images/service_nursery.jpg",
+    excerpt: {
+      en: "Why root pruning, staged sun hardening, and organic mycorrhizal root inoculation are essential for achieving over 90% seedling survival in commercial landscaping.",
+      am: "ችግኞች ከመተከላቸው በፊት በግሪንሃውስ ውስጥ የሚደረግ ጥንቃቄና የሳይንሳዊ እንክብካቤ ዘዴዎች።"
+    },
+    content: {
+      en: {
+        paragraphs: [
+          "A major bottleneck in large-scale tree planting and commercial landscaping initiatives is high seedling mortality following field transplantation. Seedlings reared in shade houses often experience severe transplant shock when exposed to full sun and wind.",
+          "Our nursery operations follow a strict 3-stage acclimatization protocol: moving saplings through progressively sun-hardened zones while tapering misting cycles to build drought resilience.",
+          "Furthermore, containerized air-pruning pots prevent root circling and promote dense lateral root architecture. Inoculating potting substrates with beneficial mycorrhizal fungi guarantees rapid root anchoring and nutrient uptake upon final site installation."
+        ],
+        takeaways: [
+          "Staged sun hardening builds cuticle thickness and stomatal control, eliminating transplant shock.",
+          "Air-pruning containers prevent root spiraling, ensuring structural anchorage and long-term tree stability.",
+          "Organic mycorrhizal inoculation increases root surface area by up to 100x for enhanced nutrient absorption."
+        ]
+      },
+      am: {
+        paragraphs: [
+          "በዛፍ ተከላ ስራዎች ላይ ትልቁ ተግዳሮት ችግኞች ከተተከሉ በኋላ የመሞት ምጣኔያቸው ከፍተኛ መሆኑ ነው። በቂ እንክብካቤ ያልተደረገላቸው ችግኞች ወደ መሬት ሲወርዱ በቀላሉ ይደርቃሉ።",
+          "ላንድስኬፕ ሶሉሽን ችግኞቹ ወደ መሬት ከመውረዳቸው በፊት ደረጃ በደረጃ ከፀሀይ ብርሃንና ከንፋስ ጋር እንዲላመዱ በማድረግ የመጽደቅ አቅማቸውን ወደ 95% ያሳድጋል።",
+          "እንዲሁም የስር መበስበስን በሚከላከሉ ዘመናዊ የችግኝ ማፍያ ፕላስቲኮችና በተፈጥሮ ማዳበሪያ በመጠቀም ጠንካራና ጤናማ ችግኞችን ለተከላ ዝግጁ ያደርጋል።"
+        ],
+        takeaways: [
+          "የፀሀይ ብርሃን መላመድ ችግኞች ከተተከሉ በኋላ እንዳይደርቁ ያደርጋል።",
+          "ጤናማ የስር አወቃቀር ዛፎች በፍጥነት እንዲያድጉና እንዲጠነክሩ ይረዳል",
+          "የተፈጥሮ ማዳበሪያ አጠቃቀም ለችግኞች ጤንነት ወሳኝ ነው።"
+        ]
+      }
+    }
+  },
+  {
+    id: "circular-soil-health-composting",
+    slug: "circular-soil-health-composting",
+    title: {
+      en: "Circular Soil Health: The Role of Aerobic Organic Composting in Chemical-Free Landscapes",
+      am: "የተፈጥሮ አፈር ለምነት፡ የኦርጋኒክ ኮምፖስት ሚና ኬሚካል አልባ ለሆነ ውበት"
+    },
+    category: {
+      en: "Sustainable Landscaping",
+      am: "ዘላቂ የመልክአ ምድር አሰራር"
+    },
+    date: "July 2026",
+    readTime: "5 min read",
+    author: "Soil Science & Composting Division",
+    image: "/images/service_compost.jpg",
+    excerpt: {
+      en: "Transforming civic and commercial landscape biomass into weed-free, nutrient-dense organic humus that improves water holding capacity and revives depleted urban soils.",
+      am: "የእፅዋት ተረፈ-ምርቶችን ወደ ተፈጥሮ ማዳበሪያነት በመቀየር የአፈርን እርጥበት የመያዝ አቅም ማሳደግ።"
+    },
+    content: {
+      en: {
+        paragraphs: [
+          "Urban landscaping generates substantial organic biomass through regular grass cuttings, branch pruning, and fallen foliage. Transporting this green waste to landfills wastes valuable organic nutrients and generates anaerobic methane emissions.",
+          "Landscape Solution PLC implements circular biomass management. All landscape residues are aerobically composted with controlled temperature monitoring, reaching 60°C to eliminate weed seeds and plant pathogens.",
+          "The resulting cured organic compost contains diverse microbial populations and high organic matter content. When tilled into sandy or clay-heavy soils, it increases water-holding capacity by up to 30%, making outdoor landscapes far more drought-resilient."
+        ],
+        takeaways: [
+          "Aerobic high-temperature composting guarantees 100% destruction of weed seeds and pests.",
+          "Incorporating organic compost increases soil moisture retention by up to 30%, saving irrigation water.",
+          "Eliminates synthetic fertilizers, protecting municipal streams and groundwater from toxic runoff."
+        ]
+      },
+      am: {
+        paragraphs: [
+          "ከአትክልትና ከሳር የሚገኙ ተረፈ-ምርቶችን አቃጥሎ ወይም ጥሎ ከማባከን ወደ ጠቃሚ የተፈጥሮ ማዳበሪያነት መለወጥ ዘላቂ የመልክአ ምድር ስራ ዋነኛ መሰረት ነው።",
+          "ላንድስኬፕ ሶሉሽን እነዚህን ተረፈ-ምርቶች በሳይንሳዊ መንገድ በማብላትና ከፍተኛ ሙቀት እንዲያልፉ በማድረግ ከበሽታና ከአረም የጸዳ ጥራት ያለው ኮምፖስት ያዘጋጃል።",
+          "ይህ የተፈጥሮ ማዳበሪያ አፈር እርጥበትን እንዲይዝ በማድረግ የውሃ ወጪን ይቀንሳል፤ እፅዋትም በኬሚካል ሳይሆን በተፈጥሯዊ መንገድ እንዲለመልሙ ያደርጋል።"
+        ],
+        takeaways: [
+          "ሳይንሳዊ የኮምፖስት ዝግጅት አረሞችንና በሽታዎችን ያጠፋል።",
+          "አፈር እርጥበት የመያዝ አቅሙ እንዲጨምር በማድረግ የመስኖ ውሃን ይቆጥባል።",
+          "የከርሰ ምድር ውሃ እንዳይበከል የሚከላከል ለአካባቢ ተስማሚ አሰራር ነው።"
+        ]
+      }
+    }
+  }
+];
+
+export interface JobOpening {
+  id: string;
+  title: LocalizedText;
+  department: {
+    en: string;
+    am: string;
+  };
+  location: LocalizedText;
+  type: LocalizedText;
+  experience: LocalizedText;
+  postedDate: string;
+  deadline: string;
+  salary: LocalizedText;
+  summary: LocalizedText;
+  responsibilities: {
+    en: string[];
+    am: string[];
+  };
+  requirements: {
+    en: string[];
+    am: string[];
+  };
+}
+
+export const MOCK_JOB_OPENINGS: JobOpening[] = [
+  {
+    id: "snr-landscape-architect",
+    title: {
+      en: "Senior Landscape Architect & Master Planner",
+      am: "ከፍተኛ የመልክአ ምድር አርክቴክት እና ማስተር ፕላነር"
+    },
+    department: {
+      en: "Landscape Architecture",
+      am: "መልክአ ምድር አርክቴክቸር"
+    },
+    location: {
+      en: "Addis Ababa, Ethiopia",
+      am: "አዲስ አበባ፣ ኢትዮጵያ"
+    },
+    type: {
+      en: "Full-time (On-site)",
+      am: "ሙሉ ጊዜ"
+    },
+    experience: {
+      en: "4+ Years",
+      am: "4+ ዓመታት"
+    },
+    postedDate: "September 2026",
+    deadline: "October 30, 2026",
+    salary: {
+      en: "Competitive & Commensurate with Experience",
+      am: "ተወዳዳሪ / በስምምነት"
+    },
+    summary: {
+      en: "Lead comprehensive landscape master planning, 3D site visualizations, and technical construction drawings for institutional campuses, commercial centers, and civic park developments.",
+      am: "ለመንግስታዊ፣ ለንግድ ማዕከላትና ለህዝባዊ ፓርኮች የመልክአ ምድር ማስተር ፕላን፣ የ3D ዲዛይን እና የዝርዝር ግንባታ ስዕሎችን በበላይነት ማዘጋጀት።"
+    },
+    responsibilities: {
+      en: [
+        "Develop conceptual and schematic landscape architectural master plans adhering to biophilic design principles.",
+        "Produce detailed technical drawings, grading plans, planting schedules, and hardscape construction details in AutoCAD/Civil 3D.",
+        "Collaborate closely with civil engineers, hydrologists, and nursery managers to select climate-resilient indigenous species.",
+        "Conduct periodic site supervision to ensure accurate field execution against approved landscape designs.",
+        "Prepare client presentations and 3D architectural renderings using Lumion, SketchUp, or Rhino."
+      ],
+      am: [
+        "ከአካባቢ ጥበቃ እና ዘላቂነት መርሆዎች ጋር የተጣጣሙ የመልክአ ምድር ማስተር ፕላኖችን ማዘጋጀት።",
+        "የግንባታ ዝርዝር ስዕሎችን፣ የቦታ ማስተካከል እና የዕፅዋት ተከላ ሰነዶችን በAutoCAD ማዘጋጀት።",
+        "ከሲቪል መሐንዲሶችና የችግኝ ጣቢያ አስተዳዳሪዎች ጋር በመተባበር ተስማሚ አገር በቀል እፅዋትን መምረጥ።",
+        "በግንባታ ወቅት ዲዛይኑ በትክክል መሬት ላይ መተግበሩን በቦታው ተገኝቶ መቆጣጠር።",
+        "ለደንበኞች የሚቀርቡ የ3D እይታዎችንና ማብራሪያዎችን ማዘጋጀት።"
+      ]
+    },
+    requirements: {
+      en: [
+        "Bachelor's or Master's degree in Landscape Architecture, Architecture, or Urban Planning.",
+        "Minimum 4 years of proven professional experience in landscape design or urban site planning.",
+        "Advanced proficiency in AutoCAD, SketchUp, Rhino, Lumion, and Adobe Creative Suite.",
+        "Strong knowledge of Ethiopian highland and rift valley plant materials, soils, and microclimates.",
+        "Excellent bilingual communication skills in English and Amharic."
+      ],
+      am: [
+        "በመልክአ ምድር አርክቴክቸር፣ በህንፃ አርክቴክቸር ወይም በከተማ ፕላኒንግ የመጀመሪያ ወይም ሁለተኛ ዲግሪ።",
+        "ቢያንስ 4 ዓመት በዘርፉ የተረጋገጠ የስራ ልምድ ያለው/ያላት።",
+        "በAutoCAD, SketchUp, Lumion እና ተዛማጅ ሶፍትዌሮች የላቀ ክህሎት።",
+        "ስለ ኢትዮጵያ አገር በቀል እፅዋት፣ አፈር እና የአየር ሁኔታ ጥልቅ ግንዛቤ።",
+        "በእንግሊዝኛ እና በአማርኛ ቋንቋዎች የተሟላ የመግባባት ችሎታ።"
+      ]
+    }
+  },
+  {
+    id: "nursery-operations-manager",
+    title: {
+      en: "Horticultural Nursery Operations Manager",
+      am: "የችግኝ ጣቢያ ስራዎች ስራ አስኪያጅ"
+    },
+    department: {
+      en: "Horticulture & Nursery",
+      am: "ሆርቲካልቸር እና የችግኝ ጣቢያ"
+    },
+    location: {
+      en: "Bishoftu / Addis Ababa, Ethiopia",
+      am: "ቢሾፍቱ / አዲስ አበባ፣ ኢትዮጵያ"
+    },
+    type: {
+      en: "Full-time",
+      am: "ሙሉ ጊዜ"
+    },
+    experience: {
+      en: "3+ Years",
+      am: "3+ ዓመታት"
+    },
+    postedDate: "September 2026",
+    deadline: "November 15, 2026",
+    salary: {
+      en: "Attractive & Commensurate with Experience",
+      am: "ማራኪ / በስምምነት"
+    },
+    summary: {
+      en: "Oversee commercial and native seedling propagation, greenhouse humidity systems, potting substrate production, and distribution logistics across company nurseries.",
+      am: "የአገር በቀልና የጌጣጌጥ ችግኞች ማፍላትን፣ የግሪንሀውስ አስተዳደርን፣ የአፈርና ማዳበሪያ ዝግጅትን በበላይነት መምራት።"
+    },
+    responsibilities: {
+      en: [
+        "Manage daily propagation cycles of indigenous trees, ornamental shrubs, groundcovers, and medicinal species.",
+        "Supervise nursery greenhouse microclimate controllers, automated misting benches, and shade structures.",
+        "Formulate optimized organic potting media utilizing aerobic compost, river sand, and volcanic pumice.",
+        "Implement integrated biological pest management (IPM) protocols without relying on harmful synthetic pesticides.",
+        "Coordinate seedling delivery schedules and inventory readiness for active project installation sites."
+      ],
+      am: [
+        "የአገር በቀል ዛፎች፣ የጌጣጌጥ ቁጥቋጦዎች እና የሳር ችግኞች ማፍላትን በየቀኑ ማስተዳደር።",
+        "የግሪንሀውስ እርጥበት መጠበቂያ መርጫዎችን እና የጥላ ቤቶችን ስራ መከታተል።",
+        "ተስማሚ የተፈጥሮ ማዳበሪያና አፈር ውህድ ለችግኞች ማዘጋጀት።",
+        "የችግኝ በሽታዎችን በተፈጥሯዊ መንገድ የመከላከያ ስልቶችን መተግበር።",
+        "ለተለያዩ ፕሮጀክቶች የሚላኩ ችግኞችን ዝግጅትና ክምችት ማስተባበር።"
+      ]
+    },
+    requirements: {
+      en: [
+        "BSc in Horticulture, Plant Sciences, Forestry, or Botanical Sciences.",
+        "3+ years managing commercial propagation nurseries or botanical collection centers.",
+        "Hands-on expertise in stem cutting rooting, seed scarification, grafting, and containerized stock production.",
+        "Demonstrated leadership capabilities in supervising nursery field labor teams.",
+        "Valid driver's license is an advantage."
+      ],
+      am: [
+        "በሆርቲካልቸር፣ በዕፅዋት ሳይንስ ወይም በደን ልማት የመጀመሪያ ዲግሪ።",
+        "በንግድ ወይም በቦታኒካል ችግኝ ጣቢያ አስተዳደር ቢያንስ 3 ዓመት ልምድ።",
+        "በዘር አያያዝ፣ በችግኝ ማፍላትና በመትከል ተግባራዊ ሙያዊ እውቀት።",
+        "የሰራተኞች ቡድንን የመምራትና የማስተባበር ችሎታ።"
+      ]
+    }
+  },
+  {
+    id: "irrigation-hydraulics-engineer",
+    title: {
+      en: "Irrigation & Hydraulics Systems Engineer",
+      am: "የመስኖ እና ሃይድሮሊክስ ሲስተም መሐንዲስ"
+    },
+    department: {
+      en: "Irrigation & Engineering",
+      am: "መስኖ እና ምህንድስና"
+    },
+    location: {
+      en: "Addis Ababa & Project Sites",
+      am: "አዲስ አበባ እና የፕሮጀክት ሳይቶች"
+    },
+    type: {
+      en: "Full-time",
+      am: "ሙሉ ጊዜ"
+    },
+    experience: {
+      en: "3+ Years",
+      am: "3+ ዓመታት"
+    },
+    postedDate: "September 2026",
+    deadline: "November 10, 2026",
+    salary: {
+      en: "Competitive Industry Package",
+      am: "ተወዳዳሪ የኢንዱስትሪ ክፍያ"
+    },
+    summary: {
+      en: "Design, engineer, and commission precision micro-drip networks, automated smart pop-up sprinkler systems, booster pump stations, and rainwater harvesting cisterns.",
+      am: "ዘመናዊ የጠብታ መስኖ፣ ራስ-ሰር የሚረጩ የመስኖ ኔትወርኮች እና የፓምፕ ሲስተሞችን መንደፍና መገንባት።"
+    },
+    responsibilities: {
+      en: [
+        "Calculate hydraulic head losses, flow rates (GPM/LPM), and pump horsepower requirements for varied landscape topographies.",
+        "Produce comprehensive irrigation CAD layouts detailing valve zonings, pipe sizing, lateral runs, and sensor hookups.",
+        "Supervise trench excavation, pipe laying, solenoid valve installations, and automated controller wiring on project sites.",
+        "Conduct hydrostatic pressure testing, backflow prevention verification, and distribution uniformity audits.",
+        "Train client facilities maintenance teams on operating digital seasonal programming controllers."
+      ],
+      am: [
+        "ለተለያዩ ቦታዎች የሚያስፈልገውን የውሃ ፍሰት እና የፓምፕ አቅም በሃይድሮሊክ ስሌት ማረጋገጥ።",
+        "የመስኖ ፓይፕ መስመሮችንና የቫልቭ ዞኖችን በAutoCAD መንደፍ።",
+        "በሳይት ላይ የፓይፕ ዝርጋታዎችን እና የኤሌክትሮኒክስ መቆጣጠሪያዎችን ተከላ በበላይነት መቆጣጠር።",
+        "የውሃ ግፊት ሙከራዎችን በማካሄድ ፍሳሾችን መከላከልና ጥራትን ማረጋገጥ።",
+        "ለደንበኞች የመስኖ ሲስተሙን አጠቃቀም ስልጠና መስጠት።"
+      ]
+    },
+    requirements: {
+      en: [
+        "BSc in Water Resources Engineering, Hydraulic Engineering, Agricultural Engineering, or Mechanical Engineering.",
+        "3+ years demonstrable field experience in commercial or residential landscape irrigation installation.",
+        "Proficiency with irrigation design software and AutoCAD.",
+        "Knowledge of Hunter, Rain Bird, or equivalent controller programming and solenoids.",
+        "Willingness to travel periodically to project sites across regional Ethiopia."
+      ],
+      am: [
+        "በውሃ ሀብት ምህንድስና፣ በሃይድሮሊክስ ወይም በግብርና ምህንድስና የመጀመሪያ ዲግሪ።",
+        "በዘመናዊ የመስኖ ዝርጋታ ስራዎች ቢያንስ 3 ዓመት ልምድ።",
+        "በAutoCAD እና በመስኖ ዲዛይን ሶፍትዌሮች የተካነ/ች።",
+        "በተለያዩ የሀገሪቱ ክፍሎች ለሚገኙ ሳይቶች ለመንቀሳቀስ ፈቃደኛ የሆነ/ች።"
+      ]
+    }
+  },
+  {
+    id: "site-construction-supervisor",
+    title: {
+      en: "Landscape Construction & Hardscape Supervisor",
+      am: "የመልክአ ምድር ግንባታና ሀርድስኬፕ ተቆጣጣሪ"
+    },
+    department: {
+      en: "Project Operations",
+      am: "የፕሮጀክት ኦፕሬሽን"
+    },
+    location: {
+      en: "Addis Ababa, Ethiopia",
+      am: "አዲስ አበባ፣ ኢትዮጵያ"
+    },
+    type: {
+      en: "Full-time",
+      am: "ሙሉ ጊዜ"
+    },
+    experience: {
+      en: "3+ Years",
+      am: "3+ ዓመታት"
+    },
+    postedDate: "September 2026",
+    deadline: "November 20, 2026",
+    salary: {
+      en: "Negotiable / Based on Portfolio",
+      am: "በስምምነት"
+    },
+    summary: {
+      en: "Direct daily site earthworks, retaining stone walls, decorative paving, topsoil amendments, and plant installation crews to ensure high craftsmanship and safety.",
+      am: "የመሬት ዝግጅት፣ የድንጋይ ግንባታ፣ የእግረኛ መንገድ ንጣፍ እና የዕፅዋት ተከላ ስራዎችን በሳይት ላይ በበላይነት መቆጣጠር።"
+    },
+    responsibilities: {
+      en: [
+        "Coordinate daily work shifts for stone masons, carpenters, machine operators, and landscape planting laborers.",
+        "Verify sub-base compaction, surface leveling, drainage gradients, and walkway pavers alignment.",
+        "Oversee safe offloading, root ball conditioning, and deep pit planting of mature shade trees.",
+        "Enforce strict site health and safety standards (PPE, trench shoring, tool safety).",
+        "Track daily material deliveries, equipment utilization, and submit bi-weekly progress reports."
+      ],
+      am: [
+        "የግንበኞችን፣ የቀራፂዎችን እና የአትክልት ሰራተኞችን የቀን ስራ ማስተባበር።",
+        "የአፈር ድልዳሎ፣ የቦታው ፍሳሽ አቅጣጫ እና የእግረኛ ንጣፎች ጥራት በደረጃው መሰረት መሰራታቸውን ማረጋገጥ።",
+        "ትላልቅ ዛፎች ሳይጎዱ በትክክለኛው ጥልቀትና አሰራር መተከላቸውን መከታተል።",
+        "የሳይት ደህንነትና የሰራተኞች ጥበቃ ደንቦች መከበራቸውን ማረጋገጥ።",
+        "የእለታዊ ቁሳቁስ አጠቃቀምና የስራ አፈፃፀም ሪፖርት ማዘጋጀት።"
+      ]
+    },
+    requirements: {
+      en: [
+        "Diploma or Degree in Civil Engineering, Construction Technology, Horticulture, or Building Construction.",
+        "3+ years supervisory experience on landscape civil works, urban parks, or commercial building sites.",
+        "Sound understanding of stone masonry, interlocking pavers, drainage, and planting techniques.",
+        "Strong team leadership, dispute resolution, and on-site problem-solving abilities."
+      ],
+      am: [
+        "በሲቪል ምህንድስና፣ በኮንስትራክሽን ቴክኖሎጂ ወይም በህንፃ ግንባታ ዲፕሎማ ወይም ዲግሪ።",
+        "በሳይት ተቆጣጣሪነት ቢያንስ 3 ዓመት የተረጋገጠ ልምድ።",
+        "የድንጋይ ስራዎችን፣ የንጣፍ አሰራርንና የፍሳሽ መስመሮችን በሚገባ የተረዳ/ች።",
+        "ቡድንን በብቃት የመምራት እና ችግሮችን በሳይት ላይ የመፍታት አቅም።"
+      ]
+    }
+  },
+  {
+    id: "urban-greening-specialist",
+    title: {
+      en: "Urban Greening & Environmental Specialist",
+      am: "የከተማ አረንጓዴ ልማት እና የአካባቢ ጥበቃ ባለሙያ"
+    },
+    department: {
+      en: "Environmental Science",
+      am: "የአካባቢ ሳይንስ"
+    },
+    location: {
+      en: "Addis Ababa, Ethiopia",
+      am: "አዲስ አበባ፣ ኢትዮጵያ"
+    },
+    type: {
+      en: "Full-time",
+      am: "ሙሉ ጊዜ"
+    },
+    experience: {
+      en: "2+ Years",
+      am: "2+ ዓመታት"
+    },
+    postedDate: "September 2026",
+    deadline: "December 01, 2026",
+    salary: {
+      en: "Competitive & Rewarding",
+      am: "ተወዳዳሪ ክፍያ"
+    },
+    summary: {
+      en: "Conduct tree health diagnostics, urban biodiversity surveys, environmental impact screenings, and corporate ecological stewardship consulting.",
+      am: "የከተማ ዛፎች ጤንነት ምርመራ፣ የስነ-ምህዳር ጥናት እና የአካባቢ ጥበቃ ምክክር አገልግሎቶችን ማከናወን።"
+    },
+    responsibilities: {
+      en: [
+        "Perform flora species identification, GPS tagging, and structural health assessments on existing urban trees.",
+        "Formulate urban forestry management plans for municipalities, industrial parks, and educational campuses.",
+        "Advise design teams on selecting bird-friendly, pollinator-attracting, and indigenous drought-tolerant flora.",
+        "Conduct workshops and vocational training modules for corporate groundskeepers and community green groups.",
+        "Monitor stormwater bio-swales and urban soil biological activity indicators."
+      ],
+      am: [
+        "የከተማ ዛፎችን ዝርያ መለየት፣ በጂፒኤስ መመዝገብና የጤንነት ሁኔታቸውን መገምገም።",
+        "ለተቋማትና ለፓርኮች የረጅም ጊዜ የአረንጓዴ ልማት እቅድ ማዘጋጀት።",
+        "ለአካባቢ ተስማሚ የሆኑ አገር በቀል እፅዋትን ለዲዛይን ቡድኑ ማቅረብ።",
+        "ለተቋማት የአትክልት ሰራተኞች የስልጠና ፕሮግራሞችን መስጠት።",
+        "የአፈርና የውሃ ጥበቃ ስራዎችን ውጤታማነት መከታተል።"
+      ]
+    },
+    requirements: {
+      en: [
+        "BSc or MSc in Environmental Science, Forestry, Botany, Natural Resource Management, or Ecology.",
+        "2+ years practical experience in environmental surveys, botanical inventories, or urban forestry.",
+        "Strong botanical knowledge of Ethiopian flora and environmental regulations.",
+        "Demonstrated technical report writing and public presentation capabilities."
+      ],
+      am: [
+        "በአካባቢ ሳይንስ፣ በደን ልማት፣ በቦታኒ ወይም በተፈጥሮ ሀብት አያያዝ የመጀመሪያ ወይም ሁለተኛ ዲግሪ።",
+        "በአካባቢ ጥናትና በዕፅዋት ዳሰሳ ቢያንስ 2 ዓመት ልምድ።",
+        "ስለ ኢትዮጵያ እፅዋትና የአካባቢ ጥበቃ ደንቦች ጥልቅ እውቀት።",
+        "ጥሩ የቴክኒክ ሪፖርት አዘገጃጀት እና የንግግር ችሎታ።"
+      ]
+    }
+  }
+];
+
+

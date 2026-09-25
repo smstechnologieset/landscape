@@ -55,88 +55,126 @@ export default async function ContactPage() {
               </Reveal>
             </div>
 
-            {/* Right Column: Sectors Served & Engagement Overview */}
-            <div className="lg:col-span-5 space-y-8">
+            {/* Right Column: Direct Contact Details & Communication Channels */}
+            <div className="lg:col-span-5 space-y-6">
               <Reveal delay={100}>
-                {/* Headquarters card */}
-                <div className="rounded-xl border border-brand-100 bg-brand-50/50 p-6">
+                {/* Headquarters Card */}
+                <div className="rounded-2xl border border-brand-100 bg-brand-50/60 p-6 sm:p-7 shadow-sm">
                   <span className="text-xs font-bold uppercase tracking-wider text-brand-800">
                     {locale === "am" ? "ዋና መስሪያ ቤት" : "Headquarters"}
                   </span>
-                  <h3 className="mt-1 font-serif text-xl font-medium text-brand-950">
+                  <h3 className="mt-1 font-serif text-2xl font-medium text-brand-950">
                     {COMPANY_INFO.name}
                   </h3>
-                  <p className="mt-2 text-sm text-gray-700">
+                  <p className="mt-2 text-sm text-gray-700 leading-relaxed">
                     {COMPANY_INFO.location}
                   </p>
                   <p className="mt-1 text-xs text-gray-500">
-                    {locale === "am" ? "በ2026 የተመሰረተ • አዲስ አበባ" : "Established in 2026 in Addis Ababa"}
+                    {locale === "am" ? "በ2026 የተመሰረተ • አዲስ አበባ፣ ኢትዮጵያ" : "Established in 2026 • Addis Ababa, Ethiopia"}
                   </p>
                 </div>
               </Reveal>
 
               <Reveal delay={150}>
-                {/* Documented Client Sectors */}
-                <div className="rounded-xl border border-brand-100 bg-white p-6 shadow-sm">
-                  <h3 className="font-serif text-lg font-semibold text-brand-950 mb-3">
-                    {locale === "am" ? "የምናገለግላቸው ደንበኞች" : "Clients & Sectors We Serve"}
-                  </h3>
-                  <p className="text-xs text-gray-600 mb-4 leading-relaxed">
-                    Landscape Solution PLC specializes in customized, sustainable environmental solutions for:
-                  </p>
-                  <ul className="space-y-3 text-xs sm:text-sm text-gray-700">
-                    <li className="flex items-start gap-2.5">
-                      <span className="h-2 w-2 rounded-full bg-sprout-500 mt-1.5 flex-shrink-0" />
-                      <div>
-                        <strong className="text-brand-950 font-medium">Government Institutions:</strong> Public plazas, municipal park developments, roadside greenery, and ministry grounds.
-                      </div>
-                    </li>
-                    <li className="flex items-start gap-2.5">
-                      <span className="h-2 w-2 rounded-full bg-sprout-500 mt-1.5 flex-shrink-0" />
-                      <div>
-                        <strong className="text-brand-950 font-medium">Private Businesses & Commercial:</strong> Corporate headquarters, shopping centers, hotels, and business parks.
-                      </div>
-                    </li>
-                    <li className="flex items-start gap-2.5">
-                      <span className="h-2 w-2 rounded-full bg-sprout-500 mt-1.5 flex-shrink-0" />
-                      <div>
-                        <strong className="text-brand-950 font-medium">Residential Properties:</strong> Private villas, residential real estate communities, and compound gardens.
-                      </div>
-                    </li>
-                    <li className="flex items-start gap-2.5">
-                      <span className="h-2 w-2 rounded-full bg-sprout-500 mt-1.5 flex-shrink-0" />
-                      <div>
-                        <strong className="text-brand-950 font-medium">Industrial Sites:</strong> Eco-industrial parks, factories, and protective green buffer zones.
-                      </div>
-                    </li>
-                  </ul>
+                {/* Telephone Numbers Card */}
+                <div className="rounded-2xl border border-brand-100 bg-white p-6 sm:p-7 shadow-sm">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="h-10 w-10 rounded-xl bg-sprout-50 border border-sprout-200 flex items-center justify-center text-sprout-700">
+                      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                      </svg>
+                    </div>
+                    <div>
+                      <h3 className="font-serif text-lg font-semibold text-brand-950">
+                        {locale === "am" ? "የስልክ አድራሻዎች" : "Telephone Lines"}
+                      </h3>
+                      <p className="text-xs text-gray-500">
+                        {locale === "am" ? "በስራ ሰዓት በቀጥታ ይደውሉልን" : "Call us directly during working hours"}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="space-y-4 pt-2 border-t border-gray-100">
+                    <div>
+                      <span className="text-[11px] font-bold uppercase tracking-wider text-gray-500 block">
+                        {locale === "am" ? "ዋና የቢሮ ስልክ (ኦፊስ)" : "Main Office Line"}
+                      </span>
+                      <a
+                        href="tel:+251116678901"
+                        className="text-base sm:text-lg font-semibold text-brand-900 hover:text-sprout-600 transition block mt-0.5"
+                      >
+                        +251 11 667 8901
+                      </a>
+                    </div>
+
+                    <div>
+                      <span className="text-[11px] font-bold uppercase tracking-wider text-gray-500 block">
+                        {locale === "am" ? "ቀጥታ የሞባይል መስመር" : "Direct / Mobile Line"}
+                      </span>
+                      <a
+                        href="tel:+251911234567"
+                        className="text-base sm:text-lg font-semibold text-brand-900 hover:text-sprout-600 transition block mt-0.5"
+                      >
+                        +251 91 123 4567
+                      </a>
+                    </div>
+                  </div>
                 </div>
               </Reveal>
 
               <Reveal delay={200}>
-                {/* Engagement process */}
-                <div className="rounded-xl border border-brand-100 bg-white p-6 shadow-sm">
-                  <h3 className="font-serif text-lg font-semibold text-brand-950 mb-3">
-                    {locale === "am" ? "የአሰራር ሂደታችን" : "Our Project Workflow"}
-                  </h3>
-                  <ol className="space-y-2.5 text-xs text-gray-600">
-                    <li className="flex gap-2">
-                      <span className="font-mono font-bold text-sprout-600">1.</span>
-                      <span>Initial project brief, spatial requirements & site analysis.</span>
-                    </li>
-                    <li className="flex gap-2">
-                      <span className="font-mono font-bold text-sprout-600">2.</span>
-                      <span>Concept master plan, 3D visualization & technical specification.</span>
-                    </li>
-                    <li className="flex gap-2">
-                      <span className="font-mono font-bold text-sprout-600">3.</span>
-                      <span>Grading, soil conditioning, irrigation & plant installation.</span>
-                    </li>
-                    <li className="flex gap-2">
-                      <span className="font-mono font-bold text-sprout-600">4.</span>
-                      <span>Scheduled horticultural maintenance & ecological health monitoring.</span>
-                    </li>
-                  </ol>
+                {/* Email Address Card */}
+                <div className="rounded-2xl border border-brand-100 bg-white p-6 sm:p-7 shadow-sm">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="h-10 w-10 rounded-xl bg-sprout-50 border border-sprout-200 flex items-center justify-center text-sprout-700">
+                      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                      </svg>
+                    </div>
+                    <div>
+                      <h3 className="font-serif text-lg font-semibold text-brand-950">
+                        {locale === "am" ? "የኢሜይል አድራሻ" : "Email Inquiries"}
+                      </h3>
+                      <p className="text-xs text-gray-500">
+                        {locale === "am" ? "ለማንኛውም የጽሑፍ ጥያቄና ፕሮጀክት ዝርዝር" : "Send us your project brief or inquiries"}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="pt-2 border-t border-gray-100">
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-gray-500 block">
+                      {locale === "am" ? "ኦፊሴላዊ የኢሜይል አድራሻ" : "Official Email"}
+                    </span>
+                    <a
+                      href="mailto:info@landscapesolutionet.com"
+                      className="text-base sm:text-lg font-semibold text-brand-900 hover:text-sprout-600 transition block mt-0.5"
+                    >
+                      info@landscapesolutionet.com
+                    </a>
+                  </div>
+                </div>
+              </Reveal>
+
+              <Reveal delay={250}>
+                {/* Working Hours Card */}
+                <div className="rounded-2xl border border-brand-100 bg-white p-6 sm:p-7 shadow-sm">
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-brand-800 mb-2">
+                    {locale === "am" ? "የስራ ሰዓት" : "Working Hours (EAT)"}
+                  </h4>
+                  <div className="space-y-1 text-xs text-gray-600">
+                    <p className="flex justify-between">
+                      <span>{locale === "am" ? "ከሰኞ - አርብ:" : "Monday – Friday:"}</span>
+                      <span className="font-medium text-gray-900">8:30 AM – 5:30 PM</span>
+                    </p>
+                    <p className="flex justify-between">
+                      <span>{locale === "am" ? "ቅዳሜ:" : "Saturday:"}</span>
+                      <span className="font-medium text-gray-900">8:30 AM – 1:00 PM</span>
+                    </p>
+                    <p className="flex justify-between text-gray-400">
+                      <span>{locale === "am" ? "እሁድ:" : "Sunday:"}</span>
+                      <span>{locale === "am" ? "ዝግ ነው" : "Closed"}</span>
+                    </p>
+                  </div>
                 </div>
               </Reveal>
             </div>

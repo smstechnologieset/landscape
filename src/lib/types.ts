@@ -1,3 +1,5 @@
+export type Locale = "en" | "am";
+
 export type LocalizedText = { en: string; am?: string };
 
 export type Profile = {
