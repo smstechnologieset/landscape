@@ -1,6 +1,5 @@
 import Header from "@/components/site/Header";
 import Footer from "@/components/site/Footer";
-import WhatsAppButton from "@/components/WhatsAppButton";
 import { getDictionary } from "@/lib/i18n";
 import { getLocale } from "@/lib/locale";
 import { getSiteSettings } from "@/lib/queries";
@@ -18,7 +17,6 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
       <Header dict={dict} whatsapp={whatsappNum} />
       <main id="main-content" className="flex-1 overflow-x-hidden">{children}</main>
       <Footer dict={dict} />
-      {whatsappNum && <WhatsAppButton number={whatsappNum} floating />}
     </div>
   );
 }

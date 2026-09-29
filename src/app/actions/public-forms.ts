@@ -1,7 +1,9 @@
 "use server";
 
 import type { ZodError } from "zod";
+import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
+import { addStoredMessage } from "@/lib/data-store";
 import {
   applicationSchema,
   consultationSchema,
@@ -42,12 +44,30 @@ export async function submitContact(_prev: FormState, formData: FormData): Promi
     .join(" ")
     .slice(0, 200) || "General Inquiry";
 
-  const supabase = createClient();
-  const { error } = await supabase.from("contact_inquiries").insert({
-    ...dbFields,
-    subject: combinedSubject
+  // Store in persistent data store
+  await addStoredMessage({
+    fullName: parsed.data.full_name,
+    email: parsed.data.email,
+    phone: parsed.data.phone || "",
+    organization: organization || "",
+    serviceOfInterest: service_of_interest || "",
+    subject: combinedSubject,
+    message: parsed.data.message
   });
-  if (error) return { ok: false, error: "Submission failed. Please try again." };
+  revalidatePath("/admin/inquiries");
+  revalidatePath("/admin");
+
+  if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+    try {
+      const supabase = createClient();
+      await supabase.from("contact_inquiries").insert({
+        ...dbFields,
+        subject: combinedSubject
+      });
+    } catch {
+      // Supabase write skipped if not configured
+    }
+  }
 
   await notifyEmail(
     `New inquiry from ${parsed.data.full_name} ${organization ? `(${organization})` : ""}`,

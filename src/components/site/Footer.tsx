@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import type { Dictionary } from "@/lib/i18n";
 import { COMPANY_INFO } from "@/lib/company-data";
+import SocialLinks from "@/components/site/SocialLinks";
 
 export default function Footer({ dict }: { dict: Dictionary }) {
   const year = new Date().getFullYear();
@@ -13,7 +14,7 @@ export default function Footer({ dict }: { dict: Dictionary }) {
         <div className="grid gap-12 lg:grid-cols-12">
           {/* Brand & Mission column */}
           <div className="lg:col-span-4">
-            <Link href="/" className="inline-block rounded-lg bg-white p-2.5 shadow-sm">
+            <Link href="/" className="inline-block rounded-lg bg-white p-2.5 shadow-sm hover:opacity-95 transition">
               <div className="relative h-11 w-40">
                 <Image
                   src="/images/logo.png"
@@ -27,9 +28,17 @@ export default function Footer({ dict }: { dict: Dictionary }) {
             <p className="mt-5 text-sm leading-relaxed text-brand-200">
               Established in {COMPANY_INFO.establishedYear} in {COMPANY_INFO.location}, Landscape Solution PLC provides professional landscape planning, design, urban greening, nursery development, botanical gardens, and sustainable environmental restoration services across Ethiopia.
             </p>
-            <div className="mt-6 flex items-center gap-2 text-xs text-brand-300">
-              <span className="inline-block h-2 w-2 rounded-full bg-sprout-400" />
-              <span>Addis Ababa, Ethiopia</span>
+            <div className="mt-4 flex items-center gap-2 text-xs text-brand-300">
+              <span className="inline-block h-2 w-2 rounded-full bg-sprout-400 shrink-0" />
+              <span>Sur Construction Building, 8th Floor • Addis Ababa</span>
+            </div>
+
+            {/* Social Media Channels */}
+            <div className="mt-6 pt-5 border-t border-brand-900">
+              <p className="text-[11px] font-bold uppercase tracking-wider text-brand-400 mb-3">
+                Follow & Connect With Us
+              </p>
+              <SocialLinks variant="dark" size="sm" />
             </div>
           </div>
 
@@ -143,12 +152,24 @@ export default function Footer({ dict }: { dict: Dictionary }) {
           <p>
             © {year} {COMPANY_INFO.name}. All rights reserved. Addis Ababa, Ethiopia.
           </p>
-          <div className="flex gap-6">
+          <div className="flex items-center gap-5">
             <Link href="/privacy" className="hover:text-brand-200 transition">
               Privacy Policy
             </Link>
             <Link href="/terms" className="hover:text-brand-200 transition">
               Terms of Service
+            </Link>
+            {/* Key Icon for Admin Dashboard Access */}
+            <Link
+              href="/admin/login"
+              title="Admin Portal Login"
+              aria-label="Admin Portal Login"
+              className="text-brand-600 hover:text-sprout-400 transition-colors p-1.5 rounded hover:bg-brand-900"
+            >
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 2l-2 2m-1.5 1.5L16 7l-2 2-2 2-2 2-4 4a5 5 0 1 1-7.07-7.07l4-4 2-2 2-2 1.5-1.5L18 3l2-2 1 1z" />
+                <circle cx="7.5" cy="16.5" r="1.5" />
+              </svg>
             </Link>
           </div>
         </div>

@@ -4,7 +4,7 @@ import Reveal from "@/components/Reveal";
 import BlogListWithModal from "@/components/blog/BlogListWithModal";
 import { getDictionary } from "@/lib/i18n";
 import { getLocale } from "@/lib/locale";
-import { MOCK_BLOG_POSTS } from "@/lib/company-data";
+import { getStoredBlogPosts } from "@/lib/data-store";
 
 export const metadata = {
   title: "Insights & Perspectives | Landscape Solution PLC",
@@ -15,6 +15,7 @@ export const metadata = {
 export default async function BlogPage() {
   const locale = await getLocale();
   const dict = getDictionary(locale);
+  const posts = await getStoredBlogPosts();
 
   return (
     <div>
@@ -69,7 +70,7 @@ export default async function BlogPage() {
           </div>
 
           {/* Interactive Blog List with Expandable Modal Reader */}
-          <BlogListWithModal posts={MOCK_BLOG_POSTS} locale={locale} />
+          <BlogListWithModal posts={posts} locale={locale} />
         </div>
       </section>
 

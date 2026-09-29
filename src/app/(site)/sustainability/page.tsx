@@ -34,9 +34,15 @@ export default async function SustainabilityPage() {
 
         <div className="container-page relative z-10 py-20">
           <div className="max-w-3xl animate-fade-up">
-            <span className="inline-block rounded-full border border-sprout-400/50 bg-brand-900/60 px-4 py-1 text-xs font-semibold uppercase tracking-widest text-sprout-400 backdrop-blur-sm">
-              {locale === "am" ? "የአካባቢ ጥበቃና ዘላቂ ልማት" : "Sustainability & Ecological Stewardship"}
-            </span>
+            <div className="inline-flex items-center gap-3 rounded-2xl bg-white/95 backdrop-blur-md px-4 py-2 mb-6 shadow-xl border border-brand-800/30">
+              <div className="relative h-7 w-24">
+                <Image src="/images/logo.png" alt="Landscape Solution PLC" fill sizes="96px" className="object-contain" priority />
+              </div>
+              <span className="h-4 w-px bg-gray-300" />
+              <span className="text-xs font-bold uppercase tracking-wider text-brand-950">
+                {locale === "am" ? "የአካባቢ ጥበቃ እና ዘላቂ ልማት" : "Ecological Commitment"}
+              </span>
+            </div>
             <h1 className="mt-4 font-serif text-4xl sm:text-6xl font-normal text-white leading-tight">
               {locale === "am"
                 ? "ለተፈጥሮ ተስማሚ አሰራር፣ ለዘላቂ አረንጓዴ ልማት"

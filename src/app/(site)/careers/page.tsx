@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { getLocale } from "@/lib/locale";
-import { MOCK_JOB_OPENINGS } from "@/lib/company-data";
+import { getStoredJobs } from "@/lib/data-store";
 import JobOpeningsBoard from "@/components/careers/JobOpeningsBoard";
 
 export const metadata = {
@@ -11,6 +11,7 @@ export const metadata = {
 
 export default async function CareersPage() {
   const locale = await getLocale();
+  const jobs = await getStoredJobs();
 
   return (
     <div>
@@ -50,7 +51,7 @@ export default async function CareersPage() {
       {/* 2. JOB OPENINGS BOARD */}
       <section className="py-14 sm:py-20 bg-stone-50/60">
         <div className="container-page">
-          <JobOpeningsBoard jobs={MOCK_JOB_OPENINGS} locale={locale} />
+          <JobOpeningsBoard jobs={jobs} locale={locale} />
         </div>
       </section>
     </div>

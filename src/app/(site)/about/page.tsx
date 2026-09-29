@@ -34,10 +34,16 @@ export default async function AboutPage() {
 
         <div className="container-page relative z-10 py-20">
           <div className="max-w-3xl animate-fade-up">
-            <span className="inline-block rounded-full border border-sprout-400/50 bg-brand-900/60 px-4 py-1 text-xs font-semibold uppercase tracking-widest text-sprout-400 backdrop-blur-sm">
-              {locale === "am" ? "ስለ ድርጅታችን" : "About Landscape Solution PLC"}
-            </span>
-            <h1 className="mt-4 font-serif text-4xl sm:text-6xl font-normal text-white leading-tight">
+            <div className="inline-flex items-center gap-3 rounded-2xl bg-white/95 backdrop-blur-md px-4 py-2 mb-6 shadow-xl border border-brand-800/30">
+              <div className="relative h-7 w-24">
+                <Image src="/images/logo.png" alt="Landscape Solution PLC" fill sizes="96px" className="object-contain" priority />
+              </div>
+              <span className="h-4 w-px bg-gray-300" />
+              <span className="text-xs font-bold uppercase tracking-wider text-brand-950">
+                {locale === "am" ? "ኦፊሴላዊ የድርጅት መገለጫ" : "Corporate Profile"}
+              </span>
+            </div>
+            <h1 className="font-serif text-4xl sm:text-6xl font-normal text-white leading-tight">
               {locale === "am"
                 ? "ለአረንጓዴ፣ ውብ እና ዘላቂ ኢትዮጵያ ቁርጠኝነት"
                 : "Dedicated to Sustainable Green Development in Ethiopia"}
@@ -79,6 +85,17 @@ export default async function AboutPage() {
               </Reveal>
 
               <Reveal delay={100}>
+                {/* Official Brand Identity Card */}
+                <div className="rounded-xl border border-brand-100 bg-white p-5 shadow-sm flex items-center gap-4 mb-4">
+                  <div className="relative h-12 w-28 shrink-0 bg-brand-950 p-2 rounded-lg flex items-center justify-center">
+                    <Image src="/images/logo.png" alt="Landscape Solution PLC Logo" fill sizes="112px" className="object-contain p-1" />
+                  </div>
+                  <div>
+                    <h4 className="font-serif text-base font-semibold text-brand-950 leading-tight">Landscape Solution PLC</h4>
+                    <p className="text-xs text-gray-500 mt-0.5">{COMPANY_INFO.building}, {COMPANY_INFO.floor}</p>
+                  </div>
+                </div>
+
                 <div className="rounded-xl border border-brand-100 bg-brand-50/50 p-6 space-y-4">
                   <h4 className="text-xs font-bold uppercase tracking-wider text-brand-800">
                     {locale === "am" ? "ቁልፍ መረጃዎች" : "Company Fundamentals"}

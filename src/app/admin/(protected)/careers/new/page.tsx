@@ -1,10 +1,11 @@
-import JobForm from "../JobFormWrapper";
+import CareerJobEditor from "@/components/admin/CareerJobEditor";
 
-export default function NewJobPage() {
+export const metadata = { title: "Post Job Opening | Admin Portal" };
+
+export default function NewCareerPage() {
   return (
-    <div className="mx-auto max-w-3xl">
-      <h1 className="mb-6 text-2xl font-bold text-brand-900">New Job Listing</h1>
-      <div className="card p-6"><JobForm /></div>
+    <div className="py-4">
+      <CareerJobEditor />
     </div>
   );
 }

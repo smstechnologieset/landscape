@@ -4,23 +4,24 @@ import Reveal from "@/components/Reveal";
 import { getDictionary } from "@/lib/i18n";
 import { getLocale } from "@/lib/locale";
 import { t } from "@/lib/types";
-import { OFFICIAL_SERVICES } from "@/lib/company-data";
+import { getStoredServices } from "@/lib/data-store";
 
 export const metadata = {
   title: "Major Services | Landscape Solution PLC",
   description:
-    "Explore the 11 major landscape, nursery, irrigation, botanical garden, and environmental restoration services offered by Landscape Solution PLC in Ethiopia."
+    "Explore the major landscape, nursery, irrigation, botanical garden, and environmental restoration services offered by Landscape Solution PLC in Ethiopia."
 };
 
 export default async function ServicesPage() {
   const locale = await getLocale();
   const dict = getDictionary(locale);
+  const services = await getStoredServices();
 
-  // Group services according to prompt suggestion
-  const landscapeDesign = OFFICIAL_SERVICES.filter((s) => s.categoryGroup === "Landscape & Design");
-  const plantsGardens = OFFICIAL_SERVICES.filter((s) => s.categoryGroup === "Plants & Gardens");
-  const waterEnvironment = OFFICIAL_SERVICES.filter((s) => s.categoryGroup === "Water & Environment");
-  const professionalServices = OFFICIAL_SERVICES.filter((s) => s.categoryGroup === "Professional Services");
+  // Group services
+  const landscapeDesign = services.filter((s) => s.categoryGroup === "Landscape & Design");
+  const plantsGardens = services.filter((s) => s.categoryGroup === "Plants & Gardens");
+  const waterEnvironment = services.filter((s) => s.categoryGroup === "Water & Environment");
+  const professionalServices = services.filter((s) => s.categoryGroup === "Professional Services");
 
   return (
     <div>
@@ -40,9 +41,15 @@ export default async function ServicesPage() {
 
         <div className="container-page relative z-10 py-20">
           <div className="max-w-3xl animate-fade-up">
-            <span className="inline-block rounded-full border border-sprout-400/50 bg-brand-900/60 px-4 py-1 text-xs font-semibold uppercase tracking-widest text-sprout-400 backdrop-blur-sm">
-              {locale === "am" ? "የምንሰጣቸው 11 ዋና ዋና አገልግሎቶች" : "11 Documented Major Services"}
-            </span>
+            <div className="inline-flex items-center gap-3 rounded-2xl bg-white/95 backdrop-blur-md px-4 py-2 mb-6 shadow-xl border border-brand-800/30">
+              <div className="relative h-7 w-24">
+                <Image src="/images/logo.png" alt="Landscape Solution PLC" fill sizes="96px" className="object-contain" priority />
+              </div>
+              <span className="h-4 w-px bg-gray-300" />
+              <span className="text-xs font-bold uppercase tracking-wider text-brand-950">
+                {locale === "am" ? "11 ዋና ዋና አገልግሎቶች" : "11 Certified Disciplines"}
+              </span>
+            </div>
             <h1 className="mt-4 font-serif text-4xl sm:text-6xl font-normal text-white leading-tight">
               {locale === "am"
                 ? "ሁሉን አቀፍ የመልክአ ምድር እና የአካባቢ ጥበቃ አገልግሎቶች"
@@ -366,6 +373,15 @@ export default async function ServicesPage() {
       <section className="bg-brand-950 text-white py-20 text-center">
         <div className="container-page max-w-2xl">
           <Reveal>
+            <div className="flex justify-center mb-6">
+              <div className="inline-flex items-center gap-3 px-4 py-2 rounded-2xl bg-white shadow-xl">
+                <div className="relative h-7 w-24">
+                  <Image src="/images/logo.png" alt="Landscape Solution PLC" fill sizes="96px" className="object-contain" />
+                </div>
+                <span className="h-4 w-px bg-gray-200" />
+                <span className="text-xs font-bold uppercase tracking-wider text-brand-950">Landscape Solution PLC</span>
+              </div>
+            </div>
             <h2 className="font-serif text-3xl sm:text-4xl font-normal text-white">
               Ready to Start Your Landscape Project?
             </h2>

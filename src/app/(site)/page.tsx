@@ -9,14 +9,16 @@ import {
   OFFICIAL_SERVICES,
   ServiceDetail
 } from "@/lib/company-data";
+import { getStoredServices } from "@/lib/data-store";
 
 export default async function HomePage() {
   const locale = await getLocale();
   const dict = getDictionary(locale);
+  const services = await getStoredServices();
 
   // Group services (Show only the first 4 on the homepage)
-  const featuredService = OFFICIAL_SERVICES[0];
-  const supportingServices = OFFICIAL_SERVICES.slice(1, 4);
+  const featuredService = services[0] || OFFICIAL_SERVICES[0];
+  const supportingServices = services.slice(1, 4);
 
   return (
     <>
@@ -30,14 +32,26 @@ export default async function HomePage() {
           <div className="grid lg:grid-cols-12 gap-12 lg:gap-8 items-center">
             {/* Left Column: Editorial Corporate Narrative */}
             <div className="lg:col-span-6 xl:col-span-6 pr-0 lg:pr-4">
-              {/* Origin & Date Metadata Bar */}
-              <div className="flex flex-wrap items-center gap-3 text-xs tracking-wider uppercase text-sprout-400 font-semibold mb-6">
-                <span className="inline-flex items-center gap-2 rounded-md bg-brand-900/80 border border-brand-700/50 px-3 py-1 text-[11px] text-sprout-300">
+              {/* Origin & Date Metadata Bar with Logo Emblem */}
+              <div className="flex flex-wrap items-center gap-3 mb-6">
+                <div className="inline-flex items-center gap-2 rounded-xl bg-white/95 px-3 py-1.5 shadow-md border border-brand-800/30">
+                  <div className="relative h-6 w-20">
+                    <Image
+                      src="/images/logo.png"
+                      alt="Landscape Solution PLC"
+                      fill
+                      sizes="80px"
+                      className="object-contain"
+                      priority
+                    />
+                  </div>
+                </div>
+                <span className="inline-flex items-center gap-2 rounded-md bg-brand-900/80 border border-brand-700/50 px-3 py-1 text-[11px] text-sprout-300 font-semibold uppercase tracking-wider">
                   <span className="h-1.5 w-1.5 rounded-full bg-sprout-400" />
                   {locale === "am" ? "የተመሰረተበት ዓ.ም • 2026" : "Est. 2026 • Addis Ababa"}
                 </span>
                 <span className="text-gray-400 hidden sm:inline">•</span>
-                <span className="text-gray-300 font-normal">
+                <span className="text-gray-300 font-normal text-xs">
                   {locale === "am" ? "የአረንጓዴ ልማት እና የመልክአ ምድር መፍትሄዎች" : "Landscape Architecture & Ecological Infrastructure"}
                 </span>
               </div>
@@ -125,6 +139,11 @@ export default async function HomePage() {
                     <div className="inline-flex items-center gap-2 rounded-full bg-brand-950/80 backdrop-blur-md border border-emerald-700/40 px-3.5 py-1 text-xs text-sprout-300 font-medium">
                       <span className="h-1.5 w-1.5 rounded-full bg-sprout-400" />
                       <span>{locale === "am" ? "የመልክአ ምድር አርክቴክቸር • አዲስ አበባ" : "Biophilic Architecture • Addis Ababa"}</span>
+                    </div>
+                    <div className="hidden sm:inline-flex items-center gap-2 rounded-full bg-white/95 backdrop-blur-md px-3 py-1 shadow-md">
+                      <div className="relative h-4 w-14">
+                        <Image src="/images/logo.png" alt="Landscape Solution Logo" fill sizes="56px" className="object-contain" />
+                      </div>
                     </div>
                   </div>
 
@@ -670,6 +689,16 @@ export default async function HomePage() {
 
         <div className="container-page relative z-10 max-w-3xl mx-auto">
           <Reveal>
+            <div className="flex justify-center mb-6">
+              <div className="inline-flex items-center gap-3 px-4 py-2 rounded-2xl bg-white shadow-xl">
+                <div className="relative h-8 w-24">
+                  <Image src="/images/logo.png" alt="Landscape Solution PLC" fill sizes="96px" className="object-contain" />
+                </div>
+                <span className="h-4 w-px bg-gray-200" />
+                <span className="text-xs font-bold uppercase tracking-wider text-brand-950">Landscape Solution PLC</span>
+              </div>
+            </div>
+
             <div className="inline-flex items-center gap-2 rounded-full border border-sprout-400/40 bg-brand-900 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-sprout-400">
               {locale === "am" ? "አብረን እንስራ" : "Let's Collaborate"}
             </div>

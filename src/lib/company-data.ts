@@ -11,11 +11,30 @@ export const COMPANY_INFO = {
   tagline: "Professional Landscape Solutions for a Greener Future",
   establishedYear: 2026,
   founder: "Birhanu Belay",
-  location: "Addis Ababa, Ethiopia",
-  country: "Ethiopia",
+  location: "Sur Construction Building, 8th Floor, Addis Ababa, Ethiopia",
+  building: "Sur Construction Building",
+  floor: "8th Floor",
   city: "Addis Ababa",
+  country: "Ethiopia",
   logoUrl: "/images/logo.png",
   brochureUrl: null as string | null,
+  googleMapsUrl: "https://maps.google.com/?q=Sur+Construction+Building+Addis+Ababa+Ethiopia",
+  googleMapsEmbedUrl: "https://maps.google.com/maps?q=Sur+Construction+Building+Addis+Ababa+Ethiopia&t=&z=16&ie=UTF8&iwloc=&output=embed",
+  phones: {
+    office: "+251 11 667 8901",
+    mobile: "+251 91 123 4567",
+    whatsapp: "+251 91 123 4567"
+  },
+  email: "info@landscapesolutionet.com",
+  socialLinks: {
+    whatsapp: "https://wa.me/251911234567",
+    telegram: "https://t.me/landscapesolutionet",
+    instagram: "https://instagram.com/landscapesolutionet",
+    tiktok: "https://tiktok.com/@landscapesolutionet",
+    facebook: "https://facebook.com/landscapesolutionet",
+    linkedin: "https://linkedin.com/company/landscapesolutionet",
+    youtube: "https://youtube.com/@landscapesolutionet"
+  },
   
   // Official background summary
   background: {

@@ -4,7 +4,7 @@ import Reveal from "@/components/Reveal";
 import ProjectGallery from "@/components/portfolio/ProjectGallery";
 import { getDictionary } from "@/lib/i18n";
 import { getLocale } from "@/lib/locale";
-import { MOCK_PORTFOLIO_PROJECTS } from "@/lib/company-data";
+import { getStoredProjects } from "@/lib/data-store";
 
 export const metadata = {
   title: "Project Portfolio & Gallery | Landscape Solution PLC",
@@ -15,6 +15,7 @@ export const metadata = {
 export default async function PortfolioPage() {
   const locale = await getLocale();
   const dict = getDictionary(locale);
+  const projects = await getStoredProjects();
 
   return (
     <div>
@@ -34,9 +35,15 @@ export default async function PortfolioPage() {
 
         <div className="container-page relative z-10 py-20">
           <div className="max-w-3xl animate-fade-up">
-            <span className="inline-block rounded-full border border-sprout-400/50 bg-brand-900/60 px-4 py-1 text-xs font-semibold uppercase tracking-widest text-sprout-400 backdrop-blur-sm">
-              {locale === "am" ? "የስራዎቻችን ጋለሪ" : "Project Portfolio & Works"}
-            </span>
+            <div className="inline-flex items-center gap-3 rounded-2xl bg-white/95 backdrop-blur-md px-4 py-2 mb-6 shadow-xl border border-brand-800/30">
+              <div className="relative h-7 w-24">
+                <Image src="/images/logo.png" alt="Landscape Solution PLC" fill sizes="96px" className="object-contain" priority />
+              </div>
+              <span className="h-4 w-px bg-gray-300" />
+              <span className="text-xs font-bold uppercase tracking-wider text-brand-950">
+                {locale === "am" ? "የስራዎቻችን ማህደር" : "Project Showcase"}
+              </span>
+            </div>
             <h1 className="mt-4 font-serif text-4xl sm:text-6xl font-normal text-white leading-tight">
               {locale === "am"
                 ? "የተከናወኑ ስራዎችና የመልክአ ምድር ፕሮጀክቶች"
@@ -69,7 +76,7 @@ export default async function PortfolioPage() {
           </div>
 
           {/* Interactive Client Gallery Component */}
-          <ProjectGallery projects={MOCK_PORTFOLIO_PROJECTS} locale={locale} />
+          <ProjectGallery projects={projects} locale={locale} />
         </div>
       </section>
 
