@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import type { Dictionary, Locale } from "@/lib/i18n";
 
@@ -11,10 +11,62 @@ export default function Header({ dict }: { dict: Dictionary; whatsapp?: string }
   const pathname = usePathname();
   const router = useRouter();
   const [locale, setLocale] = useState<Locale>("en");
+  const [visible, setVisible] = useState(true);
+  const [scrolled, setScrolled] = useState(false);
+  const lastScrollYRef = useRef(0);
 
   useEffect(() => {
     setLocale(document.documentElement.lang === "am" ? "am" : "en");
   }, []);
+
+  // Reset header state and close mobile drawer on route navigation
+  useEffect(() => {
+    setOpen(false);
+    setVisible(true);
+  }, [pathname]);
+
+  // Smart header: hide on scroll down, reveal immediately on scroll up
+  useEffect(() => {
+    lastScrollYRef.current = window.scrollY;
+
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      // Always show when near or at the top of the page
+      if (currentScrollY <= 60) {
+        setVisible(true);
+        setScrolled(false);
+        lastScrollYRef.current = currentScrollY;
+        return;
+      }
+
+      setScrolled(true);
+
+      // Keep header visible if mobile drawer is currently open
+      if (open) {
+        setVisible(true);
+        lastScrollYRef.current = currentScrollY;
+        return;
+      }
+
+      const delta = currentScrollY - lastScrollYRef.current;
+
+      // Smooth threshold to prevent jitter from micro-scrolls
+      if (Math.abs(delta) > 10) {
+        if (delta > 0) {
+          // Scrolling down -> hide navbar to give full screen content immersion
+          setVisible(false);
+        } else {
+          // Scrolling up -> reveal navbar so user can easily change pages
+          setVisible(true);
+        }
+        lastScrollYRef.current = currentScrollY;
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [open]);
 
   const links: { href: string; label: string }[] = [
     { href: "/", label: dict.nav.home },
@@ -40,8 +92,18 @@ export default function Header({ dict }: { dict: Dictionary; whatsapp?: string }
   };
 
   return (
-    <header className="sticky top-0 z-40 border-b border-brand-100/80 bg-white/95 backdrop-blur-md transition-all">
-      <div className="container-page flex h-20 items-center justify-between gap-4">
+    <>
+      {/* Layout spacer so page content does not jump when header is fixed */}
+      <div className="h-20 w-full flex-shrink-0" aria-hidden="true" />
+
+      <header
+        className={`fixed top-0 left-0 right-0 z-50 border-b transition-transform duration-300 ease-in-out ${
+          scrolled
+            ? "border-brand-100/90 bg-white/95 shadow-md backdrop-blur-md"
+            : "border-brand-100/80 bg-white/95 backdrop-blur-md"
+        } ${visible ? "translate-y-0" : "-translate-y-full"}`}
+      >
+        <div className="container-page flex h-20 items-center justify-between gap-4">
         {/* Official Brand Logo */}
         <Link
           href="/"
@@ -130,7 +192,7 @@ export default function Header({ dict }: { dict: Dictionary; whatsapp?: string }
         <nav
           id="mobile-nav"
           aria-label="Mobile navigation"
-          className="border-t border-brand-100 bg-white shadow-lg xl:hidden animate-fade-in"
+          className="max-h-[calc(100vh-5rem)] overflow-y-auto border-t border-brand-100 bg-white shadow-xl xl:hidden animate-fade-in"
         >
           <div className="container-page py-4">
             <ul className="flex flex-col space-y-1">
@@ -167,5 +229,6 @@ export default function Header({ dict }: { dict: Dictionary; whatsapp?: string }
         </nav>
       )}
     </header>
-  );
+  </>
+);
 }
