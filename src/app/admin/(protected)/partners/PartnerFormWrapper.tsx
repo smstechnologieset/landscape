@@ -16,7 +16,7 @@ export default function PartnerForm({ initial, id }: { initial?: Record<string, 
       fields={fields}
       initial={initial ?? { is_published: true, sort_order: 0 }}
       action={savePartner}
-      cancelHref="/admin/partners"
+      cancelHref="/admin/company-profile?tab=partners"
       submitLabel={id ? "Update Partner" : "Create Partner"}
     />
   );

@@ -23,7 +23,7 @@ export default function TestimonialForm({ initial, id }: { initial?: Record<stri
       fields={fields}
       initial={initial ?? { is_published: true, rating: 5 }}
       action={saveTestimonial}
-      cancelHref="/admin/testimonials"
+      cancelHref="/admin/company-profile?tab=testimonials"
       submitLabel={id ? "Update Testimonial" : "Create Testimonial"}
     />
   );

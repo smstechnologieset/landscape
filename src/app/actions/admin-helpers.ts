@@ -29,4 +29,6 @@ export async function deleteResource(fd: FormData): Promise<void> {
   const { supabase } = await requireStaff();
   await supabase.from(resource).delete().eq("id", id);
   revalidatePath(REVALIDATE[resource] ?? "/admin");
+  revalidatePath("/admin/company-profile");
 }
+

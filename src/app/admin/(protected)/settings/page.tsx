@@ -1,32 +1,58 @@
-import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import SettingsForm from "@/components/admin/SettingsForm";
+import SettingsTeamManager, { type UserProfileItem } from "@/components/admin/SettingsTeamManager";
 
-export default async function AdminSettingsPage() {
+export const metadata = { title: "Settings & Administration | Admin Portal" };
+
+interface PageProps {
+  searchParams?: {
+    tab?: "settings" | "users";
+  };
+}
+
+export default async function AdminSettingsPage({ searchParams }: PageProps) {
   const supabase = createClient();
-  const { data } = await supabase
+  const {
+    data: { user }
+  } = await supabase.auth.getUser();
+
+  const { data: me } = await supabase
     .from("profiles")
     .select("role")
-    .eq("id", (await supabase.auth.getUser()).data.user?.id ?? "")
+    .eq("id", user?.id ?? "")
     .maybeSingle();
 
-  if (!data || data.role !== "admin") {
+  if (!me || me.role !== "admin") {
     return (
-      <div className="card mx-auto max-w-lg p-8 text-center">
-        <h1 className="text-xl font-bold text-red-700">Access denied</h1>
-        <p className="mt-2 text-sm text-gray-600">Only administrators can edit site settings.</p>
+      <div className="card mx-auto max-w-lg p-8 text-center bg-white shadow-sm border border-gray-200">
+        <h1 className="text-xl font-bold text-red-700">Access Restricted</h1>
+        <p className="mt-2 text-sm text-gray-600">Only administrators have permission to manage site settings and user roles.</p>
       </div>
     );
   }
 
-  const { data: settings } = await supabase.from("site_settings").select("*").eq("id", 1).maybeSingle();
+  const [settingsRes, profilesRes] = await Promise.all([
+    supabase.from("site_settings").select("*").eq("id", 1).maybeSingle(),
+    supabase.from("profiles").select("id, full_name, email, role, created_at").order("created_at")
+  ]);
+
+  const profiles: UserProfileItem[] = (profilesRes.data || []).map((p: any) => ({
+    id: p.id,
+    full_name: p.full_name,
+    email: p.email,
+    role: p.role,
+    created_at: p.created_at
+  }));
+
+  const defaultTab = searchParams?.tab === "users" ? "users" : "settings";
 
   return (
-    <div className="mx-auto max-w-3xl">
-      <h1 className="mb-6 text-2xl font-bold text-brand-900">Site Settings</h1>
-      <div className="card p-6">
-        <SettingsForm data={(settings ?? {}) as Record<string, string>} />
-      </div>
+    <div className="py-2">
+      <SettingsTeamManager
+        settingsData={(settingsRes.data ?? {}) as Record<string, string>}
+        profiles={profiles}
+        currentUserId={user?.id ?? ""}
+        defaultTab={defaultTab}
+      />
     </div>
   );
 }

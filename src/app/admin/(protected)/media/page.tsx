@@ -1,63 +1,55 @@
-import { createClient } from "@/lib/supabase/server";
-import MediaUploader from "@/components/admin/MediaUploader";
+import { createAdminClient } from "@/lib/supabase/admin";
+import MediaLibraryManager, { MediaItem } from "@/components/admin/MediaLibraryManager";
 
-const PUBLIC_BUCKETS = [
-  "site-assets",
-  "project-images",
-  "service-images",
-  "blog-images",
-  "partner-logos",
-  "general-media"
-];
+export const metadata = {
+  title: "Website Images & Media Manager | Admin Portal"
+};
 
 export default async function AdminMediaPage() {
-  const supabase = createClient();
-  const { data: media } = await supabase
-    .from("media")
-    .select("*")
-    .order("created_at", { ascending: false })
-    .limit(100);
+  const admin = createAdminClient();
+  const cloudFiles: MediaItem[] = [];
+
+  // Gather uploaded files from buckets
+  const buckets = ["site-assets", "general-media", "service-images", "project-images", "blog-images"];
+
+  await Promise.all(
+    buckets.map(async (bucket) => {
+      try {
+        const { data } = await admin.storage.from(bucket).list("", {
+          limit: 20,
+          sortBy: { column: "created_at", order: "desc" }
+        });
+        if (data) {
+          data
+            .filter((f) => !f.name.startsWith("."))
+            .forEach((f) => {
+              const { data: pubData } = admin.storage.from(bucket).getPublicUrl(f.name);
+              cloudFiles.push({
+                id: `${bucket}-${f.name}`,
+                name: f.name,
+                url: pubData.publicUrl,
+                category: "uploaded",
+                tag: `Bucket: ${bucket}`,
+                dimensions: f.metadata?.size ? `${(f.metadata.size / 1024).toFixed(0)} KB` : undefined
+              });
+            });
+        }
+      } catch (err) {
+        console.warn(`[AdminMediaPage] Could not fetch bucket ${bucket}:`, err);
+      }
+    })
+  );
 
   return (
-    <div>
-      <h1 className="mb-6 text-2xl font-bold text-brand-900">Media Library</h1>
-
-      <MediaUploader />
-
-      <h2 className="mb-3 font-semibold">Public URLs of recent uploads</h2>
-      {!media?.length ? (
-        <p className="card p-8 text-center text-gray-500">
-          Nothing recorded yet. Uploads made through content forms are stored directly in
-          their buckets.
+    <div className="space-y-6 max-w-7xl mx-auto">
+      <div>
+        <h1 className="text-2xl font-bold text-brand-950">Website Images & Media Library</h1>
+        <p className="text-xs text-gray-500 mt-1">
+          Upload, manage, and inspect all images used across the website, services, portfolio projects, and articles.
         </p>
-      ) : (
-        <div className="card overflow-x-auto">
-          <table className="w-full min-w-[640px] text-sm">
-            <thead className="border-b bg-gray-50 text-left text-xs uppercase text-gray-500">
-              <tr>
-                <th className="px-4 py-3">File</th>
-                <th className="px-4 py-3">Bucket</th>
-                <th className="px-4 py-3">URL / Path</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y">
-              {media.map((m) => {
-                const isPublic = PUBLIC_BUCKETS.includes(m.bucket);
-                const url = isPublic
-                  ? `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${m.bucket}/${m.storage_path}`
-                  : m.storage_path;
-                return (
-                  <tr key={m.id}>
-                    <td className="px-4 py-3 font-medium">{m.file_name}</td>
-                    <td className="px-4 py-3">{m.bucket}</td>
-                    <td className="max-w-sm truncate px-4 py-3 text-gray-500">{url}</td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-      )}
+      </div>
+
+      <MediaLibraryManager initialCloudFiles={cloudFiles} />
     </div>
   );
 }

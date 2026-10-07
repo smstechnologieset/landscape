@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { saveServiceAction } from "@/app/actions/admin-crud";
 import type { ServiceDetail } from "@/lib/company-data";
+import ImageUploader from "@/components/admin/ImageUploader";
 
 const PRESET_IMAGES = [
   { label: "Landscape Planning & Design", url: "/images/service_planning.jpg" },
@@ -173,43 +174,16 @@ export default function ServiceEditor({ initialService }: ServiceEditorProps) {
       </div>
 
       {/* Featured Image & Visual Presentation Card */}
-      <div className="card p-6 bg-white space-y-5">
+      <div className="card p-6 bg-white space-y-4">
         <h2 className="text-base font-bold text-brand-900 border-b pb-2">2. Featured Image</h2>
-
-        <div>
-          <label className="label text-xs font-semibold">Select from Official Image Library</label>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 mt-2">
-            {PRESET_IMAGES.map((img) => (
-              <button
-                type="button"
-                key={img.url}
-                onClick={() => setImageUrl(img.url)}
-                className={`group text-left rounded-xl border p-2 text-xs transition relative overflow-hidden ${
-                  imageUrl === img.url
-                    ? "border-sprout-500 ring-2 ring-sprout-400 bg-sprout-50/30"
-                    : "border-gray-200 hover:border-gray-300"
-                }`}
-              >
-                <div className="relative h-20 w-full rounded-lg overflow-hidden mb-1.5 bg-gray-100">
-                  <Image src={img.url} alt={img.label} fill sizes="150px" className="object-cover" />
-                </div>
-                <div className="font-semibold text-[11px] text-brand-950 truncate">{img.label}</div>
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <div>
-          <label className="label text-xs font-semibold">Custom Image URL</label>
-          <input
-            type="text"
-            name="featured_image"
-            value={imageUrl}
-            onChange={(e) => setImageUrl(e.target.value)}
-            className="input text-xs"
-            placeholder="/images/service_planning.jpg or https://..."
-          />
-        </div>
+        <ImageUploader
+          value={imageUrl}
+          onChange={setImageUrl}
+          name="featured_image"
+          bucket="service-images"
+          label="Service Cover Photo (Upload or Select from Library)"
+          presetImages={PRESET_IMAGES}
+        />
       </div>
 
       {/* Descriptions Card */}

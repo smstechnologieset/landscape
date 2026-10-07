@@ -104,20 +104,20 @@ export default function Header({ dict }: { dict: Dictionary; whatsapp?: string }
         } ${visible ? "translate-y-0" : "-translate-y-full"}`}
       >
         <div className="container-page flex h-20 items-center justify-between gap-4">
-        {/* Official Brand Logo */}
+        {/* Official Brand Logo - Edge to Edge Fit */}
         <Link
           href="/"
-          className="group flex items-center py-2 transition-transform duration-200 hover:opacity-95 flex-shrink-0"
+          className="group flex h-20 items-center py-0 transition-transform duration-200 hover:opacity-95 flex-shrink-0 overflow-visible"
           aria-label="Landscape Solution PLC Home"
         >
-          <div className="relative h-12 w-36 sm:h-14 sm:w-44">
+          <div className="relative h-20 w-48 sm:w-56 md:w-64 flex items-center">
             <Image
               src="/images/logo.png"
               alt="Landscape Solution PLC"
               fill
-              sizes="(max-width: 640px) 144px, 176px"
+              sizes="(max-width: 640px) 192px, 256px"
               priority
-              className="object-contain object-left"
+              className="object-contain object-left scale-[1.16] origin-left"
             />
           </div>
         </Link>

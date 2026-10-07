@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { saveProjectAction } from "@/app/actions/admin-crud";
+import { saveProjectAction, uploadImageAction } from "@/app/actions/admin-crud";
 import type { GalleryProject } from "@/components/portfolio/ProjectGallery";
 
 const AVAILABLE_PROJECT_IMAGES = [
@@ -54,6 +54,8 @@ export default function ProjectEditor({ initialProject }: ProjectEditorProps) {
     ]
   );
   const [customPhotoInput, setCustomPhotoInput] = useState("");
+  const [isUploadingPhoto, setIsUploadingPhoto] = useState(false);
+  const photoInputRef = useRef<HTMLInputElement>(null);
 
   const addPhoto = (url: string) => {
     const trimmed = url.trim();
@@ -221,10 +223,63 @@ export default function ProjectEditor({ initialProject }: ProjectEditorProps) {
           </div>
         </div>
 
+        {/* Direct Device Photo Upload Zone */}
+        <div className="pt-2 border-t space-y-2">
+          <label className="label text-xs font-semibold text-gray-800">
+            Upload New Photo from Computer / Phone
+          </label>
+          <div
+            onClick={() => photoInputRef.current?.click()}
+            className="cursor-pointer rounded-xl border-2 border-dashed border-gray-300 hover:border-brand-500 bg-gray-50/50 hover:bg-brand-50/30 p-4 text-center transition flex items-center justify-center gap-3"
+          >
+            {isUploadingPhoto ? (
+              <div className="flex items-center gap-2 text-xs text-brand-900 font-semibold">
+                <div className="h-4 w-4 border-2 border-brand-600 border-t-transparent rounded-full animate-spin" />
+                <span>Uploading photo to secure cloud storage…</span>
+              </div>
+            ) : (
+              <div className="flex items-center gap-2 text-xs text-brand-800 font-medium">
+                <svg className="w-5 h-5 text-brand-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                </svg>
+                <span>Click here to upload a photo from your device (PNG, JPG, WebP)</span>
+              </div>
+            )}
+          </div>
+          <input
+            ref={photoInputRef}
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={async (e) => {
+              if (e.target.files && e.target.files[0]) {
+                const file = e.target.files[0];
+                setIsUploadingPhoto(true);
+                try {
+                  const formData = new FormData();
+                  formData.append("file", file);
+                  formData.append("bucket", "project-images");
+                  const res = await uploadImageAction(formData);
+                  if (res.success && res.url) {
+                    addPhoto(res.url);
+                  } else {
+                    alert(res.error || "Failed to upload photo");
+                  }
+                } catch (err: any) {
+                  alert(err.message || "Failed to upload photo");
+                } finally {
+                  setIsUploadingPhoto(false);
+                  if (photoInputRef.current) photoInputRef.current.value = "";
+                }
+              }
+            }}
+          />
+        </div>
+
         {/* Add photo tools */}
         <div className="pt-2 border-t space-y-4">
           <div>
-            <label className="label text-xs font-semibold">Add Custom Photo URL</label>
+            <label className="label text-xs font-semibold">Or Add Custom Photo URL</label>
             <div className="flex gap-2">
               <input
                 type="text"

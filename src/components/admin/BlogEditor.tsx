@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { saveBlogAction } from "@/app/actions/admin-crud";
 import type { MockBlogPost } from "@/components/blog/BlogListWithModal";
+import ImageUploader from "@/components/admin/ImageUploader";
 
 const AVAILABLE_BLOG_IMAGES = [
   { label: "Botanical Plant Research", url: "/images/service_plant_id.jpg" },
@@ -197,41 +198,14 @@ export default function BlogEditor({ initialPost }: BlogEditorProps) {
       {/* 2. Cover Image */}
       <div className="card p-6 bg-white space-y-4">
         <h2 className="text-base font-bold text-brand-900 border-b pb-2">2. Article Cover Image</h2>
-
-        <div>
-          <label className="label text-xs font-semibold">Select from Image Presets</label>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 mt-1.5">
-            {AVAILABLE_BLOG_IMAGES.map((img) => (
-              <button
-                type="button"
-                key={img.url}
-                onClick={() => setImage(img.url)}
-                className={`rounded-xl border p-2 text-left transition ${
-                  image === img.url
-                    ? "border-sprout-500 ring-2 ring-sprout-400 bg-sprout-50/20"
-                    : "border-gray-200 hover:border-gray-300"
-                }`}
-              >
-                <div className="relative h-18 w-full rounded-lg overflow-hidden mb-1.5 bg-gray-100">
-                  <Image src={img.url} alt={img.label} fill sizes="140px" className="object-cover" />
-                </div>
-                <div className="text-[11px] font-semibold text-brand-950 truncate">{img.label}</div>
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <div>
-          <label className="label text-xs font-semibold">Custom Cover Image URL</label>
-          <input
-            type="text"
-            name="image"
-            value={image}
-            onChange={(e) => setImage(e.target.value)}
-            className="input text-xs"
-            placeholder="/images/service_plant_id.jpg or https://..."
-          />
-        </div>
+        <ImageUploader
+          value={image}
+          onChange={setImage}
+          name="image"
+          bucket="blog-images"
+          label="Article Cover Photo (Upload or Select from Presets)"
+          presetImages={AVAILABLE_BLOG_IMAGES}
+        />
       </div>
 
       {/* 3. Excerpts & Article Body */}

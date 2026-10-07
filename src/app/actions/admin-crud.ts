@@ -14,6 +14,7 @@ import {
   toggleStoredMessageRead,
   deleteStoredMessage
 } from "@/lib/data-store";
+import { createAdminClient } from "@/lib/supabase/admin";
 
 /* ========================================================================= */
 /* SERVICES ACTIONS                                                          */
@@ -312,3 +313,169 @@ export async function deleteMessageAction(id: string) {
   revalidatePath("/admin");
   return { success: true };
 }
+
+export async function updateConsultationAction(id: number, status: string, adminNotes: string = "") {
+  try {
+    const admin = createAdminClient();
+    await admin
+      .from("consultation_requests")
+      .update({ status, admin_notes: adminNotes })
+      .eq("id", id);
+    revalidatePath("/admin/inquiries");
+    revalidatePath("/admin/consultations");
+    return { success: true };
+  } catch (err: any) {
+    return { success: false, error: err.message };
+  }
+}
+
+export async function deleteConsultationAction(id: number) {
+  try {
+    const admin = createAdminClient();
+    await admin.from("consultation_requests").delete().eq("id", id);
+    revalidatePath("/admin/inquiries");
+    revalidatePath("/admin/consultations");
+    return { success: true };
+  } catch (err: any) {
+    return { success: false, error: err.message };
+  }
+}
+
+export async function updateQuoteAction(id: number, status: string, adminNotes: string = "") {
+  try {
+    const admin = createAdminClient();
+    await admin
+      .from("quote_requests")
+      .update({ status, admin_notes: adminNotes })
+      .eq("id", id);
+    revalidatePath("/admin/inquiries");
+    revalidatePath("/admin/quotes");
+    return { success: true };
+  } catch (err: any) {
+    return { success: false, error: err.message };
+  }
+}
+
+export async function deleteQuoteAction(id: number) {
+  try {
+    const admin = createAdminClient();
+    await admin.from("quote_requests").delete().eq("id", id);
+    revalidatePath("/admin/inquiries");
+    revalidatePath("/admin/quotes");
+    return { success: true };
+  } catch (err: any) {
+    return { success: false, error: err.message };
+  }
+}
+
+export async function updateApplicationStatusAction(id: number, status: string) {
+  try {
+    const admin = createAdminClient();
+    await admin.from("job_applications").update({ status }).eq("id", id);
+    revalidatePath("/admin/careers");
+    revalidatePath("/admin/applications");
+    return { success: true };
+  } catch (err: any) {
+    return { success: false, error: err.message };
+  }
+}
+
+export async function deleteApplicationAction(id: number) {
+  try {
+    const admin = createAdminClient();
+    await admin.from("job_applications").delete().eq("id", id);
+    revalidatePath("/admin/careers");
+    revalidatePath("/admin/applications");
+    return { success: true };
+  } catch (err: any) {
+    return { success: false, error: err.message };
+  }
+}
+
+
+
+/* ========================================================================= */
+/* MEDIA & IMAGE STORAGE ACTIONS                                             */
+/* ========================================================================= */
+
+export async function uploadImageAction(
+  formData: FormData
+): Promise<{ success: boolean; url?: string; error?: string }> {
+  try {
+    const file = formData.get("file") as File | null;
+    const bucket = String(formData.get("bucket") || "general-media").trim();
+
+    if (!file || !(file instanceof File) || file.size === 0) {
+      return { success: false, error: "Please select an image file to upload." };
+    }
+
+    if (file.size > 10 * 1024 * 1024) {
+      return { success: false, error: "File exceeds 10MB maximum limit." };
+    }
+
+    const ext = file.name.split(".").pop()?.toLowerCase() || "jpg";
+    const base = file.name
+      .replace(/\.[^/.]+$/, "")
+      .replace(/[^a-zA-Z0-9_-]/g, "_")
+      .toLowerCase();
+    const fileName = `${Date.now()}_${base}.${ext}`;
+
+    const admin = createAdminClient();
+    const arrayBuffer = await file.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
+
+    const { error: uploadError } = await admin.storage
+      .from(bucket)
+      .upload(fileName, buffer, {
+        contentType: file.type || "image/jpeg",
+        upsert: true
+      });
+
+    if (uploadError) {
+      console.error("[uploadImageAction] Storage upload error:", uploadError);
+      return { success: false, error: uploadError.message };
+    }
+
+    const { data: publicUrlData } = admin.storage
+      .from(bucket)
+      .getPublicUrl(fileName);
+
+    revalidatePath("/admin/media");
+    return { success: true, url: publicUrlData.publicUrl };
+  } catch (err: any) {
+    console.error("[uploadImageAction] Unexpected upload exception:", err);
+    return { success: false, error: err.message || "Failed to upload image." };
+  }
+}
+
+export async function listBucketImagesAction(bucket: string = "general-media") {
+  try {
+    const admin = createAdminClient();
+    const { data, error } = await admin.storage.from(bucket).list("", {
+      limit: 100,
+      sortBy: { column: "created_at", order: "desc" }
+    });
+
+    if (error) {
+      return { success: false, error: error.message, files: [] };
+    }
+
+    const files = (data || [])
+      .filter((item) => !item.name.startsWith("."))
+      .map((item) => {
+        const { data: pubData } = admin.storage.from(bucket).getPublicUrl(item.name);
+        return {
+          name: item.name,
+          id: item.id,
+          createdAt: item.created_at,
+          size: item.metadata?.size || 0,
+          url: pubData.publicUrl
+        };
+      });
+
+    return { success: true, files };
+  } catch (err: any) {
+    return { success: false, error: err.message, files: [] };
+  }
+}
+

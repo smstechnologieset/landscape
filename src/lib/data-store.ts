@@ -743,13 +743,36 @@ export async function getDashboardStats(): Promise<{
     getStoredMessages()
   ]);
 
+  let extraMessagesCount = 0;
+  let extraPendingCount = 0;
+
+  try {
+    const supabase = createAdminClient();
+    const [conRes, quoRes] = await Promise.all([
+      supabase.from("consultation_requests").select("id, status"),
+      supabase.from("quote_requests").select("id, status")
+    ]);
+
+    if (conRes.data) {
+      extraMessagesCount += conRes.data.length;
+      extraPendingCount += conRes.data.filter((c: any) => c.status === "pending").length;
+    }
+    if (quoRes.data) {
+      extraMessagesCount += quoRes.data.length;
+      extraPendingCount += quoRes.data.filter((q: any) => q.status === "new").length;
+    }
+  } catch (err) {
+    // fallback gracefully
+  }
+
   return {
     servicesCount: services.length,
     projectsCount: projects.length,
     blogCount: blogs.length,
     jobsCount: jobs.length,
-    totalMessagesCount: messages.length,
-    unreadMessagesCount: messages.filter((m) => !m.isRead).length
+    totalMessagesCount: messages.length + extraMessagesCount,
+    unreadMessagesCount: messages.filter((m) => !m.isRead).length + extraPendingCount
   };
 }
+
 

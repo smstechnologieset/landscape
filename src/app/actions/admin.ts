@@ -183,13 +183,15 @@ export async function saveTestimonial(_prev: ActionState, fd: FormData): Promise
     return fail(err);
   }
   revalidatePath("/admin/testimonials");
-  redirect("/admin/testimonials");
+  revalidatePath("/admin/company-profile");
+  redirect("/admin/company-profile?tab=testimonials");
 }
 
 export async function deleteTestimonial(fd: FormData): Promise<void> {
   const { supabase } = await requireStaff();
   await supabase.from("testimonials").delete().eq("id", Number(fd.get("id")));
   revalidatePath("/admin/testimonials");
+  revalidatePath("/admin/company-profile");
 }
 
 /* -------------------------------- partners -------------------------------- */
@@ -214,8 +216,10 @@ export async function savePartner(_prev: ActionState, fd: FormData): Promise<Act
     return fail(err);
   }
   revalidatePath("/admin/partners");
-  redirect("/admin/partners");
+  revalidatePath("/admin/company-profile");
+  redirect("/admin/company-profile?tab=partners");
 }
+
 
 export async function deletePartner(fd: FormData): Promise<void> {
   const { supabase } = await requireStaff();
@@ -312,7 +316,9 @@ export async function setUserRole(fd: FormData): Promise<void> {
   const { supabase } = await requireAdmin();
   await supabase.from("profiles").update({ role }).eq("id", String(fd.get("id")));
   revalidatePath("/admin/users");
+  revalidatePath("/admin/settings");
 }
+
 
 /* ---------------------------- single-row pages ---------------------------- */
 
