@@ -10,7 +10,7 @@ const AVAILABLE_PROJECT_IMAGES = [
   { label: "Biophilic Plaza & Roof Terraces", url: "/images/hero_landscape.jpg" },
   { label: "Master Planning & Concept Design", url: "/images/service_planning.jpg" },
   { label: "Stone Walkways & Hardscape", url: "/images/service_construction.jpg" },
-  { label: "Nursery & Seedling Cultivation", url: "/images/service_nursery.jpg" },
+  { label: "Nursery & Seedling Production", url: "/images/service_nursery.jpg" },
   { label: "Botanical Garden & Living Terraces", url: "/images/service_botanic.jpg" },
   { label: "Urban Greening & Roadway Parks", url: "/images/service_urban_greening.jpg" },
   { label: "Automated Drip Irrigation Systems", url: "/images/service_irrigation.jpg" },
