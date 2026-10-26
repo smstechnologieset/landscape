@@ -31,53 +31,15 @@ export interface SiteStore {
   messages: ContactInquiry[];
 }
 
-const INITIAL_MESSAGES: ContactInquiry[] = [
-  {
-    id: "msg-101",
-    fullName: "Abebe Kebede",
-    organization: "Ministry of Urban Development & Infrastructure",
-    email: "abebe.kebede@mudi.gov.et",
-    phone: "+251 91 123 4567",
-    serviceOfInterest: "Urban Greening and Environmental Services",
-    subject: "Sub-city Green Corridor Master Plan Consultation",
-    message: "We are developing an ecological master plan for a 15-hectare urban park along the newly expanded roadway in Addis Ababa. We reviewed your documented projects and would like to invite Landscape Solution PLC for an initial technical presentation and site evaluation next Tuesday.",
-    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 3).toISOString(),
-    isRead: false
-  },
-  {
-    id: "msg-102",
-    fullName: "Sara Yohannes",
-    organization: "Bole Luxury Residence Developers",
-    email: "sara.y@boleluxury.com",
-    phone: "+251 92 345 6789",
-    serviceOfInterest: "Landscape Planning and Design",
-    subject: "Terrace Landscape & Biophilic Design Proposal",
-    message: "We have a 4-phase premium residential compound in Bole Sub-city requiring sustainable landscaping, water-efficient drip irrigation, and outdoor recreational stone paving. Please provide your portfolio presentation and schedule a site survey.",
-    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 18).toISOString(),
-    isRead: false
-  },
-  {
-    id: "msg-103",
-    fullName: "Dawit Tefera",
-    organization: "Rift Valley Eco-Resort",
-    email: "dawit@riftvalleyresorts.et",
-    phone: "+251 93 456 7890",
-    serviceOfInterest: "Botanic Garden Development",
-    subject: "Indigenous Flora Nursery & Lake Buffer Restoration",
-    message: "Our resort is expanding along the lakeshore and we are committed to native plant biodiversity and wetland erosion control. We would like to contract your nursery cultivation and landscape team for 5,000 indigenous trees and shoreline bio-engineering.",
-    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 48).toISOString(),
-    isRead: true
-  }
-];
-
-// Fallback in-memory cache for ultra-fast response and graceful degradation
+// In-memory cache for fast response and fallback
 let cachedStore: SiteStore = {
   services: JSON.parse(JSON.stringify(OFFICIAL_SERVICES)),
   projects: JSON.parse(JSON.stringify(MOCK_PORTFOLIO_PROJECTS)),
   blogPosts: JSON.parse(JSON.stringify(MOCK_BLOG_POSTS)),
   jobs: JSON.parse(JSON.stringify(MOCK_JOB_OPENINGS)),
-  messages: INITIAL_MESSAGES
+  messages: []
 };
+
 
 /* ========================================================================= */
 /* SERVICES CRUD                                                             */
@@ -626,7 +588,7 @@ export async function getStoredMessages(): Promise<ContactInquiry[]> {
       .select("*")
       .order("created_at", { ascending: false });
 
-    if (!error && data && data.length > 0) {
+    if (!error && data) {
       const mapped: ContactInquiry[] = data.map((row: any) => ({
         id: String(row.id),
         fullName: row.full_name,

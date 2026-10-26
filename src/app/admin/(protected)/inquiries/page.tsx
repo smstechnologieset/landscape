@@ -7,6 +7,9 @@ import MessagesInbox, {
 } from "@/components/admin/MessagesInbox";
 
 export const metadata = { title: "Messages & Inquiries | Admin Portal" };
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 
 interface PageProps {
   searchParams?: {

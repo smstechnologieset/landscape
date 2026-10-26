@@ -44,7 +44,7 @@ export async function submitContact(_prev: FormState, formData: FormData): Promi
     .join(" ")
     .slice(0, 200) || "General Inquiry";
 
-  // Store in persistent data store
+  // Store in persistent database via admin client
   await addStoredMessage({
     fullName: parsed.data.full_name,
     email: parsed.data.email,
@@ -56,18 +56,6 @@ export async function submitContact(_prev: FormState, formData: FormData): Promi
   });
   revalidatePath("/admin/inquiries");
   revalidatePath("/admin");
-
-  if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
-    try {
-      const supabase = createClient();
-      await supabase.from("contact_inquiries").insert({
-        ...dbFields,
-        subject: combinedSubject
-      });
-    } catch {
-      // Supabase write skipped if not configured
-    }
-  }
 
   await notifyEmail(
     `New inquiry from ${parsed.data.full_name} ${organization ? `(${organization})` : ""}`,
