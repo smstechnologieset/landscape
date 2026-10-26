@@ -5,6 +5,7 @@ import { getDictionary } from "@/lib/i18n";
 import { getLocale } from "@/lib/locale";
 import { t } from "@/lib/types";
 import { SUSTAINABILITY_PILLARS, COMPANY_INFO } from "@/lib/company-data";
+import { getSustainability } from "@/lib/queries";
 
 export const metadata = {
   title: "Sustainability & Environmental Responsibility | Landscape Solution PLC",
@@ -13,8 +14,33 @@ export const metadata = {
 };
 
 export default async function SustainabilityPage() {
-  const locale = await getLocale();
+  const [locale, sustainability] = await Promise.all([
+    getLocale(),
+    getSustainability()
+  ]);
   const dict = getDictionary(locale);
+
+  // Dynamic pillar descriptions from admin if available
+  const pillarOverrides: Record<string, any> = {
+    "01": sustainability?.water_conservation,
+    "02": sustainability?.native_plants,
+    "03": sustainability?.environmental_responsibility,
+    "04": sustainability?.eco_friendly_practices,
+    "05": sustainability?.waste_reduction,
+    "06": sustainability?.sustainable_design,
+    "1": sustainability?.water_conservation,
+    "2": sustainability?.native_plants,
+    "3": sustainability?.environmental_responsibility,
+    "4": sustainability?.eco_friendly_practices,
+    "5": sustainability?.waste_reduction,
+    "6": sustainability?.sustainable_design
+  };
+
+  const pageTitle = sustainability?.title
+    ? t(sustainability.title, locale)
+    : (locale === "am"
+        ? "ለተፈጥሮ ተስማሚ አሰራር፣ ለዘላቂ አረንጓዴ ልማት"
+        : "Building Green Infrastructure & Climate Resilience");
 
   return (
     <div>
@@ -44,9 +70,7 @@ export default async function SustainabilityPage() {
               </span>
             </div>
             <h1 className="mt-4 font-serif text-4xl sm:text-6xl font-normal text-white leading-tight">
-              {locale === "am"
-                ? "ለተፈጥሮ ተስማሚ አሰራር፣ ለዘላቂ አረንጓዴ ልማት"
-                : "Building Green Infrastructure & Climate Resilience"}
+              {pageTitle}
             </h1>
             <p className="mt-6 text-lg sm:text-xl text-brand-100/90 leading-relaxed font-light">
               {locale === "am"
@@ -70,12 +94,20 @@ export default async function SustainabilityPage() {
                   ? "የአካባቢ ጥበቃ ተግዳሮቶችን በሙያዊ መፍትሄዎች መመለስ"
                   : "Addressing Climate Challenges Through Professional Action"}
               </h2>
-              <p className="mt-6 text-gray-700 leading-relaxed text-base sm:text-lg">
-                Ethiopia is actively implementing a range of development initiatives, including green development, to address the impacts of trans-boundary climate change, deforestation, and environmental degradation associated with population growth and increasing demand for natural resources.
-              </p>
-              <p className="mt-4 text-gray-600 leading-relaxed text-sm sm:text-base">
-                Landscape Solution PLC was founded to be an active institutional force in this transformation. By replacing chemical-heavy practices with organic composting, establishing water-saving drip networks, propagating native seedlings, and restoring degraded terrains, we translate environmental policy into living, thriving green realities.
-              </p>
+              {sustainability?.introduction ? (
+                <p className="mt-6 text-gray-700 leading-relaxed text-base sm:text-lg whitespace-pre-line">
+                  {t(sustainability.introduction, locale)}
+                </p>
+              ) : (
+                <>
+                  <p className="mt-6 text-gray-700 leading-relaxed text-base sm:text-lg">
+                    Ethiopia is actively implementing a range of development initiatives, including green development, to address the impacts of trans-boundary climate change, deforestation, and environmental degradation associated with population growth and increasing demand for natural resources.
+                  </p>
+                  <p className="mt-4 text-gray-600 leading-relaxed text-sm sm:text-base">
+                    Landscape Solution PLC was founded to be an active institutional force in this transformation. By replacing chemical-heavy practices with organic composting, establishing water-saving drip networks, propagating native seedlings, and restoring degraded terrains, we translate environmental policy into living, thriving green realities.
+                  </p>
+                </>
+              )}
             </Reveal>
           </div>
         </div>
@@ -97,40 +129,46 @@ export default async function SustainabilityPage() {
           </div>
 
           <div className="space-y-16">
-            {SUSTAINABILITY_PILLARS.map((pillar, idx) => (
-              <Reveal key={pillar.number}>
-                <div className={`rounded-2xl border border-brand-100 bg-white p-6 sm:p-10 shadow-sm grid lg:grid-cols-12 gap-8 items-center ${
-                  idx % 2 === 1 ? "lg:flex-row-reverse" : ""
-                }`}>
-                  <div className={`relative aspect-[16/10] rounded-xl overflow-hidden shadow-md lg:col-span-6 img-zoom ${
-                    idx % 2 === 1 ? "lg:order-2" : ""
+            {SUSTAINABILITY_PILLARS.map((pillar, idx) => {
+              const customDesc = pillarOverrides[pillar.number]
+                ? t(pillarOverrides[pillar.number], locale)
+                : t(pillar.desc, locale);
+
+              return (
+                <Reveal key={pillar.number}>
+                  <div className={`rounded-2xl border border-brand-100 bg-white p-6 sm:p-10 shadow-sm grid lg:grid-cols-12 gap-8 items-center ${
+                    idx % 2 === 1 ? "lg:flex-row-reverse" : ""
                   }`}>
-                    <Image
-                      src={pillar.image}
-                      alt={t(pillar.title, locale)}
-                      fill
-                      sizes="(max-width: 1024px) 100vw, 50vw"
-                      className="object-cover"
-                    />
-                    <div className="absolute top-3 left-3 rounded bg-brand-950/80 px-2.5 py-1 text-xs font-mono font-bold text-sprout-400">
-                      PILLAR {pillar.number}
+                    <div className={`relative aspect-[16/10] rounded-xl overflow-hidden shadow-md lg:col-span-6 img-zoom ${
+                      idx % 2 === 1 ? "lg:order-2" : ""
+                    }`}>
+                      <Image
+                        src={pillar.image}
+                        alt={t(pillar.title, locale)}
+                        fill
+                        sizes="(max-width: 1024px) 100vw, 50vw"
+                        className="object-cover"
+                      />
+                      <div className="absolute top-3 left-3 rounded bg-brand-950/80 px-2.5 py-1 text-xs font-mono font-bold text-sprout-400">
+                        PILLAR {pillar.number}
+                      </div>
+                    </div>
+
+                    <div className={`lg:col-span-6 ${idx % 2 === 1 ? "lg:order-1" : ""}`}>
+                      <span className="text-xs font-bold uppercase tracking-wider text-sprout-600">
+                        Pillar {pillar.number}
+                      </span>
+                      <h3 className="mt-2 font-serif text-2xl sm:text-3xl font-medium text-brand-950">
+                        {t(pillar.title, locale)}
+                      </h3>
+                      <p className="mt-4 text-sm sm:text-base text-gray-700 leading-relaxed">
+                        {customDesc}
+                      </p>
                     </div>
                   </div>
-
-                  <div className={`lg:col-span-6 ${idx % 2 === 1 ? "lg:order-1" : ""}`}>
-                    <span className="text-xs font-bold uppercase tracking-wider text-sprout-600">
-                      Pillar {pillar.number}
-                    </span>
-                    <h3 className="mt-2 font-serif text-2xl sm:text-3xl font-medium text-brand-950">
-                      {t(pillar.title, locale)}
-                    </h3>
-                    <p className="mt-4 text-sm sm:text-base text-gray-700 leading-relaxed">
-                      {t(pillar.desc, locale)}
-                    </p>
-                  </div>
-                </div>
-              </Reveal>
-            ))}
+                </Reveal>
+              );
+            })}
           </div>
         </div>
       </section>

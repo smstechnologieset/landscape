@@ -63,7 +63,7 @@ const DEFAULT_SETTINGS: SiteSettings = {
   favicon_url: null
 };
 
-const DEFAULT_PROFILE: CompanyProfile = {
+export const DEFAULT_PROFILE: CompanyProfile = {
   id: 1,
   about: COMPANY_INFO.background,
   mission: COMPANY_INFO.mission,
@@ -91,7 +91,7 @@ const DEFAULT_PROFILE: CompanyProfile = {
   brochure_url: null
 };
 
-const DEFAULT_SUSTAINABILITY: SustainabilityContent = {
+export const DEFAULT_SUSTAINABILITY: SustainabilityContent = {
   id: 1,
   title: {
     en: "Environmental Responsibility & Green Development",
@@ -138,6 +138,81 @@ const DEFAULT_SUSTAINABILITY: SustainabilityContent = {
     { label: { en: "Vision Target", am: "የራዕይ ዘመን" }, value: "2030" }
   ]
 };
+
+export const DEFAULT_TESTIMONIALS: Testimonial[] = [
+  {
+    id: 1,
+    customer_name: "Dawit Hailemariam",
+    company: "Atlas Commercial Developments",
+    position: "Senior Project Director",
+    testimonial: {
+      en: "Landscape Solution PLC completely transformed our commercial frontage and parking plaza with precision drip irrigation and drought-resilient indigenous flora. Their execution was punctual and aesthetically unmatched.",
+      am: "ላንድስኬፕ ሶሉሽን የንግድ ማዕከላችንን የመልክአ ምድር ገጽታ በዘመናዊ የጠብታ መስኖ እና አገር በቀል ዛፎች ውብ አድርጎታል:: የቡድኑ ሙያዊ ብቃት እና ስራውን በተያዘለት ጊዜ ማጠናቀቁ እጅግ የሚያስመሰግን ነው::"
+    },
+    photo_url: null,
+    rating: 5,
+    is_featured: true,
+    is_published: true
+  },
+  {
+    id: 2,
+    customer_name: "Sara Mengistu",
+    company: "Bole Luxury Residence",
+    position: "Property Owner & Architect",
+    testimonial: {
+      en: "The botanical selection and lawn establishment for our residential villa exceeded our expectations. Their nursery stock health and plant care expertise is truly state-of-the-art in Addis Ababa.",
+      am: "ለመኖሪያ ቪላችን የተመረጡት እፅዋትና የተዘረጋው የሳር ሜዳ ከጠበቅነው በላይ ውብ ሆኖልናል:: የችግኝ ጥራታቸውና የመንከባከብ እውቀታቸው በአዲስ አበባ እጅግ የላቀ ነው::"
+    },
+    photo_url: null,
+    rating: 5,
+    is_featured: true,
+    is_published: true
+  },
+  {
+    id: 3,
+    customer_name: "Engineer Yared Tadesse",
+    company: "Oromia Agro-Industrial Complex",
+    position: "Infrastructure Lead",
+    testimonial: {
+      en: "Their bio-engineering slope stabilization and stormwater runoff containment prevented severe erosion at our industrial premises. Dependable technical team with deep environmental stewardship.",
+      am: "በፋብሪካችን አካባቢ የሰሩት የተፈጥሮ የአፈር መሸርሸር መከላከያ እና የዝናብ ውሃ አያያዝ ስራ ከፍተኛ አደጋን አስቀርቶልናል:: ጥልቅ የአካባቢ ጥበቃ እውቀት ያላቸው ታማኝ ባለሙያዎች ናቸው::"
+    },
+    photo_url: null,
+    rating: 5,
+    is_featured: true,
+    is_published: true
+  }
+];
+
+export const DEFAULT_PARTNERS: Partner[] = [
+  {
+    id: 1,
+    name: "Sur Construction PLC",
+    logo_url: null,
+    website_url: "https://surconstruction.com",
+    description: "Corporate office building partner and prominent infrastructure constructor in Ethiopia.",
+    sort_order: 1,
+    is_published: true
+  },
+  {
+    id: 2,
+    name: "Ethiopian Green Legacy Initiative",
+    logo_url: null,
+    website_url: null,
+    description: "Institutional alignment with national afforestation, urban greening, and seedling propagation campaigns.",
+    sort_order: 2,
+    is_published: true
+  },
+  {
+    id: 3,
+    name: "Addis Ababa Urban Beautification Office",
+    logo_url: null,
+    website_url: null,
+    description: "Civic cooperation for roadside green corridors, scenic roundabouts, and public park enhancements.",
+    sort_order: 3,
+    is_published: true
+  }
+];
 
 export async function getSiteSettings(): Promise<SiteSettings | null> {
   return safe(async () => {
@@ -318,9 +393,9 @@ export async function getTestimonials(): Promise<Testimonial[]> {
       .select("*")
       .eq("is_published", true)
       .order("is_featured", { ascending: false });
-    if (error) throw error;
-    return (data as Testimonial[]) ?? [];
-  }, []);
+    if (error || !data || data.length === 0) return DEFAULT_TESTIMONIALS;
+    return data as Testimonial[];
+  }, DEFAULT_TESTIMONIALS);
 }
 
 export async function getPartners(): Promise<Partner[]> {
@@ -331,9 +406,9 @@ export async function getPartners(): Promise<Partner[]> {
       .select("*")
       .eq("is_published", true)
       .order("sort_order");
-    if (error) throw error;
-    return (data as Partner[]) ?? [];
-  }, []);
+    if (error || !data || data.length === 0) return DEFAULT_PARTNERS;
+    return data as Partner[];
+  }, DEFAULT_PARTNERS);
 }
 
 export async function getJobs(): Promise<Job[]> {

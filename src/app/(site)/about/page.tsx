@@ -5,6 +5,7 @@ import { getDictionary } from "@/lib/i18n";
 import { getLocale } from "@/lib/locale";
 import { t } from "@/lib/types";
 import { COMPANY_INFO } from "@/lib/company-data";
+import { getCompanyProfile, getPartners } from "@/lib/queries";
 
 export const metadata = {
   title: "About Us",
@@ -13,8 +14,24 @@ export const metadata = {
 };
 
 export default async function AboutPage() {
-  const locale = await getLocale();
+  const [locale, profile, partners] = await Promise.all([
+    getLocale(),
+    getCompanyProfile(),
+    getPartners()
+  ]);
   const dict = getDictionary(locale);
+
+  const heroTitle = profile?.hero_title
+    ? t(profile.hero_title, locale)
+    : (locale === "am"
+        ? "ለአረንጓዴ፣ ውብ እና ዘላቂ ኢትዮጵያ ቁርጠኝነት"
+        : "Dedicated to Sustainable Green Development in Ethiopia");
+
+  const heroDesc = profile?.hero_description
+    ? t(profile.hero_description, locale)
+    : (locale === "am"
+        ? "በ2026 በአዲስ አበባ የተመሰረተው ላንድስኬፕ ሶሉሽን፣ የስነ-ምህዳር ጥበቃን ከዘመናዊ አርክቴክቸራል ዲዛይን ጋር በማቀናጀት የላቀ አገልግሎት ይሰጣል።"
+        : "Established in 2026 in Addis Ababa, combining professional landscape architecture, plant science, and environmental responsibility to build resilient communities.");
 
   return (
     <div>
@@ -44,14 +61,10 @@ export default async function AboutPage() {
               </span>
             </div>
             <h1 className="font-serif text-4xl sm:text-6xl font-normal text-white leading-tight">
-              {locale === "am"
-                ? "ለአረንጓዴ፣ ውብ እና ዘላቂ ኢትዮጵያ ቁርጠኝነት"
-                : "Dedicated to Sustainable Green Development in Ethiopia"}
+              {heroTitle}
             </h1>
             <p className="mt-6 text-lg sm:text-xl text-brand-100/90 leading-relaxed font-light">
-              {locale === "am"
-                ? "በ2026 በአዲስ አበባ የተመሰረተው ላንድስኬፕ ሶሉሽን፣ የስነ-ምህዳር ጥበቃን ከዘመናዊ አርክቴክቸራል ዲዛይን ጋር በማቀናጀት የላቀ አገልግሎት ይሰጣል።"
-                : "Established in 2026 in Addis Ababa, combining professional landscape architecture, plant science, and environmental responsibility to build resilient communities."}
+              {heroDesc}
             </p>
           </div>
         </div>
@@ -118,6 +131,19 @@ export default async function AboutPage() {
                       <dd className="font-semibold text-brand-950">6 Pillars</dd>
                     </div>
                   </dl>
+
+                  {profile?.brochure_url && (
+                    <div className="pt-2 border-t border-brand-100">
+                      <a
+                        href={profile.brochure_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn-primary w-full text-center text-xs py-2.5 flex items-center justify-center gap-2 shadow-sm"
+                      >
+                        <span>📄</span> {locale === "am" ? "የድርጅቱን ብሮሹር አውርድ (PDF)" : "Download Brochure (PDF)"}
+                      </a>
+                    </div>
+                  )}
                 </div>
               </Reveal>
             </div>
@@ -136,22 +162,32 @@ export default async function AboutPage() {
               </Reveal>
 
               <Reveal delay={80}>
-                <div className="prose-content space-y-4 text-gray-700 leading-relaxed">
-                  <p className="text-lg text-brand-950 font-serif font-light leading-relaxed">
-                    Ethiopia is implementing a range of development initiatives, including green development, to address the impacts of trans-boundary climate change, deforestation, and environmental degradation associated with population growth and increasing demand for natural resources.
-                  </p>
-                  <p>
-                    <strong>Landscape Solution PLC</strong>, established in 2026, was founded to contribute to these efforts as a professional landscaping company dedicated to creating aesthetically pleasing, functional, and sustainable indoor and outdoor environments. The company provides comprehensive landscape planning, design, implementation, and maintenance services for government institutions, private businesses, commercial developments, residential properties, and industrial sites.
-                  </p>
-                  <p>
-                    Landscape Solution PLC combines innovative technology, creative design, technical expertise, and sustainable practices to enhance biodiversity, improve urban aesthetics, and promote climate resilience. In response to the growing demand for high-quality green infrastructure and environmentally responsible landscaping, the company specializes in lawn establishment, irrigation systems, urban greening, environmental restoration, modern botanical garden development, nursery establishment and management, and the production of diverse native, ornamental, and indigenous seedlings.
-                  </p>
-                  <p>
-                    With a team of skilled, experienced, and dedicated professionals, Landscape Solution PLC is committed to delivering customized, high-quality, sustainable, and cost-effective landscape solutions tailored to the specific needs of each client. By integrating professional expertise with environmental responsibility, the company contributes to healthier communities, greener cities, enhanced biodiversity, environmental restoration, and improved quality of life.
-                  </p>
-                  <p className="border-l-4 border-brand-600 pl-4 italic text-brand-900 bg-brand-50/50 py-3 rounded-r-lg">
-                    &ldquo;Landscape Solution PLC aspires to become a trusted and leading partner in sustainable landscaping, nursery development, environmental restoration, and green infrastructure in Ethiopia, contributing to a greener, healthier, and more climate-resilient future.&rdquo;
-                  </p>
+                <div className="prose-content space-y-4 text-gray-700 leading-relaxed whitespace-pre-line">
+                  {profile?.about ? (
+                    <p className="text-base text-gray-800 leading-relaxed font-normal">
+                      {t(profile.about, locale)}
+                    </p>
+                  ) : (
+                    <>
+                      <p className="text-lg text-brand-950 font-serif font-light leading-relaxed">
+                        Ethiopia is implementing a range of development initiatives, including green development, to address the impacts of trans-boundary climate change, deforestation, and environmental degradation associated with population growth and increasing demand for natural resources.
+                      </p>
+                      <p>
+                        <strong>Landscape Solution PLC</strong>, established in 2026, was founded to contribute to these efforts as a professional landscaping company dedicated to creating aesthetically pleasing, functional, and sustainable indoor and outdoor environments. The company provides comprehensive landscape planning, design, implementation, and maintenance services for government institutions, private businesses, commercial developments, residential properties, and industrial sites.
+                      </p>
+                      <p>
+                        Landscape Solution PLC combines innovative technology, creative design, technical expertise, and sustainable practices to enhance biodiversity, improve urban aesthetics, and promote climate resilience. In response to the growing demand for high-quality green infrastructure and environmentally responsible landscaping, the company specializes in lawn establishment, irrigation systems, urban greening, environmental restoration, modern botanical garden development, nursery establishment and management, and the production of diverse native, ornamental, and indigenous seedlings.
+                      </p>
+                      <p>
+                        With a team of skilled, experienced, and dedicated professionals, Landscape Solution PLC is committed to delivering customized, high-quality, sustainable, and cost-effective landscape solutions tailored to the specific needs of each client. By integrating professional expertise with environmental responsibility, the company contributes to healthier communities, greener cities, enhanced biodiversity, environmental restoration, and improved quality of life.
+                      </p>
+                    </>
+                  )}
+                  {profile?.company_story && (
+                    <p className="border-l-4 border-brand-600 pl-4 italic text-brand-900 bg-brand-50/50 py-3 rounded-r-lg font-serif">
+                      &ldquo;{t(profile.company_story, locale)}&rdquo;
+                    </p>
+                  )}
                 </div>
               </Reveal>
             </div>
@@ -170,7 +206,7 @@ export default async function AboutPage() {
                     {locale === "am" ? "የረጅም ጊዜ ራዕይ" : "Our Vision 2030"}
                   </span>
                   <h3 className="mt-4 font-serif text-2xl sm:text-3xl font-normal leading-relaxed text-white">
-                    &ldquo;{t(COMPANY_INFO.vision, locale)}&rdquo;
+                    &ldquo;{t(profile?.vision || COMPANY_INFO.vision, locale)}&rdquo;
                   </h3>
                 </div>
                 <div className="mt-8 pt-6 border-t border-brand-800 text-xs text-brand-200">
@@ -186,7 +222,7 @@ export default async function AboutPage() {
                     {locale === "am" ? "የተልዕኮ መግለጫ" : "Our Mission"}
                   </span>
                   <p className="mt-4 font-serif text-xl sm:text-2xl text-brand-900 leading-relaxed font-light">
-                    &ldquo;{t(COMPANY_INFO.mission, locale)}&rdquo;
+                    &ldquo;{t(profile?.mission || COMPANY_INFO.mission, locale)}&rdquo;
                   </p>
                 </div>
                 <div className="mt-8 pt-6 border-t border-gray-100 text-xs text-gray-500">
@@ -291,6 +327,39 @@ export default async function AboutPage() {
                 : "Identified in our founding charter as key institutional, governmental, and private collaborators for sustainable green infrastructure and environmental initiatives across Ethiopia."}
             </p>
           </div>
+
+          {/* Corporate Partners & Registered Institutional Clients */}
+          {partners.length > 0 && (
+            <div className="mb-14">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-brand-800 mb-6">
+                {locale === "am" ? "ተባባሪ አጋር ድርጅቶችና ተቋማት" : "Corporate Partners & Institutional Clients"}
+              </h3>
+              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {partners.map((p) => (
+                  <div key={p.id} className="card p-6 bg-brand-50/50 border border-brand-100 rounded-xl flex flex-col justify-between">
+                    <div>
+                      <h4 className="font-serif text-lg font-bold text-brand-950">{p.name}</h4>
+                      {p.description && (
+                        <p className="mt-2 text-xs text-gray-600 leading-relaxed">{p.description}</p>
+                      )}
+                    </div>
+                    {p.website_url && (
+                      <div className="mt-4 pt-3 border-t border-brand-100">
+                        <a
+                          href={p.website_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-xs font-semibold text-brand-700 hover:text-brand-900 hover:underline inline-flex items-center gap-1"
+                        >
+                          Visit Website ↗
+                        </a>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
 
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             {COMPANY_INFO.stakeholderCategories.map((group, idx) => (

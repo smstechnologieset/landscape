@@ -10,11 +10,15 @@ import {
   ServiceDetail
 } from "@/lib/company-data";
 import { getStoredServices } from "@/lib/data-store";
+import { getTestimonials } from "@/lib/queries";
 
 export default async function HomePage() {
-  const locale = await getLocale();
+  const [locale, services, testimonials] = await Promise.all([
+    getLocale(),
+    getStoredServices(),
+    getTestimonials()
+  ]);
   const dict = getDictionary(locale);
-  const services = await getStoredServices();
 
   // Group services (Show only the first 4 on the homepage)
   const featuredService = services[0] || OFFICIAL_SERVICES[0];
@@ -682,7 +686,68 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* 8. FINAL CLOSING CTA */}
+      {/* 8. CLIENT PERSPECTIVES & TESTIMONIALS */}
+      {testimonials.length > 0 && (
+        <section className="py-20 sm:py-24 bg-white border-t border-brand-100/80">
+          <div className="container-page">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+              <div>
+                <span className="text-xs font-bold uppercase tracking-widest text-brand-700">
+                  {locale === "am" ? "የደንበኞች አስተያየት" : "Client Testimonials"}
+                </span>
+                <h2 className="mt-2 font-serif text-3xl sm:text-4xl font-normal text-brand-950">
+                  {locale === "am" ? "የደንበኞቻችን ምስክርነት" : "Trusted by Property Owners & Developers"}
+                </h2>
+              </div>
+              <Link
+                href="/testimonials"
+                className="text-xs font-bold uppercase tracking-wider text-brand-800 hover:text-brand-950 hover:underline flex items-center gap-1.5"
+              >
+                <span>{locale === "am" ? "ሁሉንም አስተያየቶች ይመልከቱ" : "View All Perspectives"}</span>
+                <span>→</span>
+              </Link>
+            </div>
+
+            <div className="grid gap-6 md:grid-cols-3">
+              {testimonials.slice(0, 3).map((item, idx) => (
+                <Reveal key={item.id} delay={idx * 60}>
+                  <div className="flex h-full flex-col justify-between rounded-2xl border border-brand-100 bg-brand-50/50 p-7 shadow-sm hover:border-brand-300 transition">
+                    <div>
+                      <div className="flex items-center gap-1 text-accent-500 text-sm">
+                        {"★".repeat(item.rating)}
+                        <span className="text-gray-300">{"★".repeat(Math.max(0, 5 - item.rating))}</span>
+                      </div>
+                      <blockquote className="mt-4 text-xs sm:text-sm text-gray-800 leading-relaxed italic">
+                        &ldquo;{t(item.testimonial, locale)}&rdquo;
+                      </blockquote>
+                    </div>
+                    <div className="mt-6 flex items-center gap-3 border-t border-brand-100/80 pt-4">
+                      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-brand-900 text-xs font-bold text-white">
+                        {item.customer_name
+                          .split(" ")
+                          .map((n) => n[0])
+                          .slice(0, 2)
+                          .join("")
+                          .toUpperCase()}
+                      </div>
+                      <div>
+                        <h4 className="font-serif text-xs sm:text-sm font-bold text-brand-950">
+                          {item.customer_name}
+                        </h4>
+                        <p className="text-[11px] text-gray-500">
+                          {[item.position, item.company].filter(Boolean).join(" • ")}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* 9. FINAL CLOSING CTA */}
       <section className="py-20 sm:py-28 bg-brand-950 text-white text-center relative overflow-hidden">
         {/* Subtle background glow */}
         <div className="absolute inset-0 opacity-20 bg-[radial-gradient(#569d43_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none" />

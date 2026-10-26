@@ -176,7 +176,7 @@ export async function saveTestimonial(_prev: ActionState, fd: FormData): Promise
       is_published: bool(fd, "is_published")
     };
     const { error } = id
-      ? await supabase.from("testimonials").update(row).eq("id", id)
+      ? await supabase.from("testimonials").upsert({ id, ...row })
       : await supabase.from("testimonials").insert(row);
     if (error) throw new Error(error.message);
   } catch (err) {
@@ -184,6 +184,8 @@ export async function saveTestimonial(_prev: ActionState, fd: FormData): Promise
   }
   revalidatePath("/admin/testimonials");
   revalidatePath("/admin/company-profile");
+  revalidatePath("/testimonials");
+  revalidatePath("/");
   redirect("/admin/company-profile?tab=testimonials");
 }
 
@@ -192,6 +194,8 @@ export async function deleteTestimonial(fd: FormData): Promise<void> {
   await supabase.from("testimonials").delete().eq("id", Number(fd.get("id")));
   revalidatePath("/admin/testimonials");
   revalidatePath("/admin/company-profile");
+  revalidatePath("/testimonials");
+  revalidatePath("/");
 }
 
 /* -------------------------------- partners -------------------------------- */
@@ -209,7 +213,7 @@ export async function savePartner(_prev: ActionState, fd: FormData): Promise<Act
       is_published: bool(fd, "is_published")
     };
     const { error } = id
-      ? await supabase.from("partners").update(row).eq("id", id)
+      ? await supabase.from("partners").upsert({ id, ...row })
       : await supabase.from("partners").insert(row);
     if (error) throw new Error(error.message);
   } catch (err) {
@@ -217,14 +221,18 @@ export async function savePartner(_prev: ActionState, fd: FormData): Promise<Act
   }
   revalidatePath("/admin/partners");
   revalidatePath("/admin/company-profile");
+  revalidatePath("/about");
+  revalidatePath("/");
   redirect("/admin/company-profile?tab=partners");
 }
-
 
 export async function deletePartner(fd: FormData): Promise<void> {
   const { supabase } = await requireStaff();
   await supabase.from("partners").delete().eq("id", Number(fd.get("id")));
   revalidatePath("/admin/partners");
+  revalidatePath("/admin/company-profile");
+  revalidatePath("/about");
+  revalidatePath("/");
 }
 
 /* ---------------------------------- jobs ---------------------------------- */
@@ -325,8 +333,8 @@ export async function setUserRole(fd: FormData): Promise<void> {
 export async function saveCompanyProfile(_prev: ActionState, fd: FormData): Promise<ActionState> {
   try {
     await requireStaff();
-    const { createClient } = await import("@/lib/supabase/server");
-    const supabase = createClient();
+    const { createAdminClient } = await import("@/lib/supabase/admin");
+    const supabase = createAdminClient();
     const row = {
       about: collectLocalized(fd, "about"),
       mission: collectLocalized(fd, "mission"),
@@ -338,12 +346,14 @@ export async function saveCompanyProfile(_prev: ActionState, fd: FormData): Prom
       hero_description: collectLocalized(fd, "hero_description"),
       brochure_url: String(fd.get("brochure_url") ?? "") || null
     };
-    const { error } = await supabase.from("company_profile").update(row).eq("id", 1);
+    const { error } = await supabase.from("company_profile").upsert({ id: 1, ...row });
     if (error) throw new Error(error.message);
   } catch (err) {
     return fail(err);
   }
   revalidatePath("/admin/company-profile");
+  revalidatePath("/about");
+  revalidatePath("/");
   revalidatePath("/", "layout");
   return { ok: true };
 }
@@ -352,8 +362,8 @@ export async function saveSettings(_prev: ActionState, fd: FormData): Promise<Ac
   try {
     const { role } = await requireStaff();
     if (role !== "admin") throw new Error("FORBIDDEN");
-    const { createClient } = await import("@/lib/supabase/server");
-    const supabase = createClient();
+    const { createAdminClient } = await import("@/lib/supabase/admin");
+    const supabase = createAdminClient();
     const row = {
       company_name: String(fd.get("company_name") ?? ""),
       phone: String(fd.get("phone") ?? ""),
@@ -366,7 +376,7 @@ export async function saveSettings(_prev: ActionState, fd: FormData): Promise<Ac
       linkedin_url: String(fd.get("linkedin_url") ?? ""),
       youtube_url: String(fd.get("youtube_url") ?? "")
     };
-    const { error } = await supabase.from("site_settings").update(row).eq("id", 1);
+    const { error } = await supabase.from("site_settings").upsert({ id: 1, ...row });
     if (error) throw new Error(error.message);
   } catch (err) {
     return fail(err);
@@ -379,8 +389,8 @@ export async function saveSettings(_prev: ActionState, fd: FormData): Promise<Ac
 export async function saveSustainability(_prev: ActionState, fd: FormData): Promise<ActionState> {
   try {
     await requireStaff();
-    const { createClient } = await import("@/lib/supabase/server");
-    const supabase = createClient();
+    const { createAdminClient } = await import("@/lib/supabase/admin");
+    const supabase = createAdminClient();
     const row = {
       title: collectLocalized(fd, "title"),
       introduction: collectLocalized(fd, "introduction"),
@@ -391,12 +401,14 @@ export async function saveSustainability(_prev: ActionState, fd: FormData): Prom
       waste_reduction: collectLocalized(fd, "waste_reduction"),
       sustainable_design: collectLocalized(fd, "sustainable_design")
     };
-    const { error } = await supabase.from("sustainability_content").update(row).eq("id", 1);
+    const { error } = await supabase.from("sustainability_content").upsert({ id: 1, ...row });
     if (error) throw new Error(error.message);
   } catch (err) {
     return fail(err);
   }
   revalidatePath("/admin/sustainability");
+  revalidatePath("/admin/company-profile");
   revalidatePath("/sustainability");
+  revalidatePath("/");
   return { ok: true };
 }
