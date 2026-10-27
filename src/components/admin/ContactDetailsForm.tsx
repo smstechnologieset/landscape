@@ -92,10 +92,10 @@ export default function ContactDetailsForm({ settings }: ContactDetailsFormProps
             id="email"
             name="email"
             type="email"
-            defaultValue={settings?.email || "admin@pinnaclelandscapesolution.com"}
+            defaultValue={settings?.email || "contact@pinnaclelandscapesolution.com"}
             required
             className="input text-sm"
-            placeholder="admin@pinnaclelandscapesolution.com"
+            placeholder="contact@pinnaclelandscapesolution.com"
           />
           <p className="text-[11px] text-gray-500 mt-1">
             Receives notifications and appears as the official mailto contact.

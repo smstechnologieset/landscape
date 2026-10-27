@@ -38,12 +38,13 @@ export const consultationSchema = z.object({
 });
 
 export const applicationSchema = z.object({
-  job_id: z.coerce.number().int().positive(),
-  full_name: z.string().trim().min(2),
+  job_id: z.coerce.number().int().positive().nullable().optional(),
+  full_name: z.string().trim().min(2, "Please enter your full name"),
   email: z.string().trim().email("Invalid email address"),
-  phone: z.string().trim().min(5).max(30),
+  phone: z.string().trim().min(5, "Please enter a valid phone number").max(30),
   cover_letter: z.string().trim().max(8000).optional().default(""),
-  resume_url: z.string().trim().min(1, "Resume is required")
+  resume_url: z.string().trim().optional().default(""),
+  portfolio_url: z.string().trim().optional().default("")
 });
 
 export const loginSchema = z.object({

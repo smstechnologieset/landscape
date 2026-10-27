@@ -16,10 +16,11 @@ export interface ApplicationItem {
   email: string;
   phone?: string;
   jobTitle: string;
-  jobId: number;
+  jobId?: number | null;
   status: string;
   coverLetter?: string;
   resumeUrl?: string;
+  portfolioUrl?: string;
   createdAt: string;
 }
 
@@ -463,6 +464,24 @@ export default function CareersHiringManager({
                 <div className="p-4 rounded-xl border border-gray-200 bg-white text-gray-800 text-sm leading-relaxed whitespace-pre-wrap">
                   {activeModalApplication.coverLetter}
                 </div>
+              </div>
+            )}
+
+            {activeModalApplication.portfolioUrl && (
+              <div className="p-3.5 rounded-xl bg-sprout-50 border border-sprout-200 flex items-center justify-between text-xs">
+                <div>
+                  <span className="font-semibold text-brand-950 block">Portfolio / Professional Profile</span>
+                  <span className="text-gray-500 font-mono truncate max-w-xs block">{activeModalApplication.portfolioUrl}</span>
+                </div>
+                <a
+                  href={activeModalApplication.portfolioUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-secondary !text-xs !py-1.5 inline-flex items-center gap-1 font-semibold shrink-0"
+                >
+                  <span>Open Link</span>
+                  <span>↗</span>
+                </a>
               </div>
             )}
 

@@ -25,7 +25,7 @@ export const COMPANY_INFO = {
     mobile: "+251 91 123 4567",
     whatsapp: "+251 91 123 4567"
   },
-  email: "admin@pinnaclelandscapesolution.com",
+  email: "contact@pinnaclelandscapesolution.com",
   socialLinks: {
     whatsapp: "https://wa.me/251911234567",
     telegram: "https://t.me/pinnaclelandscapesolution",

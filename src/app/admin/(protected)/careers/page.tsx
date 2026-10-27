@@ -40,11 +40,12 @@ export default async function AdminCareersPage({ searchParams }: PageProps) {
       fullName: a.full_name,
       email: a.email,
       phone: a.phone || undefined,
-      jobTitle: (a.jobs?.title as { en?: string })?.en ?? `Job #${a.job_id}`,
+      jobTitle: (a.jobs?.title as { en?: string })?.en ?? (a.job_id ? `Job #${a.job_id}` : "General / Talent Network"),
       jobId: a.job_id,
       status: a.status || "new",
       coverLetter: a.cover_letter || undefined,
       resumeUrl: resumeUrl || undefined,
+      portfolioUrl: a.portfolio_url || undefined,
       createdAt: a.created_at
     });
   }

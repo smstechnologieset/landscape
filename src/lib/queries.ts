@@ -51,7 +51,7 @@ const DEFAULT_SETTINGS: SiteSettings = {
   company_name: COMPANY_INFO.name,
   phone: "+251 11 667 8901",
   alt_phone: "+251 91 123 4567",
-  email: "admin@pinnaclelandscapesolution.com",
+  email: "contact@pinnaclelandscapesolution.com",
   whatsapp: "+251911234567",
   address: "Sur Construction Building, 8th Floor, Addis Ababa, Ethiopia",
   google_maps_url:

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import type { JobOpening } from "@/lib/company-data";
 import { type Locale, t } from "@/lib/types";
+import { submitJobApplicationAction } from "@/app/actions/public-forms";
 
 interface JobOpeningsBoardProps {
   jobs: JobOpening[];
@@ -16,6 +17,7 @@ export default function JobOpeningsBoard({ jobs, locale }: JobOpeningsBoardProps
   const [applyModalJob, setApplyModalJob] = useState<JobOpening | null>(null);
   const [applicationSubmitted, setApplicationSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   // Form state
   const [formData, setFormData] = useState({
@@ -49,6 +51,7 @@ export default function JobOpeningsBoard({ jobs, locale }: JobOpeningsBoardProps
   const handleOpenApplyModal = (job: JobOpening) => {
     setApplyModalJob(job);
     setApplicationSubmitted(false);
+    setSubmitError(null);
     setFormData({
       fullName: "",
       email: "",
@@ -61,16 +64,34 @@ export default function JobOpeningsBoard({ jobs, locale }: JobOpeningsBoardProps
   const handleCloseApplyModal = () => {
     setApplyModalJob(null);
     setApplicationSubmitted(false);
+    setSubmitError(null);
   };
 
-  const handleSubmitApplication = (e: React.FormEvent) => {
+  const handleSubmitApplication = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitting(true);
-    // Simulate swift submission
-    setTimeout(() => {
+    setSubmitError(null);
+
+    try {
+      const res = await submitJobApplicationAction({
+        jobId: applyModalJob?.id,
+        fullName: formData.fullName,
+        email: formData.email,
+        phone: formData.phone,
+        portfolioUrl: formData.portfolioUrl,
+        coverNote: formData.coverNote
+      });
+
+      if (!res.ok) {
+        setSubmitError(res.error || "Failed to submit application. Please check your information and try again.");
+      } else {
+        setApplicationSubmitted(true);
+      }
+    } catch (err: any) {
+      setSubmitError(err.message || "An unexpected error occurred. Please try again.");
+    } finally {
       setSubmitting(false);
-      setApplicationSubmitted(true);
-    }, 600);
+    }
   };
 
   return (
@@ -315,12 +336,12 @@ export default function JobOpeningsBoard({ jobs, locale }: JobOpeningsBoardProps
                           <p className="text-xs text-brand-100/80 mt-1">
                             {locale === "am"
                               ? "የማመልከቻ ሰነድዎን በቀጥታ ያስገቡ ወይም በኢሜይል ይላኩልን።"
-                              : "Submit your credentials via our online form or email your CV to admin@pinnaclelandscapesolution.com"}
+                              : "Submit your credentials via our online form or email your CV to contact@pinnaclelandscapesolution.com"}
                           </p>
                         </div>
                         <div className="flex flex-wrap items-center gap-3">
                           <a
-                            href={`mailto:admin@pinnaclelandscapesolution.com?subject=Application for ${job.title.en} - [Your Name]&body=Dear Landscape Solution PLC Recruitment Team,%0D%0A%0D%0APlease find attached my CV and portfolio for the position of ${job.title.en}.%0D%0A%0D%0AFull Name: %0D%0APhone: %0D%0AExperience: %0D%0A%0D%0ABest regards,%0D%0A`}
+                            href={`mailto:contact@pinnaclelandscapesolution.com?subject=Application for ${job.title.en} - [Your Name]&body=Dear Landscape Solution PLC Recruitment Team,%0D%0A%0D%0APlease find attached my CV and portfolio for the position of ${job.title.en}.%0D%0A%0D%0AFull Name: %0D%0APhone: %0D%0AExperience: %0D%0A%0D%0ABest regards,%0D%0A`}
                             className="btn-secondary text-xs uppercase tracking-wider px-4 py-2 font-medium bg-white/10 text-white border-white/20 hover:bg-white/20"
                           >
                             ✉ {locale === "am" ? "በኢሜይል አመልክት" : "Apply via Email"}
@@ -354,12 +375,12 @@ export default function JobOpeningsBoard({ jobs, locale }: JobOpeningsBoardProps
         </h4>
         <p className="mt-2 text-xs sm:text-sm text-gray-700 max-w-xl mx-auto leading-relaxed">
           {locale === "am"
-            ? "በመልክአ ምድር አርክቴክቸር፣ በሆርቲካልቸር፣ በመስኖ እና በቦታኒካል ሳይንስ የሰለጠኑ ባለሙያዎችን ሁልጊዜ በደስታ እንቀበላለን። ሲቪዎን እና የስራ ናሙናዎን ወደ admin@pinnaclelandscapesolution.com ይላኩልን።"
+            ? "በመልክአ ምድር አርክቴክቸር፣ በሆርቲካልቸር፣ በመስኖ እና በቦታኒካል ሳይንስ የሰለጠኑ ባለሙያዎችን ሁልጊዜ በደስታ እንቀበላለን። ሲቪዎን እና የስራ ናሙናዎን ወደ contact@pinnaclelandscapesolution.com ይላኩልን።"
             : "Landscape Solution PLC is continually growing. If you are an experienced botanist, irrigation technician, heavy machine operator, or landscape estimator, send your resume and portfolio to our talent desk."}
         </p>
         <div className="mt-5 flex justify-center">
           <a
-            href="mailto:admin@pinnaclelandscapesolution.com?subject=Speculative Application - Professional Landscape Network&body=Dear Landscape Solution PLC,%0D%0A%0D%0AI would like to submit my CV and portfolio for future project openings.%0D%0A%0D%0AName:%0D%0AField of Expertise:%0D%0APhone:%0D%0A"
+            href="mailto:contact@pinnaclelandscapesolution.com?subject=Speculative Application - Professional Landscape Network&body=Dear Landscape Solution PLC,%0D%0A%0D%0AI would like to submit my CV and portfolio for future project openings.%0D%0A%0D%0AName:%0D%0AField of Expertise:%0D%0APhone:%0D%0A"
             className="btn-secondary text-xs uppercase tracking-wider px-6 py-2.5"
           >
             ✉ {locale === "am" ? "ሲቪዎን በኢሜይል ይላኩ" : "Email Your CV to Talent Desk"}
@@ -423,6 +444,13 @@ export default function JobOpeningsBoard({ jobs, locale }: JobOpeningsBoardProps
                 </div>
               ) : (
                 <form onSubmit={handleSubmitApplication} className="space-y-4">
+                  {submitError && (
+                    <div className="p-3.5 rounded-xl bg-red-50 border border-red-200 text-red-800 text-xs font-medium flex items-center gap-2">
+                      <span>⚠️</span>
+                      <span>{submitError}</span>
+                    </div>
+                  )}
+
                   <div>
                     <label className="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1">
                       {locale === "am" ? "ሙሉ ስም *" : "Full Name *"}

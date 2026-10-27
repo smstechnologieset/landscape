@@ -15,7 +15,7 @@ const DEFAULT_SETTINGS_FALLBACK: Record<string, string> = {
   company_name: "Landscape Solution PLC",
   phone: "+251 11 667 8901",
   alt_phone: "+251 91 123 4567",
-  email: "admin@pinnaclelandscapesolution.com",
+  email: "contact@pinnaclelandscapesolution.com",
   whatsapp: "+251911234567",
   address: "Sur Construction Building, 8th Floor, Addis Ababa, Ethiopia",
   google_maps_url: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3940.548483584877!2d38.78345237494578!3d9.013589991047127!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x164b850d998276f7%3A0xc6cb697e06a380e2!2sSur%20Construction!5e0!3m2!1sen!2set!4v1711200000000!5m2!1sen!2set",
