@@ -6,7 +6,15 @@ import { useEffect, useState, useRef } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import type { Dictionary, Locale } from "@/lib/i18n";
 
-export default function Header({ dict }: { dict: Dictionary; whatsapp?: string }) {
+export default function Header({
+  dict,
+  whatsapp,
+  logoUrl
+}: {
+  dict: Dictionary;
+  whatsapp?: string;
+  logoUrl?: string | null;
+}) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
@@ -112,7 +120,7 @@ export default function Header({ dict }: { dict: Dictionary; whatsapp?: string }
         >
           <div className="relative h-20 w-48 sm:w-56 md:w-64 flex items-center">
             <Image
-              src="/images/logo.png"
+              src={logoUrl || "/images/logo.png"}
               alt="Landscape Solution PLC"
               fill
               sizes="(max-width: 640px) 192px, 256px"

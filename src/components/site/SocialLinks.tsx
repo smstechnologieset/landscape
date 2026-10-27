@@ -1,23 +1,32 @@
 import Link from "next/link";
 import { COMPANY_INFO } from "@/lib/company-data";
+import type { SiteSettings } from "@/lib/types";
 
 export interface SocialLinksProps {
   variant?: "dark" | "light" | "colored";
   size?: "sm" | "md" | "lg";
   className?: string;
   showLabels?: boolean;
+  settings?: SiteSettings | null;
 }
 
 export default function SocialLinks({
   variant = "dark",
   size = "md",
   className = "",
-  showLabels = false
+  showLabels = false,
+  settings
 }: SocialLinksProps) {
+  const whatsappUrl = settings?.whatsapp
+    ? settings.whatsapp.startsWith("http")
+      ? settings.whatsapp
+      : `https://wa.me/${settings.whatsapp.replace(/[^0-9]/g, "")}`
+    : COMPANY_INFO.socialLinks.whatsapp;
+
   const socials = [
     {
       name: "WhatsApp",
-      url: COMPANY_INFO.socialLinks.whatsapp,
+      url: whatsappUrl,
       color: "hover:bg-[#25D366] hover:text-white hover:border-[#25D366]",
       label: "WhatsApp",
       icon: (
@@ -28,7 +37,7 @@ export default function SocialLinks({
     },
     {
       name: "Instagram",
-      url: COMPANY_INFO.socialLinks.instagram,
+      url: settings?.instagram_url || COMPANY_INFO.socialLinks.instagram,
       color: "hover:bg-[#E1306C] hover:text-white hover:border-[#E1306C]",
       label: "Instagram",
       icon: (
@@ -39,7 +48,7 @@ export default function SocialLinks({
     },
     {
       name: "TikTok",
-      url: COMPANY_INFO.socialLinks.tiktok,
+      url: settings?.tiktok_url || COMPANY_INFO.socialLinks.tiktok,
       color: "hover:bg-black hover:text-white hover:border-black",
       label: "TikTok",
       icon: (
@@ -50,7 +59,7 @@ export default function SocialLinks({
     },
     {
       name: "Facebook",
-      url: COMPANY_INFO.socialLinks.facebook,
+      url: settings?.facebook_url || COMPANY_INFO.socialLinks.facebook,
       color: "hover:bg-[#1877F2] hover:text-white hover:border-[#1877F2]",
       label: "Facebook",
       icon: (
@@ -61,7 +70,7 @@ export default function SocialLinks({
     },
     {
       name: "Telegram",
-      url: COMPANY_INFO.socialLinks.telegram,
+      url: settings?.telegram_url || COMPANY_INFO.socialLinks.telegram,
       color: "hover:bg-[#229ED9] hover:text-white hover:border-[#229ED9]",
       label: "Telegram",
       icon: (
@@ -72,7 +81,7 @@ export default function SocialLinks({
     },
     {
       name: "LinkedIn",
-      url: COMPANY_INFO.socialLinks.linkedin,
+      url: settings?.linkedin_url || COMPANY_INFO.socialLinks.linkedin,
       color: "hover:bg-[#0A66C2] hover:text-white hover:border-[#0A66C2]",
       label: "LinkedIn",
       icon: (
@@ -83,7 +92,7 @@ export default function SocialLinks({
     },
     {
       name: "YouTube",
-      url: COMPANY_INFO.socialLinks.youtube,
+      url: settings?.youtube_url || COMPANY_INFO.socialLinks.youtube,
       color: "hover:bg-[#FF0000] hover:text-white hover:border-[#FF0000]",
       label: "YouTube",
       icon: (
@@ -92,7 +101,7 @@ export default function SocialLinks({
         </svg>
       )
     }
-  ];
+  ].filter((item) => Boolean(item.url));
 
   const sizeClasses = {
     sm: "h-8 w-8 p-1.5 text-xs",
@@ -101,54 +110,28 @@ export default function SocialLinks({
   };
 
   const variantClasses = {
-    dark: "bg-brand-900/80 border border-brand-800 text-brand-200 hover:text-white",
-    light: "bg-white border border-gray-200 text-gray-700 hover:text-white shadow-sm",
-    colored: "bg-brand-50 border border-brand-200 text-brand-900 hover:text-white"
+    dark: "bg-brand-900/90 text-brand-200 border-brand-800 hover:text-white",
+    light: "bg-gray-100 text-gray-700 border-gray-200 hover:text-white",
+    colored: "bg-white text-gray-700 border-gray-200 shadow-sm"
   };
 
-  if (showLabels) {
-    return (
-      <div className={`grid grid-cols-2 sm:grid-cols-3 gap-3 ${className}`}>
-        {socials.map((s) => (
-          <a
-            key={s.name}
-            href={s.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={`Visit Landscape Solution PLC on ${s.name}`}
-            className={`flex items-center gap-3 p-3 rounded-xl border transition-all duration-200 group ${variant === "dark" ? "bg-brand-900/60 border-brand-800 text-white hover:border-sprout-400" : "bg-white border-gray-200 hover:border-brand-300 shadow-sm hover:shadow-md"}`}
-          >
-            <span className={`inline-flex items-center justify-center rounded-lg p-2 transition-transform duration-200 group-hover:scale-110 ${sizeClasses.md} ${variantClasses[variant]} ${s.color}`}>
-              {s.icon}
-            </span>
-            <div className="min-w-0">
-              <p className="text-xs font-semibold text-brand-950 dark:text-white group-hover:text-sprout-600 transition truncate">
-                {s.name}
-              </p>
-              <p className="text-[10px] text-gray-500 truncate">
-                @landscapesolutionet
-              </p>
-            </div>
-          </a>
-        ))}
-      </div>
-    );
-  }
-
   return (
-    <div className={`flex flex-wrap items-center gap-2.5 ${className}`}>
-      {socials.map((s) => (
-        <a
-          key={s.name}
-          href={s.url}
+    <div className={`flex flex-wrap items-center gap-2 ${className}`}>
+      {socials.map((item) => (
+        <Link
+          key={item.name}
+          href={item.url}
           target="_blank"
           rel="noopener noreferrer"
-          title={`Follow Landscape Solution on ${s.name}`}
-          aria-label={`Landscape Solution on ${s.name}`}
-          className={`inline-flex items-center justify-center rounded-lg border transition-all duration-200 hover:scale-105 active:scale-95 ${sizeClasses[size]} ${variantClasses[variant]} ${s.color}`}
+          aria-label={item.name}
+          title={item.name}
+          className={`flex items-center justify-center rounded-xl border transition-all duration-200 ${sizeClasses[size]} ${variantClasses[variant]} ${item.color} ${
+            showLabels ? "!w-auto gap-2 px-3" : ""
+          }`}
         >
-          {s.icon}
-        </a>
+          <div className="w-4 h-4 shrink-0">{item.icon}</div>
+          {showLabels && <span className="font-medium text-xs">{item.label}</span>}
+        </Link>
       ))}
     </div>
   );

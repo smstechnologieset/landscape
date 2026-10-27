@@ -10,15 +10,35 @@ import {
   ServiceDetail
 } from "@/lib/company-data";
 import { getStoredServices } from "@/lib/data-store";
-import { getTestimonials } from "@/lib/queries";
+import { getTestimonials, getSiteSettings, getCompanyProfile } from "@/lib/queries";
+import { DEFAULT_HOME_CONTENT } from "@/lib/home-defaults";
+
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export default async function HomePage() {
-  const [locale, services, testimonials] = await Promise.all([
+  const [locale, services, testimonials, settings, profile] = await Promise.all([
     getLocale(),
     getStoredServices(),
-    getTestimonials()
+    getTestimonials(),
+    getSiteSettings(),
+    getCompanyProfile()
   ]);
   const dict = getDictionary(locale);
+
+  // Structured home content with fallbacks
+  const savedHome = (profile as any)?.company_story?.home_content || (profile as any)?.home_content || {};
+  const heroHeadline = savedHome.hero?.headline || (profile?.hero_title?.en ? profile.hero_title : DEFAULT_HOME_CONTENT.hero.headline);
+  const heroDescription = savedHome.hero?.description || (profile?.hero_description?.en ? profile.hero_description : DEFAULT_HOME_CONTENT.hero.description);
+  const hero = {
+    ...DEFAULT_HOME_CONTENT.hero,
+    ...(savedHome.hero || {}),
+    headline: heroHeadline,
+    description: heroDescription
+  };
+  const whoWeAre = { ...DEFAULT_HOME_CONTENT.who_we_are, ...(savedHome.who_we_are || {}) };
+  const whyChooseUs = { ...DEFAULT_HOME_CONTENT.why_choose_us, ...(savedHome.why_choose_us || {}) };
+  const ctaBanner = { ...DEFAULT_HOME_CONTENT.cta_banner, ...(savedHome.cta_banner || {}) };
 
   // Group services (Show only the first 4 on the homepage)
   const featuredService = services[0] || OFFICIAL_SERVICES[0];
@@ -41,7 +61,7 @@ export default async function HomePage() {
                 <div className="inline-flex items-center gap-2 rounded-xl bg-white/95 px-3 py-1.5 shadow-md border border-brand-800/30">
                   <div className="relative h-6 w-20">
                     <Image
-                      src="/images/logo.png"
+                      src={settings?.logo_url || "/images/logo.png"}
                       alt="Landscape Solution PLC"
                       fill
                       sizes="80px"
@@ -52,70 +72,64 @@ export default async function HomePage() {
                 </div>
                 <span className="inline-flex items-center gap-2 rounded-md bg-brand-900/80 border border-brand-700/50 px-3 py-1 text-[11px] text-sprout-300 font-semibold uppercase tracking-wider">
                   <span className="h-1.5 w-1.5 rounded-full bg-sprout-400" />
-                  {locale === "am" ? "የተመሰረተበት ዓ.ም • 2026" : "Est. 2026 • Addis Ababa"}
+                  {hero.badge_date[locale] || hero.badge_date.en}
                 </span>
                 <span className="text-gray-400 hidden sm:inline">•</span>
                 <span className="text-gray-300 font-normal text-xs">
-                  {locale === "am" ? "የአረንጓዴ ልማት እና የመልክአ ምድር መፍትሄዎች" : "Landscape Architecture & Ecological Infrastructure"}
+                  {hero.badge_subtitle[locale] || hero.badge_subtitle.en}
                 </span>
               </div>
 
               {/* Main Headline */}
               <h1 className="font-serif text-3xl sm:text-5xl xl:text-6xl font-normal leading-[1.12] tracking-tight text-white">
-                {locale === "am" ? (
-                  <>
-                    ለዘላቂ አረንጓዴ የወደፊት <br />
-                    <span className="italic text-sprout-300">ፕሮፌሽናል</span> የመልክአ ምድር መፍትሄዎች
-                  </>
-                ) : (
-                  <>
-                    Professional Landscape <br />
-                    <span className="italic text-sprout-300">Architecture</span> for a Greener Future
-                  </>
-                )}
+                {hero.headline[locale] || hero.headline.en}
               </h1>
 
               {/* Precise Supporting Statement from Document */}
               <p className="mt-6 text-base sm:text-lg text-emerald-100/85 leading-relaxed font-light max-w-xl">
-                {locale === "am"
-                  ? "በፈጠራ ቴክኖሎጂ፣ በአርክቴክቸራል ዲዛይንና በዘላቂ አሰራሮች በመላ ኢትዮጵያ ውብ፣ ተግባራዊ እና ከአየር ንብረት ለውጥ ጋር የተጣጣሙ የመልክአ ምድር ስራዎችን እንገነባለን።"
-                  : "Dedicated to creating aesthetically pleasing, functional, and climate-resilient indoor and outdoor environments across Ethiopia through innovation, technical expertise, and environmental responsibility."}
+                {hero.description[locale] || hero.description.en}
               </p>
 
               {/* Action Buttons */}
               <div className="mt-8 flex flex-wrap items-center gap-4">
                 <Link
-                  href="/services"
+                  href={hero.primary_btn?.url || "/services"}
                   className="btn-accent px-7 py-3.5 text-xs sm:text-sm font-semibold tracking-wider uppercase shadow-xl shadow-sprout-900/40 hover:scale-[1.02] transition"
                 >
-                  {locale === "am" ? "11ዱን ዋና አገልግሎቶች ይመልከቱ" : "Explore 11 Major Services"}
+                  {hero.primary_btn?.label[locale] || hero.primary_btn?.label.en}
                 </Link>
                 <Link
-                  href="/contact"
+                  href={hero.secondary_btn?.url || "/contact"}
                   className="btn border border-emerald-700/60 bg-brand-950/60 hover:bg-brand-900/80 px-6 py-3.5 text-xs sm:text-sm font-medium text-white backdrop-blur-sm transition"
                 >
-                  {locale === "am" ? "ያግኙን / ምክክር ይጠይቁ" : "Request Consultation"}
+                  {hero.secondary_btn?.label[locale] || hero.secondary_btn?.label.en}
                 </Link>
               </div>
 
               {/* Factual Institutional Metrics Bar */}
               <div className="mt-12 pt-8 border-t border-emerald-900/40 grid grid-cols-3 gap-6">
                 <div>
-                  <p className="font-serif text-2xl sm:text-3xl font-bold text-sprout-400">11</p>
+                  <p className="font-serif text-2xl sm:text-3xl font-bold text-sprout-400">
+                    {hero.metrics.m1.value}
+                  </p>
                   <p className="text-[11px] sm:text-xs text-gray-300 mt-1 uppercase tracking-wider">
-                    {locale === "am" ? "ዋና ዋና አገልግሎቶች" : "Specialized Services"}
+                    {hero.metrics.m1.label[locale] || hero.metrics.m1.label.en}
                   </p>
                 </div>
                 <div>
-                  <p className="font-serif text-2xl sm:text-3xl font-bold text-sprout-400">2026</p>
+                  <p className="font-serif text-2xl sm:text-3xl font-bold text-sprout-400">
+                    {hero.metrics.m2.value}
+                  </p>
                   <p className="text-[11px] sm:text-xs text-gray-300 mt-1 uppercase tracking-wider">
-                    {locale === "am" ? "የተቋቋመበት ዓመት" : "Founded in Ethiopia"}
+                    {hero.metrics.m2.label[locale] || hero.metrics.m2.label.en}
                   </p>
                 </div>
                 <div>
-                  <p className="font-serif text-2xl sm:text-3xl font-bold text-sprout-400">100%</p>
+                  <p className="font-serif text-2xl sm:text-3xl font-bold text-sprout-400">
+                    {hero.metrics.m3.value}
+                  </p>
                   <p className="text-[11px] sm:text-xs text-gray-300 mt-1 uppercase tracking-wider">
-                    {locale === "am" ? "ዘላቂና አገር በቀል" : "Sustainable Focus"}
+                    {hero.metrics.m3.label[locale] || hero.metrics.m3.label.en}
                   </p>
                 </div>
               </div>
@@ -128,7 +142,7 @@ export default async function HomePage() {
                 <div className="relative rounded-2xl overflow-hidden border border-emerald-800/50 shadow-2xl shadow-black/80 bg-brand-900/30 group">
                   <div className="relative aspect-[16/11] w-full">
                     <Image
-                      src="/images/hero_landscape.jpg"
+                      src={hero.hero_image || settings?.hero_slide_1 || "/images/hero_landscape.jpg"}
                       alt="Landscape Solution PLC - Professional Landscape Architecture & Sustainable Greening in Ethiopia"
                       fill
                       priority
@@ -142,11 +156,11 @@ export default async function HomePage() {
                   <div className="absolute top-4 left-4 right-4 flex items-center justify-between pointer-events-none">
                     <div className="inline-flex items-center gap-2 rounded-full bg-brand-950/80 backdrop-blur-md border border-emerald-700/40 px-3.5 py-1 text-xs text-sprout-300 font-medium">
                       <span className="h-1.5 w-1.5 rounded-full bg-sprout-400" />
-                      <span>{locale === "am" ? "የመልክአ ምድር አርክቴክቸር • አዲስ አበባ" : "Biophilic Architecture • Addis Ababa"}</span>
+                      <span>{hero.visual_card.tag[locale] || hero.visual_card.tag.en}</span>
                     </div>
                     <div className="hidden sm:inline-flex items-center gap-2 rounded-full bg-white/95 backdrop-blur-md px-3 py-1 shadow-md">
                       <div className="relative h-4 w-14">
-                        <Image src="/images/logo.png" alt="Landscape Solution Logo" fill sizes="56px" className="object-contain" />
+                        <Image src={settings?.logo_url || "/images/logo.png"} alt="Landscape Solution Logo" fill sizes="56px" className="object-contain" />
                       </div>
                     </div>
                   </div>
@@ -156,10 +170,10 @@ export default async function HomePage() {
                     <div className="flex items-center justify-between text-xs">
                       <div>
                         <p className="font-semibold text-sprout-300 text-sm">
-                          {locale === "am" ? "የአረንጓዴ ልማት ማስተር ፕላን" : "Sustainable Landscape Master Planning"}
+                          {hero.visual_card.caption_title[locale] || hero.visual_card.caption_title.en}
                         </p>
                         <p className="text-gray-300 text-xs mt-0.5">
-                          {locale === "am" ? "አገር በቀል እፅዋት፣ ዘመናዊ የመስኖ ስርዓት እና የስነ-ምህዳር ጥበቃ" : "Indigenous flora, smart water conservation, and eco-restoration"}
+                          {hero.visual_card.caption_desc[locale] || hero.visual_card.caption_desc.en}
                         </p>
                       </div>
                       <Link
@@ -232,7 +246,7 @@ export default async function HomePage() {
                 <div className="relative">
                   <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl border border-brand-100 img-zoom">
                     <Image
-                      src="/images/who_we_are.jpg"
+                      src={whoWeAre.image || settings?.about_image || "/images/who_we_are.jpg"}
                       alt="Landscape architecture and garden design implementation team in Addis Ababa"
                       fill
                       sizes="(max-width: 1024px) 100vw, 50vw"
@@ -242,9 +256,11 @@ export default async function HomePage() {
 
                   {/* Fact Badge */}
                   <div className="absolute -bottom-6 -right-4 sm:-bottom-8 sm:right-6 rounded-xl bg-brand-900 text-white p-5 sm:p-6 shadow-xl max-w-[240px] border border-brand-800">
-                    <p className="text-3xl sm:text-4xl font-serif font-bold text-sprout-400">2026</p>
+                    <p className="text-3xl sm:text-4xl font-serif font-bold text-sprout-400">
+                      {whoWeAre.fact_badge.year}
+                    </p>
                     <p className="mt-1 text-xs sm:text-sm font-medium text-brand-100">
-                      {locale === "am" ? "የተመሰረተበት ዓመት • አዲስ አበባ" : "Founded to Advance Ethiopia's Green Development"}
+                      {whoWeAre.fact_badge.label[locale] || whoWeAre.fact_badge.label.en}
                     </p>
                   </div>
                 </div>
@@ -255,49 +271,43 @@ export default async function HomePage() {
             <div className="lg:col-span-6 lg:pl-6">
               <Reveal delay={100}>
                 <span className="text-xs font-bold uppercase tracking-widest text-brand-700">
-                  {locale === "am" ? "ማን ነን" : "Who We Are"}
+                  {whoWeAre.eyebrow[locale] || whoWeAre.eyebrow.en}
                 </span>
                 <h2 className="mt-3 font-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-brand-950 leading-tight">
-                  {locale === "am"
-                    ? "ለቀጣይነት ያለው አረንጓዴ ልማት የታመነ አጋር"
-                    : "Pioneering Sustainable Environments Across Ethiopia"}
+                  {whoWeAre.headline[locale] || whoWeAre.headline.en}
                 </h2>
 
                 <p className="mt-6 text-gray-700 leading-relaxed text-base sm:text-lg">
-                  {locale === "am"
-                    ? "በ2026 የተቋቋመው ላንድስኬፕ ሶሉሽን ኃ.የተ.የግ.ማህበር፣ በኢትዮጵያ የአረንጓዴ ልማት ጥረቶችን ለመደገፍና የተፈጥሮ ሀብት መመናመንን ለመከላከል የተቋቋመ ፕሮፌሽናል የመልክአ ምድር ድርጅት ነው።"
-                    : "Established in 2026, Landscape Solution PLC was founded to contribute directly to Ethiopia's green development initiatives, addressing climate change and environmental degradation through professional, science-backed landscaping."}
+                  {whoWeAre.p1[locale] || whoWeAre.p1.en}
                 </p>
 
                 <p className="mt-4 text-gray-600 leading-relaxed text-sm sm:text-base">
-                  {locale === "am"
-                    ? "ድርጅቱ የፈጠራ ቴክኖሎጂን፣ አርክቴክቸራል ዲዛይንን፣ የቴክኒክ እውቀትንና ዘላቂ አሰራሮችን በማቀናጀት ለመንግስት ተቋማት፣ ለግል ድርጅቶች፣ ለንግድ ማዕከላት፣ ለመኖሪያ ቤቶች እና ለኢንዱስትሪ ቦታዎች ሁሉን አቀፍ አገልግሎት ይሰጣል።"
-                    : "We combine innovative technology, creative design, technical expertise, and sustainable practices to enhance biodiversity, elevate urban aesthetics, and foster long-term climate resilience for government institutions, private enterprises, commercial centers, residential properties, and industrial sites."}
+                  {whoWeAre.p2[locale] || whoWeAre.p2.en}
                 </p>
 
                 {/* Documented Key Pillars */}
                 <div className="mt-8 grid grid-cols-2 gap-4 border-t border-brand-100 pt-6">
                   <div>
                     <p className="text-xs font-bold uppercase tracking-wider text-brand-800">
-                      {locale === "am" ? "ስፔሻላይዜሽን" : "Specialization"}
+                      {whoWeAre.pillar_specialization.label[locale] || whoWeAre.pillar_specialization.label.en}
                     </p>
                     <p className="mt-1 text-sm text-gray-600">
-                      {locale === "am" ? "11 ዋና ዋና አገልግሎቶች" : "11 Documented Major Services"}
+                      {whoWeAre.pillar_specialization.value[locale] || whoWeAre.pillar_specialization.value.en}
                     </p>
                   </div>
                   <div>
                     <p className="text-xs font-bold uppercase tracking-wider text-brand-800">
-                      {locale === "am" ? "ተልዕኮ" : "Focus"}
+                      {whoWeAre.pillar_focus.label[locale] || whoWeAre.pillar_focus.label.en}
                     </p>
                     <p className="mt-1 text-sm text-gray-600">
-                      {locale === "am" ? "ዘላቂነት እና ብዝሃ-ሕይወት" : "Sustainability & Climate Resilience"}
+                      {whoWeAre.pillar_focus.value[locale] || whoWeAre.pillar_focus.value.en}
                     </p>
                   </div>
                 </div>
 
                 <div className="mt-8">
-                  <Link href="/about" className="inline-flex items-center gap-2 text-sm font-semibold text-brand-800 hover:text-brand-600 group">
-                    <span>{locale === "am" ? "ሙሉ ታሪካችንን ያንብቡ" : "Read Full Company Background"}</span>
+                  <Link href={whoWeAre.cta_btn?.url || "/about"} className="inline-flex items-center gap-2 text-sm font-semibold text-brand-800 hover:text-brand-600 group">
+                    <span>{whoWeAre.cta_btn?.label[locale] || whoWeAre.cta_btn?.label.en}</span>
                     <span className="transition-transform group-hover:translate-x-1">→</span>
                   </Link>
                 </div>
@@ -516,18 +526,18 @@ export default async function HomePage() {
           </div>
 
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {COMPANY_INFO.values.map((val, idx) => (
-              <Reveal key={val.number} delay={idx * 60}>
+            {((Array.isArray(profile?.values) && profile.values.length > 0) ? profile.values : COMPANY_INFO.values).map((val: any, idx: number) => (
+              <Reveal key={val.number || idx} delay={idx * 60}>
                 <div className="rounded-xl border border-brand-800/90 bg-brand-900/60 p-8 hover:border-sprout-500/50 transition">
                   <div className="flex items-baseline justify-between">
-                    <span className="font-mono text-2xl font-bold text-sprout-400">{val.number}</span>
+                    <span className="font-mono text-2xl font-bold text-sprout-400">{val.number || String(idx + 1).padStart(2, "0")}</span>
                     <span className="h-2 w-2 rounded-full bg-sprout-500" />
                   </div>
                   <h3 className="mt-6 font-serif text-xl font-medium text-white">
-                    {t(val.title, locale)}
+                    {val.title?.[locale] || val.title?.en || t(val.title, locale)}
                   </h3>
                   <p className="mt-3 text-sm text-brand-200/90 leading-relaxed font-light">
-                    {t(val.desc, locale)}
+                    {val.desc?.[locale] || val.desc?.en || t(val.desc, locale)}
                   </p>
                 </div>
               </Reveal>
@@ -544,68 +554,32 @@ export default async function HomePage() {
             <div className="lg:col-span-6">
               <Reveal>
                 <span className="text-xs font-bold uppercase tracking-widest text-brand-700">
-                  {locale === "am" ? "ለምን እንመረጣለን" : "Why Choose Us"}
+                  {whyChooseUs.eyebrow[locale] || whyChooseUs.eyebrow.en}
                 </span>
                 <h2 className="mt-3 font-serif text-3xl sm:text-5xl font-normal text-brand-950 leading-tight">
-                  {locale === "am"
-                    ? "የሙያ ብቃት፣ ዘመናዊ ቴክኖሎጂ እና ዘላቂነት"
-                    : "Technical Expertise Meets Environmental Responsibility"}
+                  {whyChooseUs.headline[locale] || whyChooseUs.headline.en}
                 </h2>
                 <p className="mt-6 text-gray-700 leading-relaxed text-base sm:text-lg">
-                  {locale === "am"
-                    ? "ላንድስኬፕ ሶሉሽን ኃ.የተ.የግ.ማህበር ጥራት ያላቸውንና ወጪ ቆጣቢ የመልክአ ምድር መፍትሄዎችን ለደንበኞች ፍላጎት አመቺ በሆነ መልኩ ያዘጋጃል።"
-                    : "Backed by dedicated horticulturalists, landscape planners, and environmental specialists, we deliver customized, high-quality, and cost-effective solutions tailored to Ethiopian realities."}
+                  {whyChooseUs.description[locale] || whyChooseUs.description.en}
                 </p>
 
                 {/* 4 Documented Pillars */}
                 <div className="mt-8 space-y-6">
-                  <div className="flex items-start gap-4">
-                    <div className="flex-shrink-0 h-10 w-10 rounded-lg bg-brand-50 border border-brand-200 flex items-center justify-center text-brand-800 font-bold">
-                      01
+                  {whyChooseUs.strengths.map((str: any, idx: number) => (
+                    <div key={idx} className="flex items-start gap-4">
+                      <div className="flex-shrink-0 h-10 w-10 rounded-lg bg-brand-50 border border-brand-200 flex items-center justify-center text-brand-800 font-bold">
+                        {String(idx + 1).padStart(2, "0")}
+                      </div>
+                      <div>
+                        <h4 className="font-semibold text-brand-900">
+                          {str.title?.[locale] || str.title?.en}
+                        </h4>
+                        <p className="mt-1 text-sm text-gray-600">
+                          {str.desc?.[locale] || str.desc?.en}
+                        </p>
+                      </div>
                     </div>
-                    <div>
-                      <h4 className="font-semibold text-brand-900">
-                        {locale === "am" ? "የአየር ንብረት ተስማሚና ዘላቂ አሰራር" : "Sustainable & Climate-Smart Solutions"}
-                      </h4>
-                      <p className="mt-1 text-sm text-gray-600">
-                        {locale === "am"
-                          ? "የውሃ ብክነትን የሚቀንሱ፣ የአፈር ለምነትን የሚጠብቁና ብዝሃ-ሕይወትን የሚያበለጽጉ ስራዎች።"
-                          : "Water-conserving irrigation, organic composting, and ecological restoration principles integrated into every site."}
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start gap-4">
-                    <div className="flex-shrink-0 h-10 w-10 rounded-lg bg-brand-50 border border-brand-200 flex items-center justify-center text-brand-800 font-bold">
-                      02
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-brand-900">
-                        {locale === "am" ? "አዳዲስ ቴክኖሎጂዎችና የፈጠራ ዲዛይን" : "Modern Technologies & Creative Design"}
-                      </h4>
-                      <p className="mt-1 text-sm text-gray-600">
-                        {locale === "am"
-                          ? "ዘመናዊ የመስኖ ስርዓቶች፣ የ3ዲ አርክቴክቸር ዲዛይንና ጥራት ያላቸው ችግኞች።"
-                          : "Continuous adoption of advanced nursery infrastructure, 3D architectural mapping, and automated smart watering."}
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start gap-4">
-                    <div className="flex-shrink-0 h-10 w-10 rounded-lg bg-brand-50 border border-brand-200 flex items-center justify-center text-brand-800 font-bold">
-                      03
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-brand-900">
-                        {locale === "am" ? "ሁሉን አቀፍ የመፍትሄ ፓኬጅ" : "Integrated End-to-End Capabilities"}
-                      </h4>
-                      <p className="mt-1 text-sm text-gray-600">
-                        {locale === "am"
-                          ? "ከፕላንና ዲዛይን ጀምሮ እስከ ግንባታ፣ ችግኝ ማፍራት፣ ተከላ እና ቀጣይ ጥገና ድረስ።"
-                          : "Complete synergy across master planning, nursery propagation, earthworks construction, and long-term horticultural care."}
-                      </p>
-                    </div>
-                  </div>
+                  ))}
                 </div>
               </Reveal>
             </div>
@@ -615,7 +589,7 @@ export default async function HomePage() {
               <Reveal delay={100}>
                 <div className="relative aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl border border-brand-100 img-zoom">
                   <Image
-                    src="/images/who_we_are.jpg"
+                    src={whyChooseUs.team_image || settings?.about_image || "/images/who_we_are.jpg"}
                     alt="Professional Ethiopian landscape architects and environmental team"
                     fill
                     sizes="(max-width: 1024px) 100vw, 50vw"
@@ -757,7 +731,7 @@ export default async function HomePage() {
             <div className="flex justify-center mb-6">
               <div className="inline-flex items-center gap-3 px-4 py-2 rounded-2xl bg-white shadow-xl">
                 <div className="relative h-8 w-24">
-                  <Image src="/images/logo.png" alt="Landscape Solution PLC" fill sizes="96px" className="object-contain" />
+                  <Image src={settings?.logo_url || "/images/logo.png"} alt="Landscape Solution PLC" fill sizes="96px" className="object-contain" />
                 </div>
                 <span className="h-4 w-px bg-gray-200" />
                 <span className="text-xs font-bold uppercase tracking-wider text-brand-950">Landscape Solution PLC</span>
@@ -765,33 +739,29 @@ export default async function HomePage() {
             </div>
 
             <div className="inline-flex items-center gap-2 rounded-full border border-sprout-400/40 bg-brand-900 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-sprout-400">
-              {locale === "am" ? "አብረን እንስራ" : "Let's Collaborate"}
+              {ctaBanner.badge[locale] || ctaBanner.badge.en}
             </div>
 
             <h2 className="mt-6 font-serif text-3xl sm:text-5xl font-normal text-white leading-tight">
-              {locale === "am"
-                ? "አረንጓዴና ጤናማ አካባቢዎችን በጋራ እንገንባ"
-                : "Let's build greener, healthier environments together."}
+              {ctaBanner.headline[locale] || ctaBanner.headline.en}
             </h2>
 
             <p className="mt-6 text-brand-200 text-base sm:text-lg leading-relaxed max-w-xl mx-auto font-light">
-              {locale === "am"
-                ? "ለመንግስት፣ ለንግድ ተቋም ወይም ለመኖሪያ ቤትዎ ፕሮፌሽናል የመልክአ ምድር መፍትሄ ዛሬውኑ ያነጋግሩን።"
-                : "Whether planning a new commercial development, municipal green corridor, or private estate landscape, our team is ready to assist."}
+              {ctaBanner.description[locale] || ctaBanner.description.en}
             </p>
 
             <div className="mt-10 flex flex-wrap justify-center gap-4">
               <Link
-                href="/contact"
+                href={ctaBanner.primary_btn?.url || "/contact"}
                 className="btn-accent px-8 py-3.5 text-sm font-semibold tracking-wide uppercase hover:scale-[1.02]"
               >
-                {dict.cta.contactUs}
+                {ctaBanner.primary_btn?.label[locale] || dict.cta.contactUs}
               </Link>
               <Link
-                href="/services"
+                href={ctaBanner.secondary_btn?.url || "/services"}
                 className="btn border border-brand-700 bg-brand-900/60 px-7 py-3.5 text-sm font-medium text-white hover:bg-brand-800"
               >
-                {locale === "am" ? "አገልግሎቶቻችንን ያስሱ" : "Explore All Services"}
+                {ctaBanner.secondary_btn?.label[locale] || (locale === "am" ? "አገልግሎቶቻችንን ያስሱ" : "Explore All Services")}
               </Link>
             </div>
           </Reveal>

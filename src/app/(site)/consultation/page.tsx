@@ -2,6 +2,7 @@ import Image from "next/image";
 import ConsultationForm from "@/components/forms/ConsultationForm";
 import { getDictionary } from "@/lib/i18n";
 import { getLocale } from "@/lib/locale";
+import { getSiteSettings } from "@/lib/queries";
 
 export const metadata = {
   title: "Book a Consultation",
@@ -9,7 +10,7 @@ export const metadata = {
 };
 
 export default async function ConsultationPage() {
-  const locale = await getLocale();
+  const [locale, settings] = await Promise.all([getLocale(), getSiteSettings()]);
   const dict = getDictionary(locale);
 
   return (
@@ -17,7 +18,7 @@ export default async function ConsultationPage() {
       <div className="flex justify-center mb-6">
         <div className="inline-flex items-center gap-3 px-4 py-2 rounded-2xl bg-white shadow-md border border-brand-100">
           <div className="relative h-8 w-24">
-            <Image src="/images/logo.png" alt="Landscape Solution PLC" fill sizes="96px" className="object-contain" priority />
+            <Image src={settings?.logo_url || "/images/logo.png"} alt="Landscape Solution PLC" fill sizes="96px" className="object-contain" priority />
           </div>
           <span className="h-4 w-px bg-gray-200" />
           <span className="text-xs font-semibold uppercase tracking-wider text-brand-900">

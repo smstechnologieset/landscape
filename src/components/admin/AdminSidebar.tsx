@@ -4,18 +4,19 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 
-const EDITOR_LINKS: { href: string; label: string; icon: string }[] = [
-  { href: "/admin", label: "Dashboard", icon: "▦" },
+const PAGE_LINKS: { href: string; label: string; icon: string }[] = [
+  { href: "/admin/home", label: "Home Page", icon: "🏠" },
+  { href: "/admin/about", label: "About Us", icon: "🏛" },
   { href: "/admin/services", label: "Services", icon: "🌿" },
-  { href: "/admin/projects", label: "Projects", icon: "🏗" },
-  { href: "/admin/media", label: "Media & Images", icon: "🖼" },
+  { href: "/admin/projects", label: "Portfolio", icon: "🏗" },
+  { href: "/admin/sustainability", label: "Sustainability", icon: "🌱" },
   { href: "/admin/blog", label: "Blog & Insights", icon: "✏️" },
-  { href: "/admin/inquiries", label: "Messages & Inquiries", icon: "✉️" },
   { href: "/admin/careers", label: "Careers & Hiring", icon: "💼" },
-  { href: "/admin/company-profile", label: "Company & Brand", icon: "🏢" }
+  { href: "/admin/contact", label: "Contact & Inbox", icon: "✉️" }
 ];
 
-const ADMIN_LINKS: { href: string; label: string; icon: string }[] = [
+const ASSET_AND_SYSTEM_LINKS: { href: string; label: string; icon: string }[] = [
+  { href: "/admin/media", label: "Site Media & Images", icon: "🖼" },
   { href: "/admin/settings", label: "Settings & Team", icon: "⚙️" }
 ];
 
@@ -23,29 +24,26 @@ export default function AdminSidebar({ role }: { role: "admin" | "editor" }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
-  const mainLinks = EDITOR_LINKS;
-  const adminLinks = role === "admin" ? ADMIN_LINKS : [];
-
   const isLinkActive = (href: string) => {
     if (pathname === href) return true;
     if (href !== "/admin" && pathname.startsWith(href)) return true;
 
-    // Handle consolidated aliases
+    // Handle aliases
     if (
-      href === "/admin/inquiries" &&
-      (pathname.startsWith("/admin/quotes") || pathname.startsWith("/admin/consultations"))
+      href === "/admin/contact" &&
+      (pathname.startsWith("/admin/inquiries") ||
+        pathname.startsWith("/admin/quotes") ||
+        pathname.startsWith("/admin/consultations"))
+    ) {
+      return true;
+    }
+    if (
+      href === "/admin/about" &&
+      (pathname.startsWith("/admin/company-profile") || pathname.startsWith("/admin/partners"))
     ) {
       return true;
     }
     if (href === "/admin/careers" && pathname.startsWith("/admin/applications")) {
-      return true;
-    }
-    if (
-      href === "/admin/company-profile" &&
-      (pathname.startsWith("/admin/partners") ||
-        pathname.startsWith("/admin/testimonials") ||
-        pathname.startsWith("/admin/sustainability"))
-    ) {
       return true;
     }
     if (href === "/admin/settings" && pathname.startsWith("/admin/users")) {
@@ -56,13 +54,31 @@ export default function AdminSidebar({ role }: { role: "admin" | "editor" }) {
 
   const nav = (
     <nav aria-label="Admin navigation" className="flex-1 space-y-6 overflow-y-auto p-3.5">
-      {/* Content Management Group */}
+      {/* Overview */}
+      <div>
+        <Link
+          href="/admin"
+          onClick={() => setOpen(false)}
+          className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition ${
+            pathname === "/admin"
+              ? "bg-brand-700 text-white shadow-sm font-semibold"
+              : "text-brand-100/90 hover:bg-brand-900/80 hover:text-white"
+          }`}
+        >
+          <span className="text-base" aria-hidden>
+            ▦
+          </span>
+          <span>Dashboard Overview</span>
+        </Link>
+      </div>
+
+      {/* Website Pages Section */}
       <div>
         <div className="px-3 pb-2 text-[10px] font-bold uppercase tracking-wider text-brand-300/60">
-          Content & Inquiries
+          Website Pages
         </div>
         <div className="space-y-1">
-          {mainLinks.map((l) => {
+          {PAGE_LINKS.map((l) => {
             const active = isLinkActive(l.href);
             return (
               <Link
@@ -86,37 +102,35 @@ export default function AdminSidebar({ role }: { role: "admin" | "editor" }) {
         </div>
       </div>
 
-      {/* Admin Operations Group */}
-      {adminLinks.length > 0 && (
-        <div className="pt-2 border-t border-brand-900/60">
-          <div className="px-3 pb-2 text-[10px] font-bold uppercase tracking-wider text-brand-300/60">
-            Administration
-          </div>
-          <div className="space-y-1">
-            {adminLinks.map((l) => {
-              const active = isLinkActive(l.href);
-              return (
-                <Link
-                  key={l.href}
-                  href={l.href}
-                  onClick={() => setOpen(false)}
-                  aria-current={active ? "page" : undefined}
-                  className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition ${
-                    active
-                      ? "bg-brand-700 text-white shadow-sm font-semibold"
-                      : "text-brand-100/90 hover:bg-brand-900/80 hover:text-white"
-                  }`}
-                >
-                  <span className="text-base" aria-hidden>
-                    {l.icon}
-                  </span>
-                  <span>{l.label}</span>
-                </Link>
-              );
-            })}
-          </div>
+      {/* Global Assets & Settings Section */}
+      <div className="pt-2 border-t border-brand-900/60">
+        <div className="px-3 pb-2 text-[10px] font-bold uppercase tracking-wider text-brand-300/60">
+          Global Assets & System
         </div>
-      )}
+        <div className="space-y-1">
+          {ASSET_AND_SYSTEM_LINKS.map((l) => {
+            const active = isLinkActive(l.href);
+            return (
+              <Link
+                key={l.href}
+                href={l.href}
+                onClick={() => setOpen(false)}
+                aria-current={active ? "page" : undefined}
+                className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition ${
+                  active
+                    ? "bg-brand-700 text-white shadow-sm font-semibold"
+                    : "text-brand-100/90 hover:bg-brand-900/80 hover:text-white"
+                }`}
+              >
+                <span className="text-base" aria-hidden>
+                  {l.icon}
+                </span>
+                <span>{l.label}</span>
+              </Link>
+            );
+          })}
+        </div>
+      </div>
     </nav>
   );
 

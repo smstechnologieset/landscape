@@ -5,6 +5,7 @@ import Reveal from "@/components/Reveal";
 import { getDictionary } from "@/lib/i18n";
 import { getLocale } from "@/lib/locale";
 import { COMPANY_INFO } from "@/lib/company-data";
+import { getSiteSettings } from "@/lib/queries";
 import SocialLinks from "@/components/site/SocialLinks";
 
 export const metadata = {
@@ -14,8 +15,16 @@ export const metadata = {
 };
 
 export default async function ContactPage() {
-  const locale = await getLocale();
+  const [locale, settings] = await Promise.all([getLocale(), getSiteSettings()]);
   const dict = getDictionary(locale);
+
+  const phone = settings?.phone || "+251 11 667 8901";
+  const altPhone = settings?.alt_phone || "+251 91 123 4567";
+  const email = settings?.email || COMPANY_INFO.email;
+  const address = settings?.address || "Sur Construction Building, 8th Floor, Addis Ababa, Ethiopia";
+  const googleMapsEmbedUrl = settings?.google_maps_url || COMPANY_INFO.googleMapsEmbedUrl;
+  const logoUrl = settings?.logo_url || "/images/logo.png";
+  const companyName = settings?.company_name || COMPANY_INFO.name;
 
   return (
     <div>
@@ -30,8 +39,8 @@ export default async function ContactPage() {
             <div className="inline-flex items-center gap-3 px-4 py-2 rounded-2xl bg-white/95 backdrop-blur-md shadow-lg border border-brand-800/20 hover:scale-105 transition-transform duration-300">
               <div className="relative h-9 w-28">
                 <Image
-                  src="/images/logo.png"
-                  alt="Landscape Solution PLC Logo"
+                  src={logoUrl}
+                  alt={`${companyName} Logo`}
                   fill
                   sizes="112px"
                   className="object-contain"
@@ -51,7 +60,7 @@ export default async function ContactPage() {
           <p className="mt-4 text-brand-200 text-sm sm:text-base max-w-xl mx-auto font-light leading-relaxed">
             {locale === "am"
               ? "ለመንግስት ተቋማት፣ ለግል ድርጅቶች፣ ለንግድ ማዕከላትና ለመኖሪያ ቤቶች የተሟላ የሙያ መፍትሄ ለመስጠት ዝግጁ ነን።"
-              : "Landscape Solution PLC provides comprehensive landscape planning, construction, irrigation, and environmental restoration services across Ethiopia."}
+              : `${companyName} provides comprehensive landscape planning, construction, irrigation, and environmental restoration services across Ethiopia.`}
           </p>
         </div>
       </section>
@@ -86,7 +95,12 @@ export default async function ContactPage() {
                   <div className="flex items-center gap-3 mb-4">
                     <div className="h-10 w-10 rounded-xl bg-sprout-50 border border-sprout-200 flex items-center justify-center text-sprout-700">
                       <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={1.75}
+                          d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+                        />
                       </svg>
                     </div>
                     <div>
@@ -105,24 +119,26 @@ export default async function ContactPage() {
                         {locale === "am" ? "ዋና የቢሮ ስልክ (ኦፊስ)" : "Main Office Line"}
                       </span>
                       <a
-                        href="tel:+251116678901"
+                        href={`tel:${phone.replace(/\s+/g, "")}`}
                         className="text-base sm:text-lg font-semibold text-brand-900 hover:text-sprout-600 transition block mt-0.5"
                       >
-                        +251 11 667 8901
+                        {phone}
                       </a>
                     </div>
 
-                    <div>
-                      <span className="text-[11px] font-bold uppercase tracking-wider text-gray-500 block">
-                        {locale === "am" ? "ቀጥታ የሞባይል መስመር" : "Direct / Mobile Line"}
-                      </span>
-                      <a
-                        href="tel:+251911234567"
-                        className="text-base sm:text-lg font-semibold text-brand-900 hover:text-sprout-600 transition block mt-0.5"
-                      >
-                        +251 91 123 4567
-                      </a>
-                    </div>
+                    {altPhone && (
+                      <div>
+                        <span className="text-[11px] font-bold uppercase tracking-wider text-gray-500 block">
+                          {locale === "am" ? "ቀጥታ የሞባይል መስመር" : "Direct / Mobile Line"}
+                        </span>
+                        <a
+                          href={`tel:${altPhone.replace(/\s+/g, "")}`}
+                          className="text-base sm:text-lg font-semibold text-brand-900 hover:text-sprout-600 transition block mt-0.5"
+                        >
+                          {altPhone}
+                        </a>
+                      </div>
+                    )}
                   </div>
                 </div>
               </Reveal>
@@ -133,7 +149,12 @@ export default async function ContactPage() {
                   <div className="flex items-center gap-3 mb-4">
                     <div className="h-10 w-10 rounded-xl bg-sprout-50 border border-sprout-200 flex items-center justify-center text-sprout-700">
                       <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={1.75}
+                          d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                        />
                       </svg>
                     </div>
                     <div>
@@ -151,10 +172,10 @@ export default async function ContactPage() {
                       {locale === "am" ? "ኦፊሴላዊ የኢሜይል አድራሻ" : "Official Email"}
                     </span>
                     <a
-                      href={`mailto:${COMPANY_INFO.email}`}
+                      href={`mailto:${email}`}
                       className="text-base sm:text-lg font-semibold text-brand-900 hover:text-sprout-600 transition block mt-0.5"
                     >
-                      {COMPANY_INFO.email}
+                      {email}
                     </a>
                   </div>
                 </div>
@@ -166,7 +187,12 @@ export default async function ContactPage() {
                   <div className="flex items-center gap-3 mb-3">
                     <div className="h-10 w-10 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-700">
                       <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={1.75}
+                          d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
+                        />
                       </svg>
                     </div>
                     <div>
@@ -183,7 +209,7 @@ export default async function ContactPage() {
                     Chat directly with our landscaping team or follow our ongoing projects in Ethiopia:
                   </p>
 
-                  <SocialLinks variant="light" size="md" />
+                  <SocialLinks variant="light" size="md" settings={settings} />
                 </div>
               </Reveal>
             </div>
@@ -203,8 +229,8 @@ export default async function ContactPage() {
             </h2>
             <p className="mt-3 text-sm sm:text-base text-gray-600 leading-relaxed font-light">
               {locale === "am"
-                ? "ዋና መስሪያ ቤታችን በአዲስ አበባ ሱር ኮንስትራክሽን ህንፃ 8ኛ ፎቅ ላይ ይገኛል። ለምክክር ወይም ለስብሰባ ቀጠሮ ይዘው መምጣት ይችላሉ።"
-                : "Our headquarters is situated on the 8th Floor of Sur Construction Building in Addis Ababa, Ethiopia. Welcome for scheduled consultations and project briefings."}
+                ? `ዋና መስሪያ ቤታችን ${address} ላይ ይገኛል። ለምክክር ወይም ለስብሰባ ቀጠሮ ይዘው መምጣት ይችላሉ።`
+                : `Our headquarters is situated at ${address}. Welcome for scheduled consultations and project briefings.`}
             </p>
           </div>
 
@@ -212,8 +238,8 @@ export default async function ContactPage() {
             {/* Map Frame */}
             <div className="lg:col-span-8 rounded-2xl overflow-hidden border border-brand-200/80 shadow-md bg-white min-h-[420px] relative">
               <iframe
-                title="Landscape Solution PLC Headquarters - Sur Construction Building"
-                src={COMPANY_INFO.googleMapsEmbedUrl}
+                title={`${companyName} Headquarters - ${address}`}
+                src={googleMapsEmbedUrl}
                 width="100%"
                 height="100%"
                 style={{ border: 0, minHeight: "420px" }}
@@ -230,8 +256,8 @@ export default async function ContactPage() {
                 <div className="flex items-center gap-3 mb-5">
                   <div className="relative h-12 w-24">
                     <Image
-                      src="/images/logo.png"
-                      alt="Landscape Solution PLC"
+                      src={logoUrl}
+                      alt={companyName}
                       fill
                       sizes="96px"
                       className="object-contain"
@@ -248,13 +274,10 @@ export default async function ContactPage() {
                 <div className="space-y-4 text-xs sm:text-sm text-gray-700">
                   <div className="p-3.5 rounded-xl bg-brand-50/80 border border-brand-100">
                     <p className="text-[11px] font-bold uppercase tracking-wider text-gray-500 mb-1">
-                      {locale === "am" ? "የህንፃውና የፎቅ አድራሻ" : "Building & Floor"}
+                      {locale === "am" ? "የህንፃውና የፎቅ አድራሻ" : "Office Address"}
                     </p>
-                    <p className="font-semibold text-brand-950 text-base">
-                      {COMPANY_INFO.building}
-                    </p>
-                    <p className="text-sprout-700 font-semibold mt-0.5">
-                      {COMPANY_INFO.floor}
+                    <p className="font-semibold text-brand-950 text-base leading-snug">
+                      {address}
                     </p>
                   </div>
 

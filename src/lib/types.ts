@@ -16,6 +16,7 @@ export type SiteSettings = {
   id: number;
   company_name: string;
   phone: string;
+  alt_phone?: string;
   email: string;
   whatsapp: string;
   address: string;
@@ -24,9 +25,17 @@ export type SiteSettings = {
   instagram_url: string;
   linkedin_url: string;
   youtube_url: string;
+  telegram_url?: string;
+  tiktok_url?: string;
   default_language: "en" | "am";
   logo_url: string | null;
   favicon_url: string | null;
+  hero_slide_1?: string | null;
+  hero_slide_2?: string | null;
+  hero_slide_3?: string | null;
+  about_image?: string | null;
+  sustainability_image?: string | null;
+  brochure_url?: string | null;
 };
 
 export type CompanyProfile = {
@@ -165,8 +174,33 @@ export type SustainabilityContent = {
   statistics: { label: LocalizedText; value: string }[];
 };
 
-/** Pick a localized value with graceful fallback (locale -> en -> first non-empty). */
-export function t(value: LocalizedText | null | undefined, locale: "en" | "am"): string {
+/** Pick a localized value with graceful fallback (locale -> en -> first non-empty string). */
+export function t(value: any, locale: "en" | "am"): string {
   if (!value) return "";
-  return value[locale] || value.en || Object.values(value).find(Boolean) || "";
+  if (typeof value === "string") return value;
+  if (typeof value === "object") {
+    // 1. Direct string on current locale
+    if (typeof value[locale] === "string" && value[locale].trim().length > 0) {
+      return value[locale];
+    }
+    // 2. English fallback string
+    if (typeof value.en === "string" && value.en.trim().length > 0) {
+      return value.en;
+    }
+    // 3. Amharic fallback string
+    if (typeof value.am === "string" && value.am.trim().length > 0) {
+      return value.am;
+    }
+    // 4. Nested localized sub-objects (e.g. { p1: { en, am } })
+    for (const val of Object.values(value)) {
+      if (typeof val === "string" && val.trim().length > 0) {
+        return val;
+      }
+      if (typeof val === "object" && val !== null) {
+        const nested = t(val, locale);
+        if (nested) return nested;
+      }
+    }
+  }
+  return "";
 }

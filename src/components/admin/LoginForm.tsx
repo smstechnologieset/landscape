@@ -38,9 +38,17 @@ export default function LoginForm() {
         </div>
 
         <div>
-          <label htmlFor="password" className="label text-xs font-semibold uppercase tracking-wider text-gray-700">
-            Password
-          </label>
+          <div className="flex items-center justify-between mb-1">
+            <label htmlFor="password" className="label text-xs font-semibold uppercase tracking-wider text-gray-700 !mb-0">
+              Password
+            </label>
+            <a
+              href="/admin/forgot-password"
+              className="text-xs text-brand-700 hover:text-brand-900 font-medium transition"
+            >
+              Forgot Password?
+            </a>
+          </div>
           <input
             id="password"
             name="password"
@@ -57,7 +65,7 @@ export default function LoginForm() {
         <button
           type="submit"
           disabled={pending}
-          className="btn-primary w-full py-2.5 font-semibold text-sm shadow-md"
+          className="btn-primary w-full py-2.5 font-semibold text-sm shadow-md transition hover:shadow-lg"
         >
           {pending ? "Signing into Portal…" : "Sign In to Admin Dashboard"}
         </button>

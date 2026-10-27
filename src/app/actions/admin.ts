@@ -13,10 +13,13 @@ import {
 export type ActionState = { ok: boolean; error?: string };
 
 function fail(err: unknown): ActionState {
+  if ((err as any)?.digest?.includes("NEXT_REDIRECT") || (err as any)?.message === "NEXT_REDIRECT") {
+    throw err;
+  }
   const msg = err instanceof Error ? err.message : "Unknown error";
   if (msg === "UNAUTHENTICATED") return { ok: false, error: "Not signed in." };
   if (msg === "FORBIDDEN") return { ok: false, error: "You do not have permission for this action." };
-  return { ok: false, error: "Save failed. Please check your input and try again." };
+  return { ok: false, error: msg || "Save failed. Please check your input and try again." };
 }
 
 function bool(fd: FormData, key: string): boolean {
@@ -183,10 +186,11 @@ export async function saveTestimonial(_prev: ActionState, fd: FormData): Promise
     return fail(err);
   }
   revalidatePath("/admin/testimonials");
+  revalidatePath("/admin/home");
   revalidatePath("/admin/company-profile");
   revalidatePath("/testimonials");
   revalidatePath("/");
-  redirect("/admin/company-profile?tab=testimonials");
+  redirect("/admin/home#testimonials");
 }
 
 export async function deleteTestimonial(fd: FormData): Promise<void> {
@@ -367,6 +371,7 @@ export async function saveSettings(_prev: ActionState, fd: FormData): Promise<Ac
     const row = {
       company_name: String(fd.get("company_name") ?? ""),
       phone: String(fd.get("phone") ?? ""),
+      alt_phone: String(fd.get("alt_phone") ?? ""),
       email: String(fd.get("email") ?? ""),
       whatsapp: String(fd.get("whatsapp") ?? "").replace(/[^\d]/g, ""),
       address: String(fd.get("address") ?? ""),
@@ -374,7 +379,9 @@ export async function saveSettings(_prev: ActionState, fd: FormData): Promise<Ac
       facebook_url: String(fd.get("facebook_url") ?? ""),
       instagram_url: String(fd.get("instagram_url") ?? ""),
       linkedin_url: String(fd.get("linkedin_url") ?? ""),
-      youtube_url: String(fd.get("youtube_url") ?? "")
+      youtube_url: String(fd.get("youtube_url") ?? ""),
+      telegram_url: String(fd.get("telegram_url") ?? ""),
+      tiktok_url: String(fd.get("tiktok_url") ?? "")
     };
     const { error } = await supabase.from("site_settings").upsert({ id: 1, ...row });
     if (error) throw new Error(error.message);

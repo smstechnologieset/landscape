@@ -10,7 +10,7 @@ export default async function ProtectedAdminLayout({ children }: { children: Rea
   const sessionCookie = cookieStore.get("ls_admin_session");
 
   let isAuthenticated = false;
-  let userName = "admin@landscapesolution.et";
+  let userName = "admin@pinnaclelandscapesolution.com";
   let role: "admin" | "editor" = "admin";
 
   if (sessionCookie?.value) {

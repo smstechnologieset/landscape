@@ -7,13 +7,16 @@ const initial: ActionState = { ok: false };
 
 const FIELDS: { name: string; label: string; type?: string }[] = [
   { name: "company_name", label: "Company Name" },
-  { name: "phone", label: "Phone" },
-  { name: "email", label: "Email", type: "email" },
-  { name: "whatsapp", label: "WhatsApp Number (international digits only)" },
-  { name: "address", label: "Address" },
+  { name: "phone", label: "Primary Phone" },
+  { name: "alt_phone", label: "Direct / Mobile Phone" },
+  { name: "email", label: "Official Email", type: "email" },
+  { name: "whatsapp", label: "WhatsApp Number / Link" },
+  { name: "address", label: "Office Address" },
   { name: "google_maps_url", label: "Google Maps Embed URL" },
   { name: "facebook_url", label: "Facebook URL" },
   { name: "instagram_url", label: "Instagram URL" },
+  { name: "tiktok_url", label: "TikTok URL" },
+  { name: "telegram_url", label: "Telegram Link / Channel" },
   { name: "linkedin_url", label: "LinkedIn URL" },
   { name: "youtube_url", label: "YouTube URL" }
 ];

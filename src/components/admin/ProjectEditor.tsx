@@ -46,13 +46,16 @@ export default function ProjectEditor({ initialProject }: ProjectEditorProps) {
   const [descAm, setDescAm] = useState(initialProject?.description?.am || "");
 
   // Photos state: first photo is the cover, remaining are slideshow photos
-  const [photos, setPhotos] = useState<string[]>(
-    initialProject?.galleryImages?.map((g) => g.url) || [
-      initialProject?.coverImage || "/images/hero_landscape.jpg",
-      "/images/service_planning.jpg",
-      "/images/service_construction.jpg"
-    ]
-  );
+  // Start with empty array for new projects so no ghost/default images are added
+  const [photos, setPhotos] = useState<string[]>(() => {
+    if (initialProject?.galleryImages && initialProject.galleryImages.length > 0) {
+      return initialProject.galleryImages.map((g) => g.url).filter(Boolean);
+    }
+    if (initialProject?.coverImage) {
+      return [initialProject.coverImage];
+    }
+    return [];
+  });
   const [customPhotoInput, setCustomPhotoInput] = useState("");
   const [isUploadingPhoto, setIsUploadingPhoto] = useState(false);
   const photoInputRef = useRef<HTMLInputElement>(null);
@@ -65,10 +68,6 @@ export default function ProjectEditor({ initialProject }: ProjectEditorProps) {
   };
 
   const removePhoto = (index: number) => {
-    if (photos.length <= 1) {
-      alert("A project must have at least one photo (for the cover).");
-      return;
-    }
     setPhotos(photos.filter((_, idx) => idx !== index));
   };
 

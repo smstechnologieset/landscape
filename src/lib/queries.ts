@@ -49,18 +49,28 @@ import {
 const DEFAULT_SETTINGS: SiteSettings = {
   id: 1,
   company_name: COMPANY_INFO.name,
-  phone: "",
-  email: "",
-  whatsapp: "",
-  address: COMPANY_INFO.location,
-  google_maps_url: "",
-  facebook_url: "",
-  instagram_url: "",
-  linkedin_url: "",
-  youtube_url: "",
+  phone: "+251 11 667 8901",
+  alt_phone: "+251 91 123 4567",
+  email: "admin@pinnaclelandscapesolution.com",
+  whatsapp: "+251911234567",
+  address: "Sur Construction Building, 8th Floor, Addis Ababa, Ethiopia",
+  google_maps_url:
+    "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3940.548483584877!2d38.78345237494578!3d9.013589991047127!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x164b850d998276f7%3A0xc6cb697e06a380e2!2sSur%20Construction!5e0!3m2!1sen!2set!4v1711200000000!5m2!1sen!2set",
+  facebook_url: COMPANY_INFO.socialLinks.facebook || "https://facebook.com",
+  instagram_url: COMPANY_INFO.socialLinks.instagram || "https://instagram.com",
+  linkedin_url: COMPANY_INFO.socialLinks.linkedin || "https://linkedin.com",
+  youtube_url: COMPANY_INFO.socialLinks.youtube || "https://youtube.com",
+  telegram_url: COMPANY_INFO.socialLinks.telegram || "https://t.me/pinnaclelandscape",
+  tiktok_url: COMPANY_INFO.socialLinks.tiktok || "https://tiktok.com",
   default_language: "en",
-  logo_url: COMPANY_INFO.logoUrl,
-  favicon_url: null
+  logo_url: COMPANY_INFO.logoUrl || "/images/logo.png",
+  favicon_url: null,
+  hero_slide_1: "/images/hero_landscape.jpg",
+  hero_slide_2: "/images/service_planning.jpg",
+  hero_slide_3: "/images/service_construction.jpg",
+  about_image: "/images/who_we_are.jpg",
+  sustainability_image: "/images/service_botanic.jpg",
+  brochure_url: "/downloads/landscape_solution_profile.pdf"
 };
 
 export const DEFAULT_PROFILE: CompanyProfile = {
@@ -219,9 +229,7 @@ export async function getSiteSettings(): Promise<SiteSettings | null> {
     const supabase = createClient();
     const { data, error } = await supabase
       .from("site_settings")
-      .select(
-        "id,company_name,phone,email,whatsapp,address,google_maps_url,facebook_url,instagram_url,linkedin_url,youtube_url,default_language,logo_url,favicon_url"
-      )
+      .select("*")
       .eq("id", 1)
       .maybeSingle();
     if (error || !data) return DEFAULT_SETTINGS;
@@ -237,8 +245,11 @@ export async function getCompanyProfile(): Promise<CompanyProfile | null> {
   return safe(async () => {
     const supabase = createClient();
     const { data, error } = await supabase.from("company_profile").select("*").eq("id", 1).maybeSingle();
-    if (error || !data || !data.about?.en) return DEFAULT_PROFILE;
-    return data as CompanyProfile;
+    if (error || !data) return DEFAULT_PROFILE;
+    return {
+      ...DEFAULT_PROFILE,
+      ...data
+    } as CompanyProfile;
   }, DEFAULT_PROFILE);
 }
 
@@ -311,7 +322,7 @@ export async function getFeaturedProjects(limit = 3): Promise<Project[]> {
 }
 
 export async function getProjectBySlug(slug: string): Promise<Project | null> {
-  return safe(async () => {
+  const dbProject = await safe(async () => {
     const supabase = createClient();
     const { data, error } = await supabase
       .from("projects")
@@ -319,9 +330,52 @@ export async function getProjectBySlug(slug: string): Promise<Project | null> {
       .eq("slug", slug)
       .eq("is_published", true)
       .maybeSingle();
-    if (error) throw error;
+    if (error || !data) return null;
     return data as Project | null;
   }, null);
+
+  if (dbProject) return dbProject;
+
+  // Fallback to data-store
+  try {
+    const { getStoredProjects } = await import("@/lib/data-store");
+    const stored = await getStoredProjects();
+    const match = stored.find(
+      (p) => p.id === slug || p.title.en.toLowerCase().replace(/[^a-z0-9]+/g, "-") === slug
+    );
+    if (!match) return null;
+
+    return {
+      id: 1,
+      title: match.title,
+      slug: match.id,
+      category: match.category.en,
+      location: match.location,
+      client: "Landscape Solution PLC",
+      completion_date: match.year ? `${match.year}-01-01` : null,
+      short_description: match.description,
+      description: match.description,
+      challenge: { en: "", am: "" },
+      solution: { en: "", am: "" },
+      results: { en: "", am: "" },
+      featured_image: match.coverImage || match.galleryImages[0]?.url || "/images/hero_landscape.jpg",
+      is_featured: true,
+      is_published: true,
+      seo_title: match.title.en,
+      seo_description: typeof match.description === "string" ? match.description : match.description.en,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+      project_images: (match.galleryImages || []).map((img, idx) => ({
+        id: idx + 1,
+        project_id: 1,
+        image_url: img.url,
+        alt_text: img.caption.en,
+        sort_order: idx + 1
+      }))
+    };
+  } catch {
+    return null;
+  }
 }
 
 export async function getBlogCategories(): Promise<BlogCategory[]> {

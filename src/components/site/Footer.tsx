@@ -1,11 +1,24 @@
 import Link from "next/link";
 import Image from "next/image";
 import type { Dictionary } from "@/lib/i18n";
+import type { SiteSettings } from "@/lib/types";
 import { COMPANY_INFO } from "@/lib/company-data";
 import SocialLinks from "@/components/site/SocialLinks";
 
-export default function Footer({ dict }: { dict: Dictionary }) {
+export default function Footer({
+  dict,
+  settings
+}: {
+  dict: Dictionary;
+  settings?: SiteSettings | null;
+}) {
   const year = new Date().getFullYear();
+  const companyName = settings?.company_name || COMPANY_INFO.name;
+  const address = settings?.address || "Sur Construction Building, 8th Floor • Addis Ababa, Ethiopia";
+  const phone = settings?.phone || "+251 11 667 8901";
+  const altPhone = settings?.alt_phone || "+251 91 123 4567";
+  const email = settings?.email || COMPANY_INFO.email;
+  const logoUrl = settings?.logo_url || "/images/logo.png";
 
   return (
     <footer className="border-t border-brand-900 bg-brand-950 text-brand-100">
@@ -17,8 +30,8 @@ export default function Footer({ dict }: { dict: Dictionary }) {
             <Link href="/" className="inline-block rounded-lg bg-white p-2.5 shadow-sm hover:opacity-95 transition">
               <div className="relative h-11 w-40">
                 <Image
-                  src="/images/logo.png"
-                  alt="Landscape Solution PLC"
+                  src={logoUrl}
+                  alt={companyName}
                   fill
                   sizes="160px"
                   className="object-contain"
@@ -26,11 +39,20 @@ export default function Footer({ dict }: { dict: Dictionary }) {
               </div>
             </Link>
             <p className="mt-5 text-sm leading-relaxed text-brand-200">
-              Established in {COMPANY_INFO.establishedYear} in {COMPANY_INFO.location}, Landscape Solution PLC provides professional landscape planning, design, urban greening, nursery development, botanical gardens, and sustainable environmental restoration services across Ethiopia.
+              Established in {COMPANY_INFO.establishedYear} in Addis Ababa, {companyName} provides professional landscape planning, design, urban greening, nursery development, botanical gardens, and sustainable environmental restoration services across Ethiopia.
             </p>
-            <div className="mt-4 flex items-center gap-2 text-xs text-brand-300">
-              <span className="inline-block h-2 w-2 rounded-full bg-sprout-400 shrink-0" />
-              <span>Sur Construction Building, 8th Floor • Addis Ababa</span>
+            <div className="mt-4 space-y-2 text-xs text-brand-300">
+              <div className="flex items-start gap-2">
+                <span className="inline-block h-2 w-2 rounded-full bg-sprout-400 shrink-0 mt-1" />
+                <span>{address}</span>
+              </div>
+              <div className="flex items-center gap-2 pl-4 text-brand-200">
+                <span>📞 {phone}</span>
+                {altPhone && <span>/ {altPhone}</span>}
+              </div>
+              <div className="flex items-center gap-2 pl-4 text-brand-200">
+                <span>✉️ {email}</span>
+              </div>
             </div>
 
             {/* Social Media Channels */}
@@ -38,7 +60,7 @@ export default function Footer({ dict }: { dict: Dictionary }) {
               <p className="text-[11px] font-bold uppercase tracking-wider text-brand-400 mb-3">
                 Follow & Connect With Us
               </p>
-              <SocialLinks variant="dark" size="sm" />
+              <SocialLinks variant="dark" size="sm" settings={settings} />
             </div>
           </div>
 
@@ -59,16 +81,6 @@ export default function Footer({ dict }: { dict: Dictionary }) {
                 </Link>
               </li>
               <li>
-                <Link href="/services#nursery-development-and-plant-production" className="hover:text-white transition">
-                  Nursery Development & Plants
-                </Link>
-              </li>
-              <li>
-                <Link href="/services#botanic-garden-development" className="hover:text-white transition">
-                  Botanic Garden Development
-                </Link>
-              </li>
-              <li>
                 <Link href="/services#urban-greening-and-environmental-services" className="hover:text-white transition">
                   Urban Greening & Parks
                 </Link>
@@ -81,6 +93,11 @@ export default function Footer({ dict }: { dict: Dictionary }) {
               <li>
                 <Link href="/services#environmental-restoration" className="hover:text-white transition">
                   Environmental Restoration
+                </Link>
+              </li>
+              <li>
+                <Link href="/services#botanic-garden-development" className="hover:text-white transition">
+                  Botanic Garden Development
                 </Link>
               </li>
             </ul>
@@ -117,6 +134,11 @@ export default function Footer({ dict }: { dict: Dictionary }) {
                   {dict.nav.careers}
                 </Link>
               </li>
+              <li>
+                <Link href="/contact" className="hover:text-white transition">
+                  {dict.nav.contact}
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -126,12 +148,12 @@ export default function Footer({ dict }: { dict: Dictionary }) {
               Engage With Us
             </h3>
             <p className="mt-4 text-sm text-brand-200 leading-relaxed">
-              We collaborate with government bodies, commercial enterprises, private clients, and international institutions.
+              We collaborate with government bodies, commercial enterprises, private estates, and international institutions across Ethiopia.
             </p>
             <div className="mt-5 space-y-3">
               <Link
                 href="/contact"
-                className="btn-accent inline-flex w-full justify-center text-xs uppercase tracking-wider"
+                className="btn-accent inline-flex w-full justify-center text-xs uppercase tracking-wider font-semibold"
               >
                 {dict.cta.contactUs}
               </Link>
@@ -150,7 +172,7 @@ export default function Footer({ dict }: { dict: Dictionary }) {
       <div className="border-t border-brand-900/80 bg-brand-950 py-6">
         <div className="container-page flex flex-col items-center justify-between gap-4 text-xs text-brand-400 sm:flex-row">
           <p>
-            © {year} {COMPANY_INFO.name}. All rights reserved. Addis Ababa, Ethiopia.
+            © {year} {companyName}. All rights reserved. Addis Ababa, Ethiopia.
           </p>
           <div className="flex items-center gap-5">
             <Link href="/privacy" className="hover:text-brand-200 transition">

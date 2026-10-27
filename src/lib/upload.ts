@@ -1,14 +1,12 @@
-"use client";
+import { uploadImageAction } from "@/app/actions/admin-crud";
+import { MAX_UPLOAD_BYTES } from "@/lib/utils";
 
-import { createClient } from "@/lib/supabase/client";
-import { safeFileName, MAX_UPLOAD_BYTES } from "@/lib/utils";
-
-/** Upload a file from the browser to Supabase Storage with validation. */
+/** Upload a file from the browser to Supabase Storage with validation via Server Action. */
 export async function uploadFile(
   bucket: string,
   file: File,
   allowedTypes: readonly string[]
-): Promise<{ path: string | null; error?: string }> {
+): Promise<{ path: string | null; url?: string | null; error?: string }> {
   if (!allowedTypes.includes(file.type)) {
     return { path: null, error: "File type not allowed." };
   }
@@ -16,13 +14,14 @@ export async function uploadFile(
     return { path: null, error: "File is too large (max 10 MB)." };
   }
 
-  const supabase = createClient();
-  const path = `uploads/${new Date().getFullYear()}/${safeFileName(file.name)}`;
-  const { error } = await supabase.storage.from(bucket).upload(path, file, {
-    contentType: file.type,
-    upsert: false
-  });
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("bucket", bucket);
 
-  if (error) return { path: null, error: "Upload failed. Please try again." };
-  return { path };
+  const res = await uploadImageAction(formData);
+  if (!res.success || !res.url) {
+    return { path: null, error: res.error || "Upload failed. Please try again." };
+  }
+
+  return { path: res.url, url: res.url };
 }

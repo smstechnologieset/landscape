@@ -25,15 +25,15 @@ export const COMPANY_INFO = {
     mobile: "+251 91 123 4567",
     whatsapp: "+251 91 123 4567"
   },
-  email: "info@landscapesolutionet.com",
+  email: "admin@pinnaclelandscapesolution.com",
   socialLinks: {
     whatsapp: "https://wa.me/251911234567",
-    telegram: "https://t.me/landscapesolutionet",
-    instagram: "https://instagram.com/landscapesolutionet",
-    tiktok: "https://tiktok.com/@landscapesolutionet",
-    facebook: "https://facebook.com/landscapesolutionet",
-    linkedin: "https://linkedin.com/company/landscapesolutionet",
-    youtube: "https://youtube.com/@landscapesolutionet"
+    telegram: "https://t.me/pinnaclelandscapesolution",
+    instagram: "https://instagram.com/pinnaclelandscapesolution",
+    tiktok: "https://tiktok.com/@pinnaclelandscapesolution",
+    facebook: "https://facebook.com/pinnaclelandscapesolution",
+    linkedin: "https://linkedin.com/company/pinnaclelandscapesolution",
+    youtube: "https://youtube.com/@pinnaclelandscapesolution"
   },
   
   // Official background summary
